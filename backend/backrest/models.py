@@ -1,6 +1,7 @@
 from hashlib import sha1
-from sqlalchemy import MetaData, Column, String
+from sqlalchemy import MetaData, Column, String, Integer
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.dialects.postgresql import ARRAY
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import sessionmaker
 from uuid import uuid4
@@ -20,16 +21,18 @@ class TalkPreference(Base):
 
     uid = Column(String, primary_key=True)
     ip_hash = Column(String, index=True)
+    talk_ids = ARRAY(Integer)
 
-    def update(self, ip_address=None):
+    def update(self, ip_address=None, talk_ids=None):
         if ip_address is not None:
             self.ip_hash = sha1(ip_address).hexdigest()
+        self.talk_ids = talk_ids
 
-    def add(self, uid=None, ip_address=None):
+    def add(self, uid=None, **kw):
         if uid is None:
             uid = uuid4().hex
         self.uid = uid
-        self.update(ip_address=ip_address)
+        self.update(**kw)
         db_session.add(self)
         db_session.flush()
 

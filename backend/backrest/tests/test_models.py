@@ -17,3 +17,10 @@ def test_talk_preference_instance_hashes_ip_address(db_session, models):
     preference = models.TalkPreference(ip_address=ip_address)
     assert preference.uid is not None
     assert preference.ip_hash == hashlib.sha1(ip_address).hexdigest()
+
+
+def test_talk_preference_instance_stores_talk_ids(db_session, models):
+    talk_ids = [23, 34, 566, 2]
+    preference = models.TalkPreference(talk_ids=talk_ids)
+    refetched = models.TalkPreference.query.get(preference.uid)
+    assert refetched.talk_ids == talk_ids
