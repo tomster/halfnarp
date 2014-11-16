@@ -42,7 +42,7 @@ def connection(models, request):
         to the database.  The connection string used can be overriden
         via the `PGDATABASE` environment variable. """
     from .models import db_session, metadata
-    from .utils import create_db_engine
+    from . import create_db_engine
     engine = create_db_engine(suffix='_test',
         project_name=project_name, **settings)
     try:
