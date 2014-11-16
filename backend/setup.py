@@ -17,7 +17,7 @@ setup(name=name,
     zip_safe=False,
     install_requires=[
         'colander',
-        'cornice >= 0.15',
+        'cornice == 0.15',
         'itsdangerous',
         'Paste',
         'PasteDeploy',
