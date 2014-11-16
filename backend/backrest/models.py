@@ -21,7 +21,7 @@ class TalkPreference(Base):
 
     uid = Column(String, primary_key=True)
     ip_hash = Column(String, index=True)
-    talk_ids = ARRAY(Integer)
+    talk_ids = Column(ARRAY(Integer))
 
     def update(self, ip_address=None, talk_ids=None):
         if ip_address is not None:
