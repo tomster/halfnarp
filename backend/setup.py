@@ -24,6 +24,7 @@ setup(name=name,
         'psycopg2',
         'pyramid',
         'pyramid_tm',
+        'requests',
         'waitress',
         'zope.sqlalchemy',
     ],
@@ -39,7 +40,6 @@ setup(name=name,
             'pytest-cov',
             'readline',
             'tox',
-            'requests',
             'setuptools-git',
         ],
     },
@@ -51,5 +51,6 @@ setup(name=name,
         [console_scripts]
         dev-version = backrest.commands:dev_version
         debug = backrest.debug:debug
+        fetch-talks = backrest.commands:fetch_talks
     """,
 )
