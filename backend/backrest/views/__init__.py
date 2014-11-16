@@ -49,7 +49,7 @@ class TalkPreference(object):
     @view(schema=TalkPreferenceSchema)
     def collection_post(self):
         preference = models.TalkPreference(**self.request.validated)
-        return dict(uid=preference.uid)
+        return dict(uid=preference.uid, update_url=self.request.route_url('talkpreference', uid=preference.uid))
 
     @view(schema=TalkPreferenceSchema)
     def put(self):
