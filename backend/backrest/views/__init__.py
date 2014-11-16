@@ -4,6 +4,7 @@ from colander import String, Integer
 
 from cornice.service import Service
 from cornice.resource import resource, view
+from pyramid.exceptions import NotFound
 from pyramid.settings import asbool
 
 from .. import path, models
@@ -28,13 +29,29 @@ class TalkPreferenceSchema(MappingSchema):
     talk_ids = IntegerSequence()
 
 
-@resource(collection_path=path('talkpreferences'), path=path('talkpreferences/{uid}'))
+def uid_factory(request):
+    if request.matchdict is not None and 'uid' in request.matchdict:
+        context = models.TalkPreference.query.filter_by(uid=request.matchdict['uid']).first()
+        if context is None:
+            raise NotFound()
+        return context
+    return object()
+
+
+@resource(collection_path=path('talkpreferences'), path=path('talkpreferences/{uid}'), factory=uid_factory)
 class TalkPreference(object):
 
-    def __init__(self, request):
+    def __init__(self, context, request):
         self.request = request
+        self.context = context
 
     @view(schema=TalkPreferenceSchema)
     def collection_post(self):
         preference = models.TalkPreference(**self.request.validated)
         return dict(uid=preference.uid)
+
+    @view(schema=TalkPreferenceSchema)
+    def put(self):
+        del self.request.validated['uid']
+        self.context.update(**self.request.validated)
+        return dict(uid=self.context.uid)
