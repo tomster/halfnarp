@@ -5,8 +5,6 @@ from pyramid.paster import get_app
 import requests
 from . import project_name
 
-jar = dict()
-
 
 def fetch_talks(**kw):
     parser = ArgumentParser(description='Fetch talks from frab')
@@ -20,7 +18,7 @@ def fetch_talks(**kw):
     login_data['user[password]'] = settings['talks_password']
     login_data['user[remember_me]'] = 1
     sess.post(settings['talks_login_url'], login_data, verify=False)
-    talks_json = sess.get(settings['talks_url'], cookies=jar, verify=False, stream=True)
+    talks_json = sess.get(settings['talks_url'], verify=False, stream=True)
     with open(settings['talks_local'], 'wb') as fd:
         for chunk in talks_json.iter_content(1024):
             fd.write(chunk)
