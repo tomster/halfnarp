@@ -38,6 +38,7 @@ setup(name=name,
             'pytest-pep8',
             'pytest-cov',
             'tox',
+            'requests',
             'setuptools-git',
         ],
     },
@@ -48,5 +49,6 @@ setup(name=name,
         backrest = backrest.testing
         [console_scripts]
         dev-version = backrest.commands:dev_version
+        debug = backrest.debug:debug
     """,
 )
