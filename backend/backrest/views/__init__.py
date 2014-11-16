@@ -36,5 +36,5 @@ class TalkPreference(object):
 
     @view(schema=TalkPreferenceSchema)
     def collection_post(self):
-        preference = models.TalkPreference(talk_ids=self.request.validated['talk_ids'], ip_address='23.23.23.23')
+        preference = models.TalkPreference(**self.request.validated)
         return dict(uid=preference.uid)
