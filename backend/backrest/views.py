@@ -8,7 +8,7 @@ from pyramid.exceptions import NotFound
 from pyramid.response import FileResponse
 from pyramid.settings import asbool
 
-from .. import path, models
+from . import path, models
 
 app_info = Service(name='appinfo', path=path(''), renderer='json', accept='application/json')
 
