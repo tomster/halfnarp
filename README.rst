@@ -15,3 +15,12 @@ The server will respond with a dictionary containing an entry named ``update_url
 Clients can then ``PUT`` against that URL using the same schema of a dictionary with a list of ``talk_ids`` thus updating their user's preference.
 
 Note, that any updates against this URL will **not** update the previous ids but instead completely **replace** them with the new values. I.e. if the user has added another talk to his wishlist, the client must send the entire list, not just the new talk.
+
+
+TODO
+====
+
+- [ ] log (hashed) IP addresses of Clients
+- [ ] deploy onto 31C3 jail
+- [ ] create browser based client?
+- [ ] export talk preferences to CSV
