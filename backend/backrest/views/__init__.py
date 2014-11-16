@@ -5,6 +5,7 @@ from colander import String, Integer
 from cornice.service import Service
 from cornice.resource import resource, view
 from pyramid.exceptions import NotFound
+from pyramid.response import FileResponse
 from pyramid.settings import asbool
 
 from .. import path, models
@@ -55,3 +56,8 @@ class TalkPreference(object):
         del self.request.validated['uid']
         self.context.update(**self.request.validated)
         return dict(uid=self.context.uid)
+
+    def collection_get(self):
+        return FileResponse(self.request.registry.settings['talks_local'],
+            self.request,
+            content_type='application/json')

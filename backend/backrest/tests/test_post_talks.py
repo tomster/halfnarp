@@ -39,3 +39,9 @@ def test_user_updates_preferences_with_uid(testing, browser, talk_preference, mo
     assert refetched.talk_ids == data['talk_ids']
     assert refetched.uid == data['uid']
     assert refetched.talk_ids == data['talk_ids']
+
+
+def test_client_fetches_list_of_talks(browser, url):
+    talks = browser.get_json(url).json
+    assert len(talks) == 11
+    assert talks[-1]['track_id'] == 265

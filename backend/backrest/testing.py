@@ -1,4 +1,5 @@
 from json import loads
+from os import path
 from pyramid.renderers import render
 from pyramid.testing import DummyRequest
 from pyramid.testing import setUp, tearDown
@@ -19,11 +20,11 @@ def as_dict(content, **kw):
 def route_url(name, **kwargs):
     return unquote(DummyRequest().route_url(name, **kwargs))
 
-
 # settings for test configuration
 settings = {
     'testing': True,
     'debug': True,
+    'talks_local': path.join(path.dirname(__file__), 'tests', 'dummy_talks.json'),
 }
 
 
