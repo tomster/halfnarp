@@ -50,7 +50,6 @@ setup(name=name,
         backrest = backrest.testing
         [console_scripts]
         dev-version = backrest.commands:dev_version
-        debug = backrest.debug:debug
         fetch-talks = backrest.commands:fetch_talks
     """,
 )
