@@ -1,6 +1,4 @@
-from json import loads
 from os import path
-from pyramid.renderers import render
 from pyramid.testing import DummyRequest
 from pyramid.testing import setUp, tearDown
 from pytest import fixture
@@ -11,10 +9,6 @@ from urllib import unquote
 from webtest import TestApp as TestAppBase
 
 from . import project_name
-
-
-def as_dict(content, **kw):
-    return dict(loads(render('json', content, DummyRequest())), **kw)
 
 
 def route_url(name, **kwargs):
@@ -100,30 +94,11 @@ def models():
     return models
 
 
-@fixture(scope='session')
-def views():
-    """ Returns the `views` module. """
-    from . import views
-    return views
-
-
 @fixture
 def app(config):
     """ Returns WSGI application wrapped in WebTest's testing interface. """
     from . import configure
     return configure({}, **config.registry.settings).make_wsgi_app()
-
-
-@fixture
-def dummy_request(request, config):
-    config.manager.get()['request'] = req = DummyRequest()
-    if 'user' in request.keywords:
-        # set user directly on request
-        username = request.keywords['user'].args[0]
-        req.user = request.getfuncargvalue(username)    # get user from their fixture
-    else:
-        req.user = None
-    return req
 
 
 @fixture
