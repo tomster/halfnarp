@@ -51,5 +51,6 @@ setup(name=name,
         [console_scripts]
         dev-version = backrest.commands:dev_version
         fetch-talks = backrest.commands:fetch_talks
+        export-talks = backrest.commands:export_talk_preferences
     """,
 )

@@ -35,3 +35,14 @@ def dev_version(**kw):
         dist = get_distribution(project_name)
         version = version.replace(dist.version, '', 1)
     print(version)
+
+
+def export_talk_preferences(**kw):
+    parser = ArgumentParser(description='Export talk preferences to CSV')
+    parser.add_argument('-c', '--config', type=str, help='app configuration',
+        default='development.ini')
+    args = vars(parser.parse_args(**kw))
+    get_app(args['config']).registry.settings
+    from .models import TalkPreference
+    for preference in TalkPreference.query:
+        print ','.join([str(talk_id) for talk_id in preference.talk_ids])

@@ -17,10 +17,16 @@ Clients can then ``PUT`` against that URL using the same schema of a dictionary 
 Note, that any updates against this URL will **not** update the previous ids but instead completely **replace** them with the new values. I.e. if the user has added another talk to his wishlist, the client must send the entire list, not just the new talk.
 
 
+Admin usage
+===========
+
+As administrator you can dump the current votes by running ``bin/export-talks`` which will output a CSV list of all votes (without their ``uid``s or IP hashes) to ``stdout``.
+
+
 TODO
 ====
 
 - [ ] log (hashed) IP addresses of Clients
 - [ ] deploy onto 31C3 jail
 - [ ] create browser based client?
-- [ ] export talk preferences to CSV
+
