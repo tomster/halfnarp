@@ -38,3 +38,12 @@ def test_client_fetches_list_of_talks(browser, url):
     talks = browser.get_json(url).json
     assert len(talks) == 11
     assert talks[-1]['track_id'] == 265
+
+
+@fixture
+def existing_preference(db_session, models):
+    return models.TalkPreference(uid=u'foo', talk_ids=[23, 42])
+
+
+def test_fetch_existing_preference(browser, existing_preference, testing):
+    assert browser.get_json(testing.route_url('talkpreference', uid=existing_preference.uid)).json['talk_ids'] == existing_preference.talk_ids

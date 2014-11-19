@@ -61,3 +61,6 @@ class TalkPreference(object):
         return FileResponse(self.request.registry.settings['talks_local'],
             self.request,
             content_type='application/json')
+
+    def get(self):
+        return dict(uid=self.context.uid, talk_ids=self.context.talk_ids)

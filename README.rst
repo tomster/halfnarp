@@ -16,6 +16,7 @@ Clients can then ``PUT`` against that URL using the same schema of a dictionary 
 
 Note, that any updates against this URL will **not** update the previous ids but instead completely **replace** them with the new values. I.e. if the user has added another talk to his wishlist, the client must send the entire list, not just the new talk.
 
+If – for some reason – the client can or wants to only remember the *url* but not the vote it has cast, it can retrieve them by issuing a ``GET`` on the URL it received (the same one used for ``PUT``ing updates.)
 
 Admin usage
 ===========
