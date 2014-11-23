@@ -1,0 +1,87 @@
+.headline {
+    font-size: 3em;
+    font-weight: bold;
+    text-align: center;
+
+    margin: 0 0 1em 0;
+    clear: both;
+}
+
+.submit {
+    font-size: 2em;
+    text-align: center;
+    text-transform: uppercase;
+
+    width: 6em;
+    height: 1em;
+    background: green; color: white;
+
+    padding: 0.5em 0 0.5em 0;
+    float: right;
+    cursor: pointer;
+}
+
+#filter {
+    font-size: 2em;
+
+    margin: 0 1em 0 0;
+    float: left;
+}
+
+.track h2 {
+    text-align: center;
+
+    border-bottom: 0.3em solid #4588ba;
+
+    margin: 2em 0 1em 0;
+    clear: both;
+}
+
+.event {
+    overflow: hidden;
+
+    width: 13em;
+    height: 13em;
+    background: #eee;
+
+    display: inline-block;
+    float: left;
+
+    margin: 0 0.8em 0.8em 0;
+    cursor: pointer;
+}
+
+.event:hover,
+.event:focus {
+    overflow: visible;
+    z-index: 1;
+
+    background: grey;
+    position: relative;
+}
+
+.selected {
+    background: red !important;
+}
+.selected:hover,
+.selected:focus {
+    background: pink !important;
+}
+
+.title {
+    font-weight: bold;
+    font-size: 1.2em;
+    padding: 0.2em 0.2em 0 0.2em;
+}
+
+.speakers {
+    font-style: italic;
+    padding: 0 0.2em 0 0.4em;
+    margin-bottom: 0.2em;
+}
+
+.abstract {
+    background: inherit;
+
+    padding: 0 0.2em 0.2em 0;
+}

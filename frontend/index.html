@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>halfnarp web voting app</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="halfnarp.js"></script>
+  <script>
+  $( document ).ready(function() { do_the_halfnarp(); });
+  </script>
+</head>
+<body>
+<div style="display:none">
+  <div class="event" id="template">
+    <div class="title"></div>
+    <div class="speakers"></div>
+    <div class="abstract"></div>
+  </div>
+</div>
+
+<div class="headline">The 31C3 halfnarp web voting app</div>
+<input id="filter" type="text" placeholder="Filter events"/>
+<div class="submit">submit</div>
+<div class="track" id="275"><h2>CCC</h2></div>
+<div class="track" id="264"><h2>Art &amp; Culture</h2></div>
+<div class="track" id="276"><h2>Entertainment</h2></div>
+<div class="track" id="265"><h2>Ethics, Society &amp; Politics</h2></div>
+<div class="track" id="266"><h2>Hardware &amp; Making</h2></div>
+<div class="track" id="268"><h2>Science</h2></div>
+<div class="track" id="267"><h2>Security &amp; Hacking</div>
+<div class="track" id="277"><h2>Other</h2></div>
+
+</body>
+</html>
