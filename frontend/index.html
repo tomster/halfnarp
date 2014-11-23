@@ -4,7 +4,8 @@
   <meta charset="utf-8">
   <title>halfnarp web voting app</title>
   <style>
-  .submit        { background: green; color: white; width: 120px; height: 50px; padding: 15px 0 0 0; text-align: center; }
+  .submit        { font-size: 2em; background: green; color: white; width: 120px; height: 50px; padding: 15px 0 0 0; text-align: center; float: left; }
+  #filter        { font-size: 2em; margin-left: 12px; }
 
   .track h2      { clear: both; margin: 12px 0 12px 0; text-align: center; }
 
@@ -31,7 +32,7 @@
   </div>
 </div>
 
-<div class="submit">Submit</div>
+<div class="submit">Submit</div><input id="filter" type="text" placeholder="Filter events"/>
 <div class="track" id="276"><h2>Entertainment</h2></div>
 <div class="track" id="275"><h2>CCC</h2></div>
 <div class="track" id="277"><h2>Other</h2></div>
@@ -42,9 +43,18 @@
 <div class="track" id="264"><h2>Art &amp; Culture</h2></div>
 
 <script>
+
 (function() {
   var halfnarpAPI     = "talks.json";
   var halfnarpAPIPOST = "/post.txt";
+
+  $.extend($.expr[':'], {
+      'containsi': function(elem, i, match, array)
+      {
+      return (elem.textContent || elem.innerText || '').toLowerCase()
+      .indexOf((match[3] || "").toLowerCase()) >= 0;
+      }
+  });
 
   $('.submit').click( function() {
     var ids = JSON.stringify(
@@ -56,6 +66,16 @@
       console.log( 'Posted successfully.' );
     });
     console.log( ids );
+  });
+
+  $('#filter').bind("paste cut keypress keydown keyup", function() {
+    var cnt = $(this).val();
+    if( cnt.length ) {
+      $('.event').css('display', 'none');
+      $('.event:containsi('+cnt+')').css('display', 'block');
+   } else {
+      $('.event').css('display', 'block');
+   }
   });
 
   $.getJSON( halfnarpAPI, { format: "json" })
