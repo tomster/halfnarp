@@ -33,14 +33,14 @@
 </div>
 
 <div class="submit">Submit</div><input id="filter" type="text" placeholder="Filter events"/>
-<div class="track" id="276"><h2>Entertainment</h2></div>
 <div class="track" id="275"><h2>CCC</h2></div>
-<div class="track" id="277"><h2>Other</h2></div>
+<div class="track" id="264"><h2>Art &amp; Culture</h2></div>
+<div class="track" id="276"><h2>Entertainment</h2></div>
 <div class="track" id="265"><h2>Ethics, Society &amp; Politics</h2></div>
-<div class="track" id="267"><h2>Security &amp; Hacking</div>
 <div class="track" id="266"><h2>Hardware &amp; Making</h2></div>
 <div class="track" id="268"><h2>Science</h2></div>
-<div class="track" id="264"><h2>Art &amp; Culture</h2></div>
+<div class="track" id="267"><h2>Security &amp; Hacking</div>
+<div class="track" id="277"><h2>Other</h2></div>
 
 <script>
 
@@ -92,6 +92,9 @@
           t.find('.abstract').text(item.abstract);
           t.click(function() { $( this ).toggleClass( "selected" ); });
           var d = $( '#' + item.track_id.toString() );
+          if( !d.length ) {
+            d = $( '#Other' );
+          }
           d.append(t);
       });
     });
