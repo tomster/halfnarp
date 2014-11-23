@@ -57,12 +57,11 @@
   });
 
   $('.submit').click( function() {
-    var ids = JSON.stringify(
-      $('.selected').map( function() {
+    var ids = $('.selected').map( function() {
         return parseInt($(this).attr('event_id'));
-      }).get()
-    );
-    $.post( halfnarpAPIPOST, ids, function( data ) {
+      }).get();
+    localStorage['31C3-halfnarp'] = ids;
+    $.post( halfnarpAPIPOST, JSON.stringify(ids), function( data ) {
       console.log( 'Posted successfully.' );
     });
     console.log( ids );
@@ -78,12 +77,16 @@
    }
   });
 
+  var selection = localStorage['31C3-halfnarp'];
   $.getJSON( halfnarpAPI, { format: "json" })
     .done(function( data ) {
       $.each( data, function( i, item ) {
           var t = $( '#template' ).clone(true);
           t.attr('event_id', item.event_id.toString());
           t.attr('id', "event_" + item.event_id.toString());
+          if( selection && selection.indexOf(item.event_id) != -1 ) {
+            t.toggleClass( "selected", true );
+          }
           t.find('.title').text(item.title);
           t.find('.speakers').text(item.speakers);
           t.find('.abstract').text(item.abstract);
