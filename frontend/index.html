@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>halfnarp web voting app</title>
+  <style>
+  .submit        { background: green; color: white; width: 120px; height: 50px; padding: 15px 0 0 0; text-align: center; }
+
+  .track h2      { clear: both; margin: 12px 0 12px 0; text-align: center; }
+
+  .abstract      { padding: 0 3px 3px 3px; background: inherit; }
+  .title         { padding: 3px 3px 0 3px; font-weight: bold; font-size: 1.2em; }
+  .speakers      { padding: 0 3px 0 6px; font-style: italic; margin-bottom: 3px; }
+
+  .event         { width: 223px; height: 200px; display: inline-block; background: #eee; float: left; margin: 0 12px 12px 0; overflow: hidden; text-overflow: ellipsis; }
+  .event:hover, .event:focus
+                 { overflow: visible; z-index: 1; background: grey; position: relative; }
+
+  .selected      { background: red !important; }
+  .selected:hover, .selected:focus
+                 { background: pink !important; }
+  </style>
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+<body>
+<div style="display:none">
+  <div class="event" id="template">
+    <div class="title"></div>
+    <div class="speakers"></div>
+    <div class="abstract"></div>
+  </div>
+</div>
+
+<div class="submit">Submit</div>
+<div class="track" id="276"><h2>Entertainment</h2></div>
+<div class="track" id="275"><h2>CCC</h2></div>
+<div class="track" id="277"><h2>Other</h2></div>
+<div class="track" id="265"><h2>Ethics, Society &amp; Politics</h2></div>
+<div class="track" id="267"><h2>Security &amp; Hacking</div>
+<div class="track" id="266"><h2>Hardware &amp; Making</h2></div>
+<div class="track" id="268"><h2>Science</h2></div>
+<div class="track" id="264"><h2>Art &amp; Culture</h2></div>
+
+<script>
+(function() {
+  var halfnarpAPI     = "talks.json";
+  var halfnarpAPIPOST = "/post.txt";
+
+  $('.submit').click( function() {
+    var ids = JSON.stringify(
+      $('.selected').map( function() {
+        return parseInt($(this).attr('event_id'));
+      }).get()
+    );
+    $.post( halfnarpAPIPOST, ids, function( data ) {
+      console.log( 'Posted successfully.' );
+    });
+    console.log( ids );
+  });
+
+  $.getJSON( halfnarpAPI, { format: "json" })
+    .done(function( data ) {
+      $.each( data, function( i, item ) {
+          var t = $( '#template' ).clone(true);
+          t.attr('event_id', item.event_id.toString());
+          t.attr('id', "event_" + item.event_id.toString());
+          t.find('.title').text(item.title);
+          t.find('.speakers').text(item.speakers);
+          t.find('.abstract').text(item.abstract);
+          t.click(function() { $( this ).toggleClass( "selected" ); });
+          var d = $( '#' + item.track_id.toString() );
+          d.append(t);
+      });
+    });
+})();
+</script>
+
+</body>
+</html>
