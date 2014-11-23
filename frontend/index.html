@@ -4,16 +4,17 @@
   <meta charset="utf-8">
   <title>halfnarp web voting app</title>
   <style>
-  .submit        { font-size: 2em; background: green; color: white; width: 120px; height: 50px; padding: 15px 0 0 0; text-align: center; float: left; cursor: pointer; }
-  #filter        { font-size: 2em; margin-left: 12px; }
+  .headline      { font-size: 3em; font-weight: bold; text-align: center; margin: 0 0 1em 0;  clear: both; }
+  .submit        { font-size: 2em; background: green; color: white; width: 6em; height: 1em; padding: 0.5em 0 0.5em 0; text-align: center; float: right; cursor: pointer; text-transform: uppercase; }
+  #filter        { font-size: 2em; margin: 0 1em 0 1em; float: left; }
 
-  .track h2      { clear: both; margin: 12px 0 12px 0; text-align: center; }
+  .track h2      { clear: both; margin: 2em 0 1em 0; text-align: center; border-bottom: 0.3em solid #4588ba; }
 
-  .abstract      { padding: 0 3px 3px 3px; background: inherit; }
-  .title         { padding: 3px 3px 0 3px; font-weight: bold; font-size: 1.2em; }
-  .speakers      { padding: 0 3px 0 6px; font-style: italic; margin-bottom: 3px; }
+  .abstract      { padding: 0 0.2em; background: inherit; }
+  .title         { padding: 0.2em 0.2em 0 0.2em; font-weight: bold; font-size: 1.2em; }
+  .speakers      { padding: 0 0.2em 0 0.4em; font-style: italic; margin-bottom: 0.2em; }
 
-  .event         { width: 223px; height: 200px; display: inline-block; background: #eee; float: left; margin: 0 12px 12px 0; overflow: hidden; text-overflow: ellipsis; cursor: pointer; }
+  .event         { width: 13em; height: 13em; display: inline-block; background: #eee; float: left; margin: 0 12px 12px 0; overflow: hidden; text-overflow: ellipsis; cursor: pointer; }
   .event:hover, .event:focus
                  { overflow: visible; z-index: 1; background: grey; position: relative; }
 
@@ -32,7 +33,9 @@
   </div>
 </div>
 
-<div class="submit">Submit</div><input id="filter" type="text" placeholder="Filter events"/>
+<div class="headline">The 31C3 halfnarp web voting app</div>
+<input id="filter" type="text" placeholder="Filter events"/>
+<div class="submit">submit</div>
 <div class="track" id="275"><h2>CCC</h2></div>
 <div class="track" id="264"><h2>Art &amp; Culture</h2></div>
 <div class="track" id="276"><h2>Entertainment</h2></div>
