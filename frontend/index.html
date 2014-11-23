@@ -3,26 +3,12 @@
 <head>
   <meta charset="utf-8">
   <title>halfnarp web voting app</title>
-  <style>
-  .headline      { font-size: 3em; font-weight: bold; text-align: center; margin: 0 0 1em 0;  clear: both; }
-  .submit        { font-size: 2em; background: green; color: white; width: 6em; height: 1em; padding: 0.5em 0 0.5em 0; text-align: center; float: right; cursor: pointer; text-transform: uppercase; }
-  #filter        { font-size: 2em; margin: 0 1em 0 0; float: left; }
-
-  .track h2      { clear: both; margin: 2em 0 1em 0; text-align: center; border-bottom: 0.3em solid #4588ba; }
-
-  .abstract      { padding: 0 0.2em; background: inherit; }
-  .title         { padding: 0.2em 0.2em 0 0.2em; font-weight: bold; font-size: 1.2em; }
-  .speakers      { padding: 0 0.2em 0 0.4em; font-style: italic; margin-bottom: 0.2em; }
-
-  .event         { width: 13em; height: 13em; display: inline-block; background: #eee; float: left; margin: 0 0.8em 0.8em 0; overflow: hidden; text-overflow: ellipsis; cursor: pointer; }
-  .event:hover, .event:focus
-                 { overflow: visible; z-index: 1; background: grey; position: relative; }
-
-  .selected      { background: red !important; }
-  .selected:hover, .selected:focus
-                 { background: pink !important; }
-  </style>
+  <link rel="stylesheet" href="style.css">
   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="halfnarp.js"></script>
+  <script>
+  $( document ).ready(function() { do_the_halfnarp(); });
+  </script>
 </head>
 <body>
 <div style="display:none">
@@ -44,65 +30,6 @@
 <div class="track" id="268"><h2>Science</h2></div>
 <div class="track" id="267"><h2>Security &amp; Hacking</div>
 <div class="track" id="277"><h2>Other</h2></div>
-
-<script>
-
-(function() {
-  var halfnarpAPI     = "talks.json";
-  var halfnarpAPIPOST = "/post.txt";
-
-  $.extend($.expr[':'], {
-      'containsi': function(elem, i, match, array)
-      {
-      return (elem.textContent || elem.innerText || '').toLowerCase()
-      .indexOf((match[3] || "").toLowerCase()) >= 0;
-      }
-  });
-
-  $('.submit').click( function() {
-    var ids = $('.selected').map( function() {
-        return parseInt($(this).attr('event_id'));
-      }).get();
-    localStorage['31C3-halfnarp'] = ids;
-    $.post( halfnarpAPIPOST, JSON.stringify(ids), function( data ) {
-      console.log( 'Posted successfully.' );
-    });
-    console.log( ids );
-  });
-
-  $('#filter').bind("paste cut keypress keydown keyup", function() {
-    var cnt = $(this).val();
-    if( cnt.length ) {
-      $('.event').css('display', 'none');
-      $('.event:containsi('+cnt+')').css('display', 'block');
-   } else {
-      $('.event').css('display', 'block');
-   }
-  });
-
-  var selection = localStorage['31C3-halfnarp'];
-  $.getJSON( halfnarpAPI, { format: "json" })
-    .done(function( data ) {
-      $.each( data, function( i, item ) {
-          var t = $( '#template' ).clone(true);
-          t.attr('event_id', item.event_id.toString());
-          t.attr('id', "event_" + item.event_id.toString());
-          if( selection && selection.indexOf(item.event_id) != -1 ) {
-            t.toggleClass( "selected", true );
-          }
-          t.find('.title').text(item.title);
-          t.find('.speakers').text(item.speakers);
-          t.find('.abstract').text(item.abstract);
-          t.click(function() { $( this ).toggleClass( "selected" ); });
-          var d = $( '#' + item.track_id.toString() );
-          if( !d.length ) {
-            d = $( '#Other' );
-          }
-          d.append(t);
-      });
-    });
-})();
-</script>
 
 </body>
 </html>
