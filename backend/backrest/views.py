@@ -1,4 +1,5 @@
 from os.path import abspath
+from pkg_resources import get_distribution
 from colander import MappingSchema, SchemaNode
 from colander import SequenceSchema
 from colander import String, Integer
@@ -17,7 +18,7 @@ app_info = Service(name='appinfo', path=path(''), renderer='json', accept='appli
 @app_info.get()
 def get_app_info(request):
     settings = request.registry.settings
-    result = dict(debug=asbool(settings.debug))
+    result = dict(debug=asbool(settings.debug), version=get_distribution('halfnarp').version)
     return result
 
 
