@@ -1,4 +1,4 @@
-from os.path import abspath
+from os.path import abspath, expanduser
 from pkg_resources import get_distribution
 from colander import MappingSchema, SchemaNode
 from colander import SequenceSchema
@@ -60,7 +60,7 @@ class TalkPreference(object):
         return dict(uid=self.context.uid)
 
     def collection_get(self):
-        return FileResponse(abspath(self.request.registry.settings['talks_local']),
+        return FileResponse(abspath(expanduser(self.request.registry.settings['talks_local'])),
             self.request,
             content_type='application/json')
 
