@@ -32,7 +32,12 @@ function do_the_halfnarp() {
    }
   });
 
-  var selection = localStorage['31C3-halfnarp'];
+  var selection;
+  try {
+    selection = localStorage['31C3-halfnarp'];
+  } catch(err) {
+    selection = [];
+  }
   $.getJSON( halfnarpAPI, { format: "json" })
     .done(function( data ) {
       $.each( data, function( i, item ) {
