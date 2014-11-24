@@ -7,7 +7,7 @@
 
   vars:
    - backend_user: halfnarp
-   - backend_name: halfnarp
+   - backend_name: halfnarp_backend
    - backend_path: /home/halfnarp
    - pgsql_user_group_id: 999
 
@@ -37,6 +37,7 @@
         - postgresql93-server
         - py27-pip
         - py27-virtualenv
+        - sudo
 
 
     - name: Install python driver
@@ -90,10 +91,10 @@
       command: virtualenv --system-site-packages . chdir={{backend_path}} creates={{backend_path}}/bin/python
 
     - name: configure startup script
-      template: src=halfnarp_backend dest=/usr/local/etc/rc.d/halfnarp_backend owner=root mode=755
+      template: src={{backend_name}} dest=/usr/local/etc/rc.d/{{backend_name}} owner=root mode=755
 
     - name: enable application at startup time
-      lineinfile: dest=/etc/rc.conf state=present line='halfnarp_backend_enable=YES' create=yes
+      lineinfile: dest=/etc/rc.conf state=present line='{{backend_name}}_enable=YES' create=yes
 
     - name: ensure application ownership
       command: chown -R {{backend_user}} {{backend_path}}
@@ -102,8 +103,8 @@
       file: path=/var/log state=directory owner=root mode=755
 
     - name: ensure log file exists
-      file: path=/var/log/halfnarp_backend.log state=touch owner={{backend_user}} mode=750
+      file: path=/var/log/{{backend_name}}.log state=touch owner={{backend_user}} mode=750
 
     - name: ensure pid directory exists
-      file: path=/var/run/halfnarp_backend state=directory owner={{backend_user}} mode=755
+      file: path=/var/run/{{backend_name}} state=directory owner={{backend_user}} mode=755
 

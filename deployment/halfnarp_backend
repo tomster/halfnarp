@@ -18,20 +18,20 @@
 . /etc/rc.subr
 
 name="{{backend_name}}"
-rcvar="halfnarp_backend_enable"
+rcvar="{{backend_name}}_enable"
 command_interpreter="{{backend_path}}/bin/python2.7"
 
 load_rc_config $name
 
-required_files=$halfnarp_backend_bin
+required_files=${{backend_name}}_bin
 
 : ${halfnarp_backend_enable="NO"}
 : ${halfnarp_backend_user="{{backend_user}}"}
 : ${halfnarp_backend_bin="{{backend_path}}/bin/pserve"}
 : ${halfnarp_backend_config="{{backend_path}}/production.ini"}
 
-pidfile="/var/run/halfnarp_backend/halfnarp_backend.pid"
+pidfile="/var/run/{{backend_name}}/{{backend_name}}.pid"
 command=$halfnarp_backend_bin
-command_args="--daemon --log-file=/var/log/halfnarp_backend.log --pid-file=${pidfile} ${halfnarp_backend_config}"
+command_args="--daemon --log-file=/var/log/{{backend_name}}.log --pid-file=${pidfile} ${halfnarp_backend_config}"
 
 run_rc_command "$1"

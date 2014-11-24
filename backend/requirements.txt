@@ -3,7 +3,6 @@ SQLAlchemy==0.9.8
 WebOb==1.4
 colander==0.9.9
 cornice==0.15
-halfnarp==v1-dev
 psycopg2==2.5.4
 pyramid==1.5.2
 pyramid-tm==0.8
