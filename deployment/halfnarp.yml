@@ -1,0 +1,109 @@
+---
+- hosts: plain-dtfh
+
+  handlers:
+   - name: restart postgresql
+     service: name=postgresql state=restarted
+
+  vars:
+   - backend_user: halfnarp
+   - backend_name: halfnarp
+   - backend_path: /home/halfnarp
+   - pgsql_user_group_id: 999
+
+  tasks:
+
+    - name: Setup pgsql group
+      group:
+        name=pgsql
+        gid={{ pgsql_user_group_id }}
+
+    - name: Setup pgsql user
+      user:
+        name=pgsql
+        uid={{ pgsql_user_group_id }}
+        group=pgsql
+        comment="PostgreSQL pseudo-user"
+        home=/usr/local/pgsql
+        createhome=no
+        shell=/bin/sh
+
+
+    - name: Install packages
+      pkgng:
+        name={{ item }}
+        state=present
+      with_items:
+        - postgresql93-server
+        - py27-pip
+        - py27-virtualenv
+
+
+    - name: Install python driver
+      pip: name=psycopg2
+
+    - name: Set owner on pgsql data dir
+      file:
+        dest=/usr/local/pgsql
+        owner=pgsql
+        group=pgsql
+
+    - name: Setup postgresql to start on boot
+      service: name=postgresql enabled=yes state=stopped
+      ignore_errors: yes
+
+    - name: Create DB files
+      command: service postgresql initdb creates=/usr/local/pgsql/data/postgresql.conf
+
+    - name: Setup postgresql to start on boot
+      service: name=postgresql enabled=yes state=started
+      ignore_errors: yes
+
+    - name: ensure app database user exists
+      postgresql_user:
+        name={{ backend_user }}
+        db=postgres
+        role_attr_flags=NOCREATEROLE,CREATEDB,NOSUPERUSER
+        login_user=pgsql
+
+    - name: ensure backend database exists
+      postgresql_db:
+        name={{backend_name}}
+        encoding='UTF-8'
+        template='template0'
+        owner={{ backend_user }}
+        login_user=pgsql
+
+    - name: create application user
+      user: name={{backend_user}} createhome=yes
+
+    - name: ensure installation directory exists
+      file: path={{backend_path}} state=directory owner={{backend_user}} mode=755
+
+    - name: ensure pip cache directory exists
+      file: path={{backend_path}}/.pip/download_cache state=directory owner={{backend_user}} mode=755
+
+    - name: configure pip (to use cache)
+      copy: src=pip.conf dest={{backend_path}}/.pip/pip.conf
+
+    - name: init virtualenv in application directory
+      command: virtualenv --system-site-packages . chdir={{backend_path}} creates={{backend_path}}/bin/python
+
+    - name: configure startup script
+      template: src=halfnarp_backend dest=/usr/local/etc/rc.d/halfnarp_backend owner=root mode=755
+
+    - name: enable application at startup time
+      lineinfile: dest=/etc/rc.conf state=present line='halfnarp_backend_enable=YES' create=yes
+
+    - name: ensure application ownership
+      command: chown -R {{backend_user}} {{backend_path}}
+
+    - name: ensure log folder exists
+      file: path=/var/log state=directory owner=root mode=755
+
+    - name: ensure log file exists
+      file: path=/var/log/halfnarp_backend.log state=touch owner={{backend_user}} mode=750
+
+    - name: ensure pid directory exists
+      file: path=/var/run/halfnarp_backend state=directory owner={{backend_user}} mode=755
+

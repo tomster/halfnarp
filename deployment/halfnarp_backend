@@ -1,0 +1,37 @@
+#!/bin/sh
+#
+# PROVIDE: halfnarp_backend
+# REQUIRE: LOGIN DAEMON NETWORKING
+# KEYWORD: shutdown
+#
+# To enable halfnarp_backend, add this line to your /etc/rc.conf:
+#
+# halfnarp_backend_enable="YES"
+#
+# And optionally these line:
+#
+# halfnarp_backend_user="username" # Default is "{{backend_user}}"
+# halfnarp_backend_bin="/path/to/halfnarp_backend" # Default is "{{backend_path}}/bin/pserve"
+# halfnarp_backend_config="/path/to/config" # Default is "{{backend_path}}/production.ini"
+
+
+. /etc/rc.subr
+
+name="{{backend_name}}"
+rcvar="halfnarp_backend_enable"
+command_interpreter="{{backend_path}}/bin/python2.7"
+
+load_rc_config $name
+
+required_files=$halfnarp_backend_bin
+
+: ${halfnarp_backend_enable="NO"}
+: ${halfnarp_backend_user="{{backend_user}}"}
+: ${halfnarp_backend_bin="{{backend_path}}/bin/pserve"}
+: ${halfnarp_backend_config="{{backend_path}}/production.ini"}
+
+pidfile="/var/run/halfnarp_backend/halfnarp_backend.pid"
+command=$halfnarp_backend_bin
+command_args="--daemon --log-file=/var/log/halfnarp_backend.log --pid-file=${pidfile} ${halfnarp_backend_config}"
+
+run_rc_command "$1"
