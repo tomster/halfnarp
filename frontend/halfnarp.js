@@ -1,6 +1,7 @@
 function do_the_halfnarp() {
   var halfnarpAPI     = "talks.json";
   var halfnarpAPIPOST = "/post.txt";
+  var isTouch = (('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0));
 
   $.extend($.expr[':'], {
       'containsi': function(elem, i, match, array)
@@ -44,7 +45,20 @@ function do_the_halfnarp() {
           t.find('.title').text(item.title);
           t.find('.speakers').text(item.speakers);
           t.find('.abstract').text(item.abstract);
-          t.click(function() { $( this ).toggleClass( "selected" ); });
+          t.click( function() {
+            /* Transition for touch devices is highlighted => selected => highlighted ... */
+            if( isTouch ) {
+              if ( $( this ).hasClass( "highlighted" ) ) {
+                $( this ).toggleClass( "selected" );
+              } else {
+                $(".highlighted").removeClass("highlighted");
+                $( this ).toggleClass( "highlighted", true );
+              }
+            } else {
+              $( this ).toggleClass( "selected" );
+            }
+            e.stopPropagation();
+          });
           var d = $( '#' + item.track_id.toString() );
           if( !d.length ) {
             d = $( '#Other' );
