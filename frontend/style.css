@@ -52,7 +52,7 @@
 }
 
 .event:hover,
-.event:focus {
+.highlighted {
     overflow: visible;
     z-index: 1;
 
@@ -63,8 +63,7 @@
 .selected {
     background: red !important;
 }
-.selected:hover,
-.selected:focus {
+.selected:hover {
     background: pink !important;
 }
 
@@ -83,5 +82,5 @@
 .abstract {
     background: inherit;
 
-    padding: 0 0.2em 0.2em 0;
+    padding: 0 0.2em 0.2em 0.2em;
 }
