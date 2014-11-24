@@ -81,6 +81,9 @@
     - name: ensure installation directory exists
       file: path={{backend_path}} state=directory owner={{backend_user}} mode=755
 
+    - name: ensure var directory exists
+      file: path={{backend_path}}/var state=directory owner={{backend_user}} mode=755
+
     - name: ensure pip cache directory exists
       file: path={{backend_path}}/.pip/download_cache state=directory owner={{backend_user}} mode=755
 
