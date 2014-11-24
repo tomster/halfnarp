@@ -15,7 +15,11 @@ function do_the_halfnarp() {
     var ids = $('.selected').map( function() {
         return parseInt($(this).attr('event_id'));
       }).get();
-    localStorage['31C3-halfnarp'] = ids;
+    try {
+      localStorage['31C3-halfnarp'] = ids;
+    } catch(err) {
+      alert("Storing your choices locally is forbidden.");
+    }
     $.post( halfnarpAPIPOST, JSON.stringify(ids), function( data ) {
       console.log( 'Posted successfully.' );
     });
