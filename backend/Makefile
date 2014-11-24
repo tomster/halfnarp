@@ -9,8 +9,8 @@ bin/pserve bin/py.test bin/dev-version: bin/python bin/pip setup.py
 bin/python bin/pip:
 	virtualenv .
 
-sdist: rev = $(shell bin/dev-version)
-sdist: bin/python bin/dev-version setup.py
+sdist: rev = $(shell git describe --long --tags --dirty --always)
+sdist: bin/python setup.py
 	bin/python setup.py egg_info -b $(rev) sdist
 
 initdb: name = $(shell bin/python setup.py --name)

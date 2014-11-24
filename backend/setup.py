@@ -47,7 +47,6 @@ setup(name=name,
         [pytest11]
         backrest = backrest.testing
         [console_scripts]
-        dev-version = backrest.commands:dev_version
         fetch-talks = backrest.commands:fetch_talks
         export-talks = backrest.commands:export_talk_preferences
     """,
