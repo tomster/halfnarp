@@ -18,8 +18,6 @@ setup(name=name,
     install_requires=[
         'colander',
         'cornice == 0.15',
-        'itsdangerous',
-        'Paste',
         'PasteDeploy',
         'psycopg2',
         'pyramid',
