@@ -9,7 +9,7 @@ env.shell = '/bin/sh -c'
 
 
 @task
-def update_app(clean=False, build=True, config_path='production.ini', **kwargs):
+def update_backend(clean=False, build=True, config_path='production.ini', **kwargs):
     """
     Build the backend, upload it to the remote server, install it there and restart it
     """
