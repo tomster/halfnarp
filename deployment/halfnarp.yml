@@ -6,7 +6,7 @@
      service: name=postgresql state=restarted
 
   vars:
-   - www_server_name: halfnarp.dtfh.de
+   - www_server_name: halfnarp.events.ccc.de
    - backend_user: halfnarp
    - backend_name: halfnarp_backend
    - backend_path: /home/halfnarp/backend
