@@ -1,6 +1,5 @@
 function do_the_halfnarp() {
-  var halfnarpAPI     = "talks.json";
-  var halfnarpAPIPOST = "/post.txt";
+  var halfnarpAPI     = "/-/talkpreferences";
   var isTouch = (('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0));
 
   $.extend($.expr[':'], {
@@ -20,7 +19,7 @@ function do_the_halfnarp() {
     } catch(err) {
       alert("Storing your choices locally is forbidden.");
     }
-    $.post( halfnarpAPIPOST, JSON.stringify({'talk_ids': ids}), function( data ) {
+    $.post( halfnarpAPI, JSON.stringify({'talk_ids': ids}), function( data ) {
       console.log( 'Posted successfully.' );
     });
     console.log( ids );
