@@ -20,7 +20,7 @@ function do_the_halfnarp() {
     } catch(err) {
       alert("Storing your choices locally is forbidden.");
     }
-    $.post( halfnarpAPIPOST, JSON.stringify(ids), function( data ) {
+    $.post( halfnarpAPIPOST, JSON.stringify({'talk_ids': ids}), function( data ) {
       console.log( 'Posted successfully.' );
     });
     console.log( ids );
