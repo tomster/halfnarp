@@ -21,6 +21,15 @@
     cursor: pointer;
 }
 
+.info {
+    font-size: 2em;
+    text-align: center;
+
+    background: grey;
+
+    float: right;
+}
+
 .submit:hover {
     background: GreenYellow;
 }
