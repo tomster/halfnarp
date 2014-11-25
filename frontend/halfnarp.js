@@ -84,7 +84,6 @@ function do_the_halfnarp() {
             } else {
               $( this ).toggleClass( "selected" );
             }
-            e.stopPropagation();
           });
           var d = $( '#' + item.track_id.toString() );
           if( !d.length ) {
