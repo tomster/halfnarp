@@ -11,18 +11,37 @@ function do_the_halfnarp() {
   });
 
   $('.submit').click( function() {
+    var myapi;
     var ids = $('.selected').map( function() {
         return parseInt($(this).attr('event_id'));
       }).get();
     try {
       localStorage['31C3-halfnarp'] = ids;
+      myapi = localStorage['31C3-halfnarp-api'];
     } catch(err) {
       alert("Storing your choices locally is forbidden.");
     }
-    $.post( halfnarpAPI, JSON.stringify({'talk_ids': ids}), function( data ) {
-      console.log( 'Posted successfully.' );
-    });
-    console.log( ids );
+    var request = JSON.stringify({'talk_ids': ids});
+    if( !myapi || !myapi.length ) {
+      $.post( halfnarpAPI, request, function( data ) {
+        try {
+          localStorage['31C3-halfnarp-api'] = data['update_url'];
+        } catch(err) {}
+      }, 'json' ).fail(function() {
+         console.log( 'Post failed.' );
+      });
+    } else {
+      $.ajax({
+        type: "PUT",
+        url: myapi,
+        data: request,
+        dataType: "json",
+      }).done(function(msg) {
+        console.log( 'Put success.' );
+      }).fail(function(msg) {
+        console.log( 'Put failed.' );
+      });
+    }
   });
 
   $('#filter').bind("paste cut keypress keydown keyup", function() {
