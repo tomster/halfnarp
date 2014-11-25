@@ -44,6 +44,11 @@
     float: left;
 }
 
+.explainer {
+    clear: both;
+    padding: 1em;
+}
+
 .track h2 {
     text-align: center;
 
