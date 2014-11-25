@@ -14,6 +14,8 @@ def update_app(clean=False, build=True, config_path='production.ini', **kwargs):
     with fab.lcd('../backend'):
         fab.put(config_path, '/home/halfnarp/backend/production.ini')
         if value_asbool(build):
+            with fab.settings(warn_only=True):
+                fab.local('rm dist/*.tar.gz')
             fab.local('make sdist')
         fab.put('dist/*.tar.gz', '/tmp/backend.tgz')
         fab.put('requirements.txt', '/home/halfnarp/backend/requirements.txt')
