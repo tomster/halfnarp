@@ -104,7 +104,7 @@
       template: src={{backend_name}} dest=/usr/local/etc/rc.d/{{backend_name}} owner=root mode=755
 
     - name: enable application at startup time
-      lineinfile: dest=/etc/rc.conf state=present line='{{backend_name}}_enable=YES' create=yes
+      service: name={{backend_name}} enabled=yes
 
     - name: ensure application ownership
       command: chown -R {{backend_user}} {{backend_path}}
