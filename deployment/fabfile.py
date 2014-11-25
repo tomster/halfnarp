@@ -2,6 +2,8 @@
 from fabric import api as fab
 from fabric.api import env, task
 from ploy.config import value_asbool
+from bsdploy.fabutils import rsync
+
 
 env.shell = '/bin/sh -c'
 
@@ -24,3 +26,11 @@ def update_app(clean=False, build=True, config_path='production.ini', **kwargs):
         fab.sudo('bin/pip install --upgrade --force-reinstall --no-deps /tmp/backend.tgz', user='halfnarp')
 
     fab.sudo('service halfnarp_backend restart', warn_only=True)
+
+
+@task
+def update_frontend(clean=False, build=True, config_path='production.ini', **kwargs):
+    """
+    upload the frontend to the remote server
+    """
+    rsync('-av', '--delete', '../frontend/', '{host_string}:/home/halfnarp/frontend/')

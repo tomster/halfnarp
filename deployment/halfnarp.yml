@@ -6,6 +6,7 @@
      service: name=postgresql state=restarted
 
   vars:
+   - www_server_name: halfnarp.dtfh.de
    - backend_user: halfnarp
    - backend_name: halfnarp_backend
    - backend_path: /home/halfnarp/backend
@@ -35,9 +36,11 @@
         name={{ item }}
         state=present
       with_items:
+        - nginx
         - postgresql93-server
         - py27-pip
         - py27-virtualenv
+        - rsync
         - sudo
 
 
@@ -79,8 +82,11 @@
     - name: create application user
       user: name={{backend_user}} createhome=yes
 
-    - name: ensure installation directory exists
+    - name: ensure backend directory exists
       file: path={{backend_path}} state=directory owner={{backend_user}} mode=755
+
+    - name: ensure frontend directory exists
+      file: path={{frontend_path}} state=directory owner={{backend_user}} mode=755
 
     - name: ensure var directory exists
       file: path={{backend_path}}/var state=directory owner={{backend_user}} mode=755
@@ -112,3 +118,15 @@
     - name: ensure pid directory exists
       file: path=/var/run/{{backend_name}} state=directory owner={{backend_user}} mode=755
 
+    - name: configure nginx
+      template: src=nginx.conf dest=/usr/local/etc/nginx/nginx.conf owner={{backend_user}} mode=555
+      tags: nginx_config
+
+    - name: ensure the www data directory exists
+      file: path={{frontend_path}} state=directory owner={{backend_user}} mode=775
+
+    - name: enable nginx at startup time
+      service: name=nginx enabled=yes
+
+    - name: make sure nginx is running or reloaded
+      service: name=nginx state=restarted
