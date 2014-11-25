@@ -1,7 +1,7 @@
 PasteDeploy==1.5.2
 SQLAlchemy==0.9.8
 WebOb==1.4
-colander==0.9.9
+colander==1.0b1
 cornice==0.15
 psycopg2==2.5.4
 pyramid==1.5.2
