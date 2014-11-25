@@ -24,11 +24,14 @@ function do_the_halfnarp() {
     var request = JSON.stringify({'talk_ids': ids});
     if( !myapi || !myapi.length ) {
       $.post( halfnarpAPI, request, function( data ) {
+        $('.info span').text("submitted");
+        $('.info').toggleClass( "hidden", false );
         try {
           localStorage['31C3-halfnarp-api'] = data['update_url'];
         } catch(err) {}
       }, 'json' ).fail(function() {
-         console.log( 'Post failed.' );
+        $('.info span').text("failed :(");
+        $('.info').toggleClass( "hidden", false );
       });
     } else {
       $.ajax({
@@ -37,9 +40,11 @@ function do_the_halfnarp() {
         data: request,
         dataType: "json",
       }).done(function(msg) {
-        console.log( 'Put success.' );
+        $('.info span').text("updated");
+        $('.info').toggleClass( "hidden", false );
       }).fail(function(msg) {
-        console.log( 'Put failed.' );
+        $('.info span').text("failed");
+        $('.info').toggleClass( "hidden", false );
       });
     }
   });
@@ -77,12 +82,14 @@ function do_the_halfnarp() {
             if( isTouch ) {
               if ( $( this ).hasClass( "highlighted" ) ) {
                 $( this ).toggleClass( "selected" );
+                $('.info').toggleClass( "hidden", true );
               } else {
                 $(".highlighted").removeClass("highlighted");
                 $( this ).toggleClass( "highlighted", true );
               }
             } else {
               $( this ).toggleClass( "selected" );
+              $('.info').toggleClass( "hidden", true );
             }
           });
           var d = $( '#' + item.track_id.toString() );

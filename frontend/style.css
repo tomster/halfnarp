@@ -25,8 +25,11 @@
     font-size: 2em;
     text-align: center;
 
-    background: grey;
+    height: 1em;
+    background: lightblue;
 
+    margin-right: 2em;
+    padding: 0.5em;
     float: right;
 }
 
@@ -96,4 +99,8 @@
     background: inherit;
 
     padding: 0 0.2em 0.2em 0.2em;
+}
+
+.hidden {
+    visibility: hidden;
 }
