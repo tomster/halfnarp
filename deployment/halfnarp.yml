@@ -8,7 +8,8 @@
   vars:
    - backend_user: halfnarp
    - backend_name: halfnarp_backend
-   - backend_path: /home/halfnarp
+   - backend_path: /home/halfnarp/backend
+   - frontend_path: /home/halfnarp/frontend
    - pgsql_user_group_id: 999
 
   tasks:
