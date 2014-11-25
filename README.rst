@@ -22,12 +22,3 @@ Admin usage
 ===========
 
 As administrator you can dump the current votes by running ``bin/export-talks`` which will output a CSV list of all votes (without their ``uid``s or IP hashes) to ``stdout``.
-
-
-TODO
-====
-
-- [ ] log (hashed) IP addresses of Clients
-- [ ] deploy onto 31C3 jail
-- [ ] create browser based client?
-
