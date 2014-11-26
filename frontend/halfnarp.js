@@ -48,6 +48,7 @@ function do_the_halfnarp() {
       });
     }
     $('#qrcode').qrcode({width: 224, height: 224, text: request});
+    $('#qrcode').toggleClass( "hidden", false );
   });
 
   $('#filter').bind("paste cut keypress keydown keyup", function() {
