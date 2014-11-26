@@ -62,6 +62,21 @@ function do_the_halfnarp() {
    }
   });
 
+  $('.smallboxes').click( function() {
+    $('.event').css('width', '13em');
+    $('.event').css('height', '13em');
+  });
+
+  $('.mediumboxes').click( function() {
+    $('.event').css('width', '16em');
+    $('.event').css('height', '16em');
+  });
+
+  $('.largeboxes').click( function() {
+    $('.event').css('width', '19em');
+    $('.event').css('height', '19em');
+  });
+
   var selection;
   try {
     selection = localStorage['31C3-halfnarp'];
