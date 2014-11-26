@@ -5,6 +5,7 @@
   <title>halfnarp web scheduling helper app</title>
   <link rel="stylesheet" href="style.css">
   <script src="jquery-1.11.1.min.js"></script>
+  <script src="jquery.qrcode.min.js"></script>
   <script src="halfnarp.js"></script>
   <script>
   $( document ).ready(function() { do_the_halfnarp(); });
@@ -24,7 +25,7 @@
 <div title="store your choices locally and – if possible – send them to the server" class="submit">submit</div>
 <div class="info hidden"><span></span></div>
 <div class="explainer"><span><ul><li>Help us to reduce conflicts of scheduling 31C3's Fahrplan.</li><li>Click on the talks you likely would like to watch.</li><li>Press submit.</li><li>Repeat as necessary.</li><li>Read <a href="http://events.ccc.de/2014/11/25/lets-do-the-halfnarp/">our blogpost</a> for details.</li><li>Report problems to <a href="mailto:erdgeist@ccc.de">erdgeist@ccc.de</a>.</ul></span></div>
-<div class="track" id="275"><h2>CCC</h2></div>
+<div class="track" id="275"><h2>CCC</h2><div id="qrcode"></div></div>
 <div class="track" id="264"><h2>Art &amp; Culture</h2></div>
 <div class="track" id="276"><h2>Entertainment</h2></div>
 <div class="track" id="265"><h2>Ethics, Society &amp; Politics</h2></div>

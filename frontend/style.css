@@ -116,3 +116,12 @@
 .hidden {
     visibility: hidden;
 }
+
+#qrcode {
+    display: inline-block;
+    float: right;
+
+    margin: 0 0.8em 0.8em 0;
+    width:  14em;
+    height: 14em;
+}
