@@ -47,6 +47,7 @@ function do_the_halfnarp() {
         $('.info').toggleClass( "hidden", false );
       });
     }
+    $('#qrcode').empty();
     $('#qrcode').qrcode({width: 224, height: 224, text: request});
     $('#qrcode').toggleClass( "hidden", false );
   });
