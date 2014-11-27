@@ -1,6 +1,7 @@
 function do_the_halfnarp() {
   var halfnarpAPI     = "/-/talkpreferences";
   var isTouch = (('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0));
+  var qrsize = 224;
 
   $.extend($.expr[':'], {
       'containsi': function(elem, i, match, array)
@@ -48,7 +49,7 @@ function do_the_halfnarp() {
       });
     }
     $('#qrcode').empty();
-    $('#qrcode').qrcode({width: 224, height: 224, text: request});
+    $('#qrcode').qrcode({width: qrsize, height: qrsize, text: request});
     $('#qrcode').toggleClass( "hidden", false );
   });
 
@@ -63,18 +64,33 @@ function do_the_halfnarp() {
   });
 
   $('.smallboxes').click( function() {
-    $('.event').css('width', '13em');
-    $('.event').css('height', '13em');
+    qrsize = 224;
+    if( !$('#qrcode').hasClass( 'hidden' ) ) {
+      $('#qrcode').empty();
+      $('#qrcode').qrcode({width: qrsize, height: qrsize, text: request});
+    }
+    $('.event').css('width', '14em');
+    $('.event').css('height', '14em');
   });
 
   $('.mediumboxes').click( function() {
-    $('.event').css('width', '16em');
-    $('.event').css('height', '16em');
+    qrsize = 272;
+    if( !$('#qrcode').hasClass( 'hidden' ) ) {
+      $('#qrcode').empty();
+      $('#qrcode').qrcode({width: qrsize, height: qrsize, text: request});
+    }
+    $('.event').css('width', '17em');
+    $('.event').css('height', '17em');
   });
 
   $('.largeboxes').click( function() {
-    $('.event').css('width', '19em');
-    $('.event').css('height', '19em');
+    qrsize = 320;
+    if( !$('#qrcode').hasClass( 'hidden' ) ) {
+      $('#qrcode').empty();
+      $('#qrcode').qrcode({width: qrsize, height: qrsize, text: request});
+    }
+    $('.event').css('width', '20em');
+    $('.event').css('height', '20em');
   });
 
   var selection;
