@@ -43,6 +43,9 @@ def db_setup(**settings):
     db_session.configure(bind=engine)
     metadata.bind = engine
     metadata.create_all(engine)
+    # create custom index for hashed uid
+    from sqlalchemy import func, Index
+    Index('ix_talk_preferences_uid_sha256', func.encode(func.digest(metadata.tables['talk_preferences'].c.uid, 'sha256')))
 
 
 def main(global_config, **settings):        # pragma: no cover, tests have own app setup

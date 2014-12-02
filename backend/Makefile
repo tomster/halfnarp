@@ -13,9 +13,9 @@ sdist: rev = $(shell git describe --long --tags --dirty --always)
 sdist: bin/python setup.py
 	bin/python setup.py egg_info -b $(rev) sdist
 
-initdb: name = $(shell bin/python setup.py --name)
-initdb: bin/python
-	@psql -c "" $(name) 2> /dev/null || createdb $(name) -E utf8 -T template0
+initdb: name = 'halfnarp_backend'
+initdb: bin/python initdb.sql
+	@psql -c "" $(name) 2> /dev/null || createdb $(name) -E utf8 -T template0 && psql $(name) -c "CREATE EXTENSION pgcrypto;"
 
 clean:
 	git clean -fXd

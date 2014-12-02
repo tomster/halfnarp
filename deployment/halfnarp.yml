@@ -38,6 +38,7 @@
       with_items:
         - nginx
         - postgresql93-server
+        - postgresql93-contrib
         - py27-pip
         - py27-virtualenv
         - rsync
