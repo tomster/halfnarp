@@ -1,4 +1,5 @@
 import hashlib
+from pytest import fixture
 
 
 def test_talk_preference_instance_without_given_uid(db_session, models):
@@ -24,3 +25,15 @@ def test_talk_preference_instance_stores_talk_ids(db_session, models):
     preference = models.TalkPreference(talk_ids=talk_ids)
     refetched = models.TalkPreference.query.get(preference.uid)
     assert refetched.talk_ids == talk_ids
+
+
+@fixture
+def talk_preference(db_session, models):
+    return models.TalkPreference(talk_ids=[])
+
+
+def test_get_talk_by_hashed_uid(models, talk_preference):
+    from sqlalchemy import func
+    hashed = hashlib.sha256(talk_preference.uid).hexdigest()
+    assert models.TalkPreference.query.filter(
+        func.encode(func.digest(func.text(models.TalkPreference.uid), 'sha256'), 'hex') == hashed).one() == talk_preference

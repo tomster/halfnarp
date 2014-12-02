@@ -57,6 +57,7 @@ def connection(models, request):
     metadata.bind = engine
     metadata.drop_all(connection.engine)
     metadata.create_all(connection.engine)
+    connection.execute('CREATE EXTENSION IF NOT EXISTS pgcrypto;')
     return connection
 
 
