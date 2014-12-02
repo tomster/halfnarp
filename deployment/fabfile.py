@@ -1,4 +1,5 @@
 # coding: utf-8
+from datetime import datetime
 from fabric import api as fab
 from fabric.api import env, task
 from ploy.config import value_asbool
@@ -34,3 +35,19 @@ def update_frontend(clean=False, build=True, config_path='production.ini', **kwa
     upload the frontend to the remote server
     """
     rsync('-av', '--delete', '../frontend/', '{host_string}:/home/halfnarp/frontend/')
+
+
+@task
+def download_db(cleanup=True):
+    hostname = env.host_string.split('@')[-1]
+    timestamp = datetime.now().strftime('%Y%m%d-%H%M')
+    dump_file_name = '{hostname}-{timestamp}.sql.gz'.format(**locals())
+    remote_dump = '/tmp/{dump_file_name}'.format(**locals())
+    local_dump = './downloads/{dump_file_name}'.format(**locals())
+    latest_dump = './downloads/{hostname}-latest.sql.gz'.format(**locals())
+    dumped = fab.sudo('pg_dump -c halfnarp_backend | gzip -c > {remote_dump}'.format(**locals()), user='halfnarp')
+    if dumped.succeeded:
+        rsync('-av', '{host_string}:%s' % remote_dump, local_dump)
+        fab.run('rm {remote_dump}'.format(remote_dump=remote_dump))
+        fab.local('ln -sf {dump_file_name} {latest_dump}'.format(**locals()))
+        print("Downloaded dump available at '{local_dump}'".format(**locals()))
