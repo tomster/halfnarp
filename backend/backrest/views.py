@@ -9,6 +9,7 @@ from cornice.resource import resource, view
 from pyramid.exceptions import NotFound
 from pyramid.response import FileResponse
 from pyramid.settings import asbool
+from sqlalchemy import func
 
 from . import path, models
 
@@ -51,7 +52,9 @@ class TalkPreference(object):
     @view(schema=TalkPreferenceSchema)
     def collection_post(self):
         preference = models.TalkPreference(**self.request.validated)
-        return dict(uid=preference.uid, update_url=self.request.route_url('talkpreference', uid=preference.uid))
+        return dict(uid=preference.uid, hashed_uid=preference.hashed_uid,
+            update_url=self.request.route_url('talkpreference', uid=preference.uid),
+            public_url=self.request.route_url('publictalkpreference', hash=preference.hashed_uid))
 
     @view(schema=TalkPreferenceSchema)
     def put(self):
@@ -65,4 +68,28 @@ class TalkPreference(object):
             content_type='application/json')
 
     def get(self):
-        return dict(uid=self.context.uid, talk_ids=self.context.talk_ids)
+        return dict(uid=self.context.uid,
+            talk_ids=self.context.talk_ids,
+            hashed_uid=self.context.hashed_uid,
+            public_url=self.request.route_url('publictalkpreference', hash=self.context.hashed_uid))
+
+
+def hashed_uid_factory(request):
+    if request.matchdict is not None and 'hash' in request.matchdict:
+        context = models.TalkPreference.query.filter(func.encode(
+            func.digest(func.text(models.TalkPreference.uid), 'sha256'), 'hex') == request.matchdict['hash']).first()
+        if context is None:
+            raise NotFound()
+        return context
+    return object()
+
+
+@resource(path=path('talkpreferences/public/{hash}'), factory=hashed_uid_factory)
+class PublicTalkPreference(object):
+
+    def __init__(self, context, request):
+        self.request = request
+        self.context = context
+
+    def get(self):
+        return dict(hash=self.context.hashed_uid, talk_ids=self.context.talk_ids)

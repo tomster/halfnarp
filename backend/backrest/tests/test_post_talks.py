@@ -34,6 +34,12 @@ def test_user_updates_preferences_with_uid(testing, browser, url, models):
     assert refetched.talk_ids == [1, 2, 3]
 
 
+def test_user_gets_public_url(testing, browser, url, models):
+    created = browser.post_json(url, dict(talk_ids=[23, 42])).json
+    # client receives a url that she can use to share her preferences (read-only)
+    assert browser.get_json(created['public_url']).json['talk_ids'] == [23, 42]
+
+
 def test_client_fetches_list_of_talks(browser, url):
     talks = browser.get_json(url).json
     assert len(talks) == 11
@@ -45,5 +51,30 @@ def existing_preference(db_session, models):
     return models.TalkPreference(uid=u'foo', talk_ids=[23, 42])
 
 
-def test_fetch_existing_preference(browser, existing_preference, testing):
-    assert browser.get_json(testing.route_url('talkpreference', uid=existing_preference.uid)).json['talk_ids'] == existing_preference.talk_ids
+@fixture
+def existing_preference_json(existing_preference, testing, browser):
+    return browser.get_json(testing.route_url('talkpreference', uid=existing_preference.uid)).json
+
+
+def test_fetch_existing_preference(existing_preference_json, existing_preference,):
+    assert existing_preference_json['talk_ids'] == existing_preference.talk_ids
+
+
+def test_fetch_existing_preference_has_public_url(existing_preference_json, existing_preference, browser):
+    assert browser.get_json(existing_preference_json['public_url']).json['talk_ids'] == existing_preference.talk_ids
+
+
+def test_fetch_existing_preference_has_hashed_uid(existing_preference_json, existing_preference):
+    assert existing_preference_json['hashed_uid'] == existing_preference.hashed_uid
+
+
+@fixture
+def preference_via_http(existing_preference, browser, testing):
+    return browser.get_json(testing.route_url('publictalkpreference', hash=existing_preference.hashed_uid))
+
+
+def test_fetch_existing_preference_by_hash(browser, existing_preference, preference_via_http, testing):
+    assert preference_via_http.json['talk_ids'] == existing_preference.talk_ids
+    assert preference_via_http.json['hash'] == existing_preference.hashed_uid
+    assert 'uid' not in preference_via_http.json
+    assert existing_preference.uid not in preference_via_http.body

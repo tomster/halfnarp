@@ -1,4 +1,4 @@
-from hashlib import sha1
+from hashlib import sha1, sha256
 from sqlalchemy import MetaData, Column, String, Integer
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.dialects.postgresql import ARRAY
@@ -38,3 +38,7 @@ class TalkPreference(Base):
 
     def __init__(self, **data):
         self.add(**data)
+
+    @property
+    def hashed_uid(self):
+        return sha256(self.uid.encode('utf-8')).hexdigest()
