@@ -44,8 +44,11 @@
     float: left;
 }
 
-.explainer {
+.clear {
     clear: both;
+}
+
+.explainer {
     padding-top: 1em;
     text-align: right;
 }
@@ -54,6 +57,29 @@
     list-style-type: none;
     padding:0;
     margin:0;
+}
+
+.boxer {
+    font-size: 1em;
+    float: left;
+    width: 2em;
+    height: 2em;
+    background: grey;
+    color: white;
+    text-align: center;
+    margin-right: 0.2em;
+    padding: 0.2em 0 0 0;
+    cursor: pointer;
+}
+
+.mediumboxes {
+    width: 3em;
+    height: 3em;
+}
+
+.largeboxes {
+    width: 4em;
+    height: 4em;
 }
 
 .track h2 {
@@ -114,5 +140,15 @@
 }
 
 .hidden {
-    visibility: hidden;
+    visibility: hidden !important;
+    display: none !important;
+}
+
+#qrcode {
+    display: inline-block;
+    float: right;
+
+    margin: 0 0.8em 0.8em 0;
+    width:  14em;
+    height: 14em;
 }

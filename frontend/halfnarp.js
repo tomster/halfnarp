@@ -1,12 +1,12 @@
 function do_the_halfnarp() {
-  var halfnarpAPI     = "/-/talkpreferences";
+  var halfnarpAPI     = '/-/talkpreferences';
   var isTouch = (('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0));
 
   $.extend($.expr[':'], {
       'containsi': function(elem, i, match, array)
       {
       return (elem.textContent || elem.innerText || '').toLowerCase()
-      .indexOf((match[3] || "").toLowerCase()) >= 0;
+      .indexOf((match[3] || '').toLowerCase()) >= 0;
       }
   });
 
@@ -19,37 +19,40 @@ function do_the_halfnarp() {
       localStorage['31C3-halfnarp'] = ids;
       myapi = localStorage['31C3-halfnarp-api'];
     } catch(err) {
-      alert("Storing your choices locally is forbidden.");
+      alert('Storing your choices locally is forbidden.');
     }
     var request = JSON.stringify({'talk_ids': ids});
     if( !myapi || !myapi.length ) {
       $.post( halfnarpAPI, request, function( data ) {
-        $('.info span').text("submitted");
-        $('.info').toggleClass( "hidden", false );
+        $('.info span').text('submitted');
+        $('.info').toggleClass( 'hidden', false );
         try {
           localStorage['31C3-halfnarp-api'] = data['update_url'];
         } catch(err) {}
       }, 'json' ).fail(function() {
-        $('.info span').text("failed :(");
-        $('.info').toggleClass( "hidden", false );
+        $('.info span').text('failed :(');
+        $('.info').toggleClass( 'hidden', false );
       });
     } else {
       $.ajax({
-        type: "PUT",
+        type: 'PUT',
         url: myapi,
         data: request,
-        dataType: "json",
+        dataType: 'json',
       }).done(function(msg) {
-        $('.info span').text("updated");
-        $('.info').toggleClass( "hidden", false );
+        $('.info span').text('updated');
+        $('.info').toggleClass( 'hidden', false );
       }).fail(function(msg) {
-        $('.info span').text("failed");
-        $('.info').toggleClass( "hidden", false );
+        $('.info span').text('failed');
+        $('.info').toggleClass( 'hidden', false );
       });
     }
+    $('#qrcode').empty();
+    $('#qrcode').qrcode({width: 224, height: 224, text: request});
+    $('#qrcode').toggleClass( 'hidden', false );
   });
 
-  $('#filter').bind("paste cut keypress keydown keyup", function() {
+  $('#filter').bind('paste cut keypress keydown keyup', function() {
     var cnt = $(this).val();
     if( cnt.length ) {
       $('.event').css('display', 'none');
@@ -59,20 +62,38 @@ function do_the_halfnarp() {
    }
   });
 
+  $('.smallboxes').click( function() {
+    $('#qrcode').css( 'margin-bottom', '0' );
+    $('.event').css('width', '14em');
+    $('.event').css('height', '14em');
+  });
+
+  $('.mediumboxes').click( function() {
+    $('#qrcode').css( 'margin-bottom', '62px' );
+    $('.event').css('width', '17em');
+    $('.event').css('height', '17em');
+  });
+
+  $('.largeboxes').click( function() {
+    $('#qrcode').css( 'margin-bottom', '124px' );
+    $('.event').css('width', '20em');
+    $('.event').css('height', '20em');
+  });
+
   var selection;
   try {
     selection = localStorage['31C3-halfnarp'];
   } catch(err) {
     selection = [];
   }
-  $.getJSON( halfnarpAPI, { format: "json" })
+  $.getJSON( halfnarpAPI, { format: 'json' })
     .done(function( data ) {
       $.each( data, function( i, item ) {
           var t = $( '#template' ).clone(true);
           t.attr('event_id', item.event_id.toString());
-          t.attr('id', "event_" + item.event_id.toString());
+          t.attr('id', 'event_' + item.event_id.toString());
           if( selection && selection.indexOf(item.event_id) != -1 ) {
-            t.toggleClass( "selected", true );
+            t.toggleClass( 'selected', true );
           }
           t.find('.title').text(item.title);
           t.find('.speakers').text(item.speakers);
@@ -80,16 +101,16 @@ function do_the_halfnarp() {
           t.click( function() {
             /* Transition for touch devices is highlighted => selected => highlighted ... */
             if( isTouch ) {
-              if ( $( this ).hasClass( "highlighted" ) ) {
-                $( this ).toggleClass( "selected" );
-                $('.info').toggleClass( "hidden", true );
+              if ( $( this ).hasClass( 'highlighted' ) ) {
+                $( this ).toggleClass( 'selected' );
+                $('.info').toggleClass( 'hidden', true );
               } else {
-                $(".highlighted").removeClass("highlighted");
-                $( this ).toggleClass( "highlighted", true );
+                $('.highlighted').removeClass('highlighted');
+                $( this ).toggleClass( 'highlighted', true );
               }
             } else {
-              $( this ).toggleClass( "selected" );
-              $('.info').toggleClass( "hidden", true );
+              $( this ).toggleClass( 'selected' );
+              $('.info').toggleClass( 'hidden', true );
             }
           });
           var d = $( '#' + item.track_id.toString() );
