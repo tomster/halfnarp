@@ -60,7 +60,7 @@ function do_the_halfnarp() {
         $('.info').removeClass('hidden');
       }).fail(function(msg) {
         $('.info span').text('failed');
-        $('.info').renoveClass('hidden');
+        $('.info').removeClass('hidden');
       });
     }
 
