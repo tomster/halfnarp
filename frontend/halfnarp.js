@@ -103,9 +103,7 @@ function do_the_halfnarp() {
   /* Add de-highlighter on touch interface devices */
   if( isTouch ) {
     $('body').click( function() {
-      if( !$(this).parents('.event').length ) {
-        $('.highlighted').removeClass('highlighted');
-      }
+      $('.highlighted').removeClass('highlighted');
     });
   }
 
@@ -181,7 +179,7 @@ function do_the_halfnarp() {
           /* Apply attributes to sort events into calendar */
           t.addClass('small room_' + item.room_id + ' duration_' + item.duration + ' day_'+day + ' time_' + (hour<10?'0':'') + hour + '' + (mins<10?'0':'') + mins);
 
-          t.click( function() {
+          t.click( function(event) {
             /* Transition for touch devices is highlighted => selected => highlighted ... */
             if( isTouch ) {
               if ( $( this ).hasClass('highlighted') ) {
@@ -195,6 +193,7 @@ function do_the_halfnarp() {
               $( this ).toggleClass('selected');
               $('.info').addClass('hidden');
             }
+            event.stopPropagation();
           });
           /* Put new event into DOM tree. Track defaults to 'Other' */
           var d = $( '#' + item.track_id.toString() );
