@@ -5,11 +5,14 @@ function toggle_grid(isList) {
     $('.event').toggleClass('event-in-calendar', !isList );
     $('.event').toggleClass('hidden', !isList );
     $('.guide').toggleClass('hidden', isList );
+    $('#qrcode').toggleClass('limit', !isList );
 }
 
 function do_the_halfnarp() {
-  var halfnarpAPI     = '/-/talkpreferences';
+  var halfnarpAPI     = 'talkpreferences.json';
   var isTouch = (('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0));
+  var all_events = new Object();
+  var myuid;
 
   $.extend($.expr[':'], {
       'containsi': function(elem, i, match, array)
@@ -43,6 +46,7 @@ function do_the_halfnarp() {
         $('.info').removeClass('hidden');
         try {
           localStorage['31C3-halfnarp-api'] = data['update_url'];
+          localStorage['31C3-halfnarp-uid'] = myuid = data['uid'];
         } catch(err) {}
       }, 'json' ).fail(function() {
         $('.info span').text('failed :(');
@@ -55,7 +59,8 @@ function do_the_halfnarp() {
         url: myapi,
         data: request,
         dataType: 'json',
-      }).done(function(msg) {
+      }).done(function(data) {
+        localStorage['31C3-halfnarp-uid'] = myuid = data['uid'];
         $('.info span').text('updated');
         $('.info').removeClass('hidden');
       }).fail(function(msg) {
@@ -68,6 +73,29 @@ function do_the_halfnarp() {
     $('#qrcode').empty();
     $('#qrcode').qrcode({width: 224, height: 224, text: request});
     $('#qrcode').removeClass('hidden');
+
+    /* Export all preferences in ical events */
+    var now = new Date();
+    var calendar = 'BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//events.ccc.de//halfnarp//EN\r\nX-WR-TIMEZONE:Europe/Berlin\r\n';
+    ids.forEach( function(id) {
+      var item = all_events[id];
+      var start = new Date(item.start_time);
+      calendar += 'BEGIN:VEVENT\r\n';
+      calendar += 'UID:'+myuid+item.event_id+'\r\n';
+      calendar += 'DTSTAMP:' + now.toISOString().replace(/-|;|:|\./g, '').replace(/...Z$/, 'Z') + '\r\n';
+      calendar += 'DTSTART:' + start.toISOString().replace(/-|;|:|\./g, '').replace(/...Z$/, 'Z') + '\r\n';
+      calendar += 'DURATION:PT' + item.duration + 'M\r\n';
+      calendar += 'LOCATION:' + item.room_name + '\r\n';
+      calendar += 'URL:http://events.ccc.de/congress/2014/Fahrplan/events/' + item.event_id + '.html\r\n';
+      calendar += 'DESCRIPTION:' + item.title + '\r\n';
+      calendar += 'SUMMARY:' + item.abstract + '\r\n';
+      console.log( 'id:' + id + ' ' + all_events[id] );
+      console.log( all_events[id].title );
+      calendar += 'END:VEVENT\r\n';
+    });
+    calendar += 'END:VCALENDAR\r\n';
+    $('.export-url-a').attr( 'href', "data:text/calendar;filename=31C3.ics," + encodeURIComponent(calendar) );
+    $('.export-url').removeClass( 'hidden' );
   });
 
   /* Add handler for type ahead search input field */
@@ -151,6 +179,9 @@ function do_the_halfnarp() {
   $.getJSON( halfnarpAPI, { format: 'json' })
     .done(function( data ) {
       $.each( data, function( i, item ) {
+          /* Save event to all_events hash */
+          all_events[item.event_id] = item;
+
           /* Take copy of hidden event template div and select them, if they're in
              list of previous prereferences */
           var t = $( '#template' ).clone(true);

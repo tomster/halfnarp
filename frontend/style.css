@@ -2,13 +2,25 @@ body {
     font-family: "HelveticaNeueLight", "HelveticaNeue-Light", "Helvetica Neue Light", "HelveticaNeue", "Helvetica Neue", 'TeXGyreHerosRegular', "Helvetica", "Tahoma", "Geneva", "Arial", sans-serif; font-weight:300; font-stretch:normal;
 }
 
+.header {
+    min-width: 640px;
+}
+
 .headline {
     font-size: 3em;
     font-weight: bold;
     text-align: center;
+    margin-bottom: 1em;
+}
 
-    margin: 0 0 1em 0;
-    clear: both;
+.rightbox {
+    float: right;
+    max-width: 50%;
+}
+
+.leftbox {
+    float: left;
+    max-width: 50%;
 }
 
 .submit {
@@ -33,7 +45,7 @@ body {
     height: 1em;
     background: lightblue;
 
-    margin-right: 2em;
+    margin-right: 0.2em;
     padding: 0.5em;
     float: right;
 }
@@ -44,9 +56,7 @@ body {
 
 #filter {
     font-size: 2em;
-
-    margin: 0 1em 0 0;
-    float: left;
+    margin: 0 1em .3em 0;
 }
 
 .clear {
@@ -54,7 +64,7 @@ body {
 }
 
 .explainer {
-    padding-top: 1em;
+    margin-top: 5em;
     text-align: right;
 }
 
@@ -62,6 +72,8 @@ body {
     list-style-type: none;
     padding:0;
     margin:0;
+    height: 8em;
+    overflow: hidden;
 }
 
 .boxer {
@@ -76,6 +88,11 @@ body {
     padding: 0.2em 0 0 0;
     cursor: pointer;
     border-radius: 5px;
+}
+
+.allboxes {
+    clear: left;
+    margin-top: 3em;
 }
 
 .mediumboxes {
@@ -281,4 +298,15 @@ hr.guide {
     margin: 0 0.8em 0.8em 0;
     width:  14em;
     height: 14em;
+}
+
+.limit#qrcode canvas {
+    width: 4em;
+    height: 4em;
+}
+
+#qrcode:hover canvas,
+.selected#qrcode canvas {
+    width: 224px !important;
+    height: 224px !important;
 }
