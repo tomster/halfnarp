@@ -9,7 +9,7 @@ function toggle_grid(isList) {
 }
 
 function do_the_halfnarp() {
-  var halfnarpAPI     = 'talkpreferences.json';
+  var halfnarpAPI     = '/-/talkpreferences';
   var isTouch = (('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0));
   var all_events = new Object();
   var myuid;
