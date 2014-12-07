@@ -88,7 +88,7 @@ function do_the_halfnarp() {
       calendar += 'LOCATION:' + item.room_name + '\r\n';
       calendar += 'URL:http://events.ccc.de/congress/2014/Fahrplan/events/' + item.event_id + '.html\r\n';
       calendar += 'DESCRIPTION:' + item.title + '\r\n';
-      calendar += 'SUMMARY:' + item.abstract + '\r\n';
+      calendar += 'SUMMARY:' + item.abstract.replace(/\n/g, '') + '\r\n';
       console.log( 'id:' + id + ' ' + all_events[id] );
       console.log( all_events[id].title );
       calendar += 'END:VEVENT\r\n';
