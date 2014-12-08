@@ -46,6 +46,7 @@ body {
     background: lightblue;
 
     margin-right: 0.2em;
+    border-radius: 5px;
     padding: 0.5em;
     float: right;
 }
@@ -244,18 +245,23 @@ hr.guide {
     background: red !important;
 }
 .selected.friend {
-    background: yellow !important;
-    color: black !important;
+    background-image:
+        repeating-linear-gradient(
+          45deg,
+          purple,
+          purple 20px,
+          red 20px,
+          red 40px /* determines size */
+        ) !important;
+        color: white;
 }
-.selected:hover {
+.selected:hover,
+.friend:hover {
     background: pink !important;
-}
-.selected.friend:hover {
-    background: white !important;
-    color: black !important;
+    color: black;
 }
 .friend {
-    background: green;
+    background: purple;
     color: white;
 }
 
@@ -271,10 +277,14 @@ hr.guide {
     margin-bottom: 0.2em;
 }
 
-.abstract {
+.event:hover .abstract,
+.event.highlighted .abstract {
     background: inherit;
+}
 
+.abstract {
     padding: 0 0.2em 0.2em 0.2em;
+    border-radius: 5px;
 }
 
 .hidden {
@@ -285,6 +295,7 @@ hr.guide {
 .export-url {
     float: left;
     padding: 0.2em 0 0 0;
+    border-radius: 5px;
     text-align: center;
     background: lightblue;
     width: 6em;

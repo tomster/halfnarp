@@ -8,11 +8,13 @@ function toggle_grid(isList) {
     $('#qrcode').toggleClass('limit', !isList );
 }
 
+
 function do_the_halfnarp() {
   var halfnarpAPI     = '/-/talkpreferences';
+  var halfnarpPubAPI  = halfnarpAPI + '/public/';
   var isTouch = (('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0));
-  var all_events = new Object();
-  var myuid;
+  window.all_events = new Object();
+  var myuid, mypid, newfriend = new Object();
 
   $.extend($.expr[':'], {
       'containsi': function(elem, i, match, array)
@@ -46,7 +48,9 @@ function do_the_halfnarp() {
         $('.info').removeClass('hidden');
         try {
           localStorage['31C3-halfnarp-api'] = data['update_url'];
+          localStorage['31C3-halfnarp-pid'] = mypid = data['hashed_uid'];
           localStorage['31C3-halfnarp-uid'] = myuid = data['uid'];
+          window.location.hash = mypid;
         } catch(err) {}
       }, 'json' ).fail(function() {
         $('.info span').text('failed :(');
@@ -61,6 +65,9 @@ function do_the_halfnarp() {
         dataType: 'json',
       }).done(function(data) {
         localStorage['31C3-halfnarp-uid'] = myuid = data['uid'];
+        if( localStorage['31C3-halfnarp-pid'] ) {
+            window.location.hash = localStorage['31C3-halfnarp-pid'];
+        }
         $('.info span').text('updated');
         $('.info').removeClass('hidden');
       }).fail(function(msg) {
@@ -168,11 +175,13 @@ function do_the_halfnarp() {
   }
 
   /* If we've been here before, try to get local preferences. They are authoratative */
-  var selection;
+  var selection = [], friends = { 'foo': undefined };
   try {
-    selection = localStorage['31C3-halfnarp'];
+    selection = localStorage['31C3-halfnarp'] || [];
+    friends   = localStorage['31C3-halfnarp-friends'] || { 'foo': undefined };
+    myuid     = localStorage['31C3-halfnarp-uid'] || '';
+    mypid     = localStorage['31C3-halfnarp-pid'] || '';
   } catch(err) {
-    selection = [];
   }
 
   /* Fetch list of lectures to display */
@@ -232,9 +241,44 @@ function do_the_halfnarp() {
             d = $( '#Other' );
           }
           d.append(t);
+          if( newfriend.pid ) {
+            newfriend.prefs.forEach( function( eventid ) {
+              $( '#event_' + eventid ).addClass( 'friend' );
+            });
+          }
       });
+
       /* Initially display as list */
       toggle_grid(true);
 
+      /* Check for a new friends public uid in location's #hash */
+      var shared = window.location.hash;
+      shared = shared ? shared.substr(1) : '';
+      if( shared.length ) {
+        if ( ( friends[shared] ) || ( shared === mypid ) ) {
+
+        } else {
+          $.getJSON( halfnarpPubAPI + shared, { format: 'json' })
+            .done(function( data ) {
+              newfriend.pid      = shared;
+              newfriend.prefs    = data.talk_ids;
+              newfriend.prefs.forEach( function( eventid ) {
+                $( '#event_' + eventid ).addClass( 'friend' );
+              });
+            });
+        }
+      }
+      // window.location.hash = '';
+
+      /* Update friends cache
+      for( var friend in friends ) {
+        $.getJSON( halfnarpPubAPI + friends.pid, { format: 'json' })
+          .done(function( data ) {
+            friend.prefs = data.talk_ids;
+            localStorage['31C3-halfnarp-friends'] = friends;
+            update_friends();
+          });
+      }
+      */
     });
 }
