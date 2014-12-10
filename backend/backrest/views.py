@@ -60,7 +60,7 @@ class TalkPreference(object):
     def put(self):
         del self.request.validated['uid']
         self.context.update(**self.request.validated)
-        return dict(uid=self.context.uid)
+        return dict(uid=self.context.uid, hashed_uid=self.context.hashed_uid)
 
     def collection_get(self):
         return FileResponse(abspath(expanduser(self.request.registry.settings['talks_local'])),
