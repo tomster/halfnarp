@@ -16,9 +16,9 @@ Clients can then ``PUT`` against that URL using the same schema of a dictionary 
 
 Note, that any updates against this URL will **not** update the previous ids but instead completely **replace** them with the new values. I.e. if the user has added another talk to his wishlist, the client must send the entire list, not just the new talk.
 
-If – for some reason – the client can or wants to only remember the *url* but not the vote it has cast, it can retrieve them by issuing a ``GET`` on the URL it received (the same one used for ``PUT``ing updates.)
+If – for some reason – the client can or wants to only remember the *url* but not the vote it has cast, it can retrieve them by issuing a ``GET`` on the URL it received (the same one used to ``PUT`` updates.)
 
 Admin usage
 ===========
 
-As administrator you can dump the current votes by running ``bin/export-talks`` which will output a CSV list of all votes (without their ``uid``s or IP hashes) to ``stdout``.
+As administrator you can dump the current votes by running ``bin/export-talks`` which will output a CSV list of all votes (without their ``uid`` or IP hashes) to ``stdout``.
