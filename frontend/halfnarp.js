@@ -91,11 +91,11 @@ function do_the_halfnarp() {
       calendar += 'UID:'+myuid+item.event_id+'\r\n';
       calendar += 'DTSTAMP:' + now.toISOString().replace(/-|;|:|\./g, '').replace(/...Z$/, 'Z') + '\r\n';
       calendar += 'DTSTART:' + start.toISOString().replace(/-|;|:|\./g, '').replace(/...Z$/, 'Z') + '\r\n';
-      calendar += 'DURATION:PT' + item.duration + 'M\r\n';
+      calendar += 'DURATION:PT' + item.duration + 'S\r\n';
       calendar += 'LOCATION:' + item.room_name + '\r\n';
       calendar += 'URL:http://events.ccc.de/congress/2014/Fahrplan/events/' + item.event_id + '.html\r\n';
       calendar += 'DESCRIPTION:' + item.title + '\r\n';
-      calendar += 'SUMMARY:' + item.abstract.replace(/\n/g, '') + '\r\n';
+      calendar += 'SUMMARY:' + item.abstract.replace(/\n|\r/g, '') + '\r\n';
       console.log( 'id:' + id + ' ' + all_events[id] );
       console.log( all_events[id].title );
       calendar += 'END:VEVENT\r\n';
