@@ -104,6 +104,9 @@
     - name: configure startup script
       template: src={{backend_name}} dest=/usr/local/etc/rc.d/{{backend_name}} owner=root mode=755
 
+    - name: configure application
+      copy: src=production.ini dest={{backend_path}}/production.ini
+
     - name: enable application at startup time
       service: name={{backend_name}} enabled=yes
 
