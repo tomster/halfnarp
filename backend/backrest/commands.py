@@ -1,7 +1,7 @@
 from argparse import ArgumentParser
 from pyramid.paster import get_app
 import requests
-
+from lxml import etree
 
 def fetch_talks(**kw):
     parser = ArgumentParser(description='Fetch talks from frab')
@@ -10,10 +10,14 @@ def fetch_talks(**kw):
     args = vars(parser.parse_args(**kw))
     settings = get_app(args['config']).registry.settings
     sess = requests.Session()
+    new_session_page = sess.get(settings['talks_new_session_url'])
+    tree = etree.HTML( new_session_page.text )
+    auth_token = tree.xpath( "//meta[@name='csrf-token']" )[0].get("content")
     login_data = dict()
     login_data['user[email]'] = settings['talks_user']
     login_data['user[password]'] = settings['talks_password']
     login_data['user[remember_me]'] = 1
+    login_data['authenticity_token'] = auth_token
     sess.post(settings['talks_login_url'], login_data, verify=False)
     talks_json = sess.get(settings['talks_url'], verify=False, stream=True)
     with open(settings['talks_local'], 'wb') as fd:
