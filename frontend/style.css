@@ -183,6 +183,7 @@ body {
 .event-in-calendar.room_327, .roomg { left: 52.50%; }
 .event-in-calendar.room_328, .room6 { left: 76.25%  }
 
+.event-in-calendar.duration_600  { height:  50px; }
 .event-in-calendar.duration_1800 { height:  95px; }
 .event-in-calendar.duration_3600 { height: 195px; }
 .event-in-calendar.duration_5400 { height: 290px; }
@@ -278,7 +279,9 @@ hr.guide {
 }
 
 .event:hover .abstract,
-.event.highlighted .abstract {
+.event.highlighted .abstract
+.event:hover .speakers,
+.event.highlighted .speakers {
     background: inherit;
 }
 
