@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 name = 'halfnarp'
-version = '1.0.0'
+version = '1.0.1.dev'
 
 setup(name=name,
     version=version,
