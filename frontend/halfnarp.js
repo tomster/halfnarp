@@ -10,12 +10,14 @@ function toggle_grid(isList) {
 
 
 function do_the_halfnarp() {
+  // var halfnarpAPI     = 'talks_32c3.json';
   var halfnarpAPI     = '/-/talkpreferences';
   var halfnarpPubAPI  = halfnarpAPI + '/public/';
   var isTouch = (('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0));
   window.all_events = new Object();
   var myuid, mypid, newfriend = new Object();
 
+  /* Add poor man's type ahead filtering */
   $.extend($.expr[':'], {
       'containsi': function(elem, i, match, array)
       {
@@ -184,6 +186,9 @@ function do_the_halfnarp() {
   } catch(err) {
   }
 
+  /* Initially display as list */
+  toggle_grid(true);
+
   /* Fetch list of lectures to display */
   $.getJSON( halfnarpAPI, { format: 'json' })
     .done(function( data ) {
@@ -203,7 +208,7 @@ function do_the_halfnarp() {
           /* Sort textual info into event div */
           t.find('.title').text(item.title);
           t.find('.speakers').text(item.speakers);
-          t.find('.abstract').text(item.abstract);
+          t.find('.abstract').append(item.abstract);
 
           /* start_time: 2014-12-29T21:15:00+01:00" */
           var start_time = new Date(item.start_time);
