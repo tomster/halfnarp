@@ -33,8 +33,8 @@ function do_the_halfnarp() {
         return parseInt($(this).attr('event_id'));
       }).get();
     try {
-      localStorage['31C3-halfnarp'] = ids;
-      myapi = localStorage['31C3-halfnarp-api'];
+      localStorage['32C3-halfnarp'] = ids;
+      myapi = localStorage['32C3-halfnarp-api'];
     } catch(err) {
       alert('Storing your choices locally is forbidden.');
     }
@@ -47,9 +47,9 @@ function do_the_halfnarp() {
         $('.info span').text('submitted');
         $('.info').removeClass('hidden');
         try {
-          localStorage['31C3-halfnarp-api'] = data['update_url'];
-          localStorage['31C3-halfnarp-pid'] = mypid = data['hashed_uid'];
-          localStorage['31C3-halfnarp-uid'] = myuid = data['uid'];
+          localStorage['32C3-halfnarp-api'] = data['update_url'];
+          localStorage['32C3-halfnarp-pid'] = mypid = data['hashed_uid'];
+          localStorage['32C3-halfnarp-uid'] = myuid = data['uid'];
           window.location.hash = mypid;
         } catch(err) {}
       }, 'json' ).fail(function() {
@@ -64,9 +64,9 @@ function do_the_halfnarp() {
         data: request,
         dataType: 'json',
       }).done(function(data) {
-        localStorage['31C3-halfnarp-uid'] = myuid = data['uid'];
-        if( localStorage['31C3-halfnarp-pid'] ) {
-            window.location.hash = localStorage['31C3-halfnarp-pid'];
+        localStorage['32C3-halfnarp-uid'] = myuid = data['uid'];
+        if( localStorage['32C3-halfnarp-pid'] ) {
+            window.location.hash = localStorage['32C3-halfnarp-pid'];
         }
         $('.info span').text('updated');
         $('.info').removeClass('hidden');
@@ -101,7 +101,7 @@ function do_the_halfnarp() {
       calendar += 'END:VEVENT\r\n';
     });
     calendar += 'END:VCALENDAR\r\n';
-    $('.export-url-a').attr( 'href', "data:text/calendar;filename=31C3.ics," + encodeURIComponent(calendar) );
+    $('.export-url-a').attr( 'href', "data:text/calendar;filename=32C3.ics," + encodeURIComponent(calendar) );
     $('.export-url').removeClass( 'hidden' );
   });
 
@@ -177,10 +177,10 @@ function do_the_halfnarp() {
   /* If we've been here before, try to get local preferences. They are authoratative */
   var selection = [], friends = { 'foo': undefined };
   try {
-    selection = localStorage['31C3-halfnarp'] || [];
-    friends   = localStorage['31C3-halfnarp-friends'] || { 'foo': undefined };
-    myuid     = localStorage['31C3-halfnarp-uid'] || '';
-    mypid     = localStorage['31C3-halfnarp-pid'] || '';
+    selection = localStorage['32C3-halfnarp'] || [];
+    friends   = localStorage['32C3-halfnarp-friends'] || { 'foo': undefined };
+    myuid     = localStorage['32C3-halfnarp-uid'] || '';
+    mypid     = localStorage['32C3-halfnarp-pid'] || '';
   } catch(err) {
   }
 
@@ -275,7 +275,7 @@ function do_the_halfnarp() {
         $.getJSON( halfnarpPubAPI + friends.pid, { format: 'json' })
           .done(function( data ) {
             friend.prefs = data.talk_ids;
-            localStorage['31C3-halfnarp-friends'] = friends;
+            localStorage['32C3-halfnarp-friends'] = friends;
             update_friends();
           });
       }
