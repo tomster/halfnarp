@@ -45,7 +45,7 @@
         - sudo
 
 
-    - name: Install python driver
+    - name: Install python postgresql driver
       pip: name=psycopg2
 
     - name: Set owner on pgsql data dir
@@ -79,6 +79,13 @@
         template='template0'
         owner={{ backend_user }}
         login_user=pgsql
+
+    - name: install pgcrypto extension
+      postgresql_ext:
+        name: pgcrypto
+        db: "{{backend_name}}"
+        login_user: pgsql
+      tags: pgcrypto
 
     - name: create application user
       user: name={{backend_user}} createhome=yes
