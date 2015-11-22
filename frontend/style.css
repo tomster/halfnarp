@@ -290,6 +290,15 @@ hr.guide {
     border-radius: 5px;
 }
 
+dt {
+    font-weight: bold;
+}
+
+dl {
+    width: 45em;
+    margin: auto;
+}
+
 .hidden {
     visibility: hidden !important;
     display: none !important;
