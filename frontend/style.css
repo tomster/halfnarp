@@ -178,11 +178,12 @@ body {
 .day_3    {  }
 .day_4    {  }
 
-.event-in-calendar.room_325, .room1 { left:  5.00%; }
-.event-in-calendar.room_326, .room2 { left: 28.75%; }
-.event-in-calendar.room_327, .roomg { left: 52.50%; }
-.event-in-calendar.room_328, .room6 { left: 76.25%  }
+.event-in-calendar.room_359, .room1 { left:  5.00%; }
+.event-in-calendar.room_360, .room2 { left: 28.75%; }
+.event-in-calendar.room_361, .roomg { left: 52.50%; }
+.event-in-calendar.room_362, .room6 { left: 76.25%  }
 
+.event-in-calendar.duration_600  { height:  50px; }
 .event-in-calendar.duration_1800 { height:  95px; }
 .event-in-calendar.duration_3600 { height: 195px; }
 .event-in-calendar.duration_5400 { height: 290px; }
@@ -278,13 +279,24 @@ hr.guide {
 }
 
 .event:hover .abstract,
-.event.highlighted .abstract {
+.event.highlighted .abstract
+.event:hover .speakers,
+.event.highlighted .speakers {
     background: inherit;
 }
 
 .abstract {
     padding: 0 0.2em 0.2em 0.2em;
     border-radius: 5px;
+}
+
+dt {
+    font-weight: bold;
+}
+
+dl {
+    width: 45em;
+    margin: auto;
 }
 
 .hidden {

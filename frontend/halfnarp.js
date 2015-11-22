@@ -10,12 +10,14 @@ function toggle_grid(isList) {
 
 
 function do_the_halfnarp() {
+  // var halfnarpAPI     = 'talks_32c3.json';
   var halfnarpAPI     = '/-/talkpreferences';
   var halfnarpPubAPI  = halfnarpAPI + '/public/';
   var isTouch = (('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0));
   window.all_events = new Object();
   var myuid, mypid, newfriend = new Object();
 
+  /* Add poor man's type ahead filtering */
   $.extend($.expr[':'], {
       'containsi': function(elem, i, match, array)
       {
@@ -33,8 +35,8 @@ function do_the_halfnarp() {
         return parseInt($(this).attr('event_id'));
       }).get();
     try {
-      localStorage['31C3-halfnarp'] = ids;
-      myapi = localStorage['31C3-halfnarp-api'];
+      localStorage['32C3-halfnarp'] = ids;
+      myapi = localStorage['32C3-halfnarp-api'];
     } catch(err) {
       alert('Storing your choices locally is forbidden.');
     }
@@ -47,9 +49,9 @@ function do_the_halfnarp() {
         $('.info span').text('submitted');
         $('.info').removeClass('hidden');
         try {
-          localStorage['31C3-halfnarp-api'] = data['update_url'];
-          localStorage['31C3-halfnarp-pid'] = mypid = data['hashed_uid'];
-          localStorage['31C3-halfnarp-uid'] = myuid = data['uid'];
+          localStorage['32C3-halfnarp-api'] = data['update_url'];
+          localStorage['32C3-halfnarp-pid'] = mypid = data['hashed_uid'];
+          localStorage['32C3-halfnarp-uid'] = myuid = data['uid'];
           window.location.hash = mypid;
         } catch(err) {}
       }, 'json' ).fail(function() {
@@ -64,9 +66,9 @@ function do_the_halfnarp() {
         data: request,
         dataType: 'json',
       }).done(function(data) {
-        localStorage['31C3-halfnarp-uid'] = myuid = data['uid'];
-        if( localStorage['31C3-halfnarp-pid'] ) {
-            window.location.hash = localStorage['31C3-halfnarp-pid'];
+        localStorage['32C3-halfnarp-uid'] = myuid = data['uid'];
+        if( localStorage['32C3-halfnarp-pid'] ) {
+            window.location.hash = localStorage['32C3-halfnarp-pid'];
         }
         $('.info span').text('updated');
         $('.info').removeClass('hidden');
@@ -101,7 +103,7 @@ function do_the_halfnarp() {
       calendar += 'END:VEVENT\r\n';
     });
     calendar += 'END:VCALENDAR\r\n';
-    $('.export-url-a').attr( 'href', "data:text/calendar;filename=31C3.ics," + encodeURIComponent(calendar) );
+    $('.export-url-a').attr( 'href', "data:text/calendar;filename=32C3.ics," + encodeURIComponent(calendar) );
     $('.export-url').removeClass( 'hidden' );
   });
 
@@ -177,12 +179,15 @@ function do_the_halfnarp() {
   /* If we've been here before, try to get local preferences. They are authoratative */
   var selection = [], friends = { 'foo': undefined };
   try {
-    selection = localStorage['31C3-halfnarp'] || [];
-    friends   = localStorage['31C3-halfnarp-friends'] || { 'foo': undefined };
-    myuid     = localStorage['31C3-halfnarp-uid'] || '';
-    mypid     = localStorage['31C3-halfnarp-pid'] || '';
+    selection = localStorage['32C3-halfnarp'] || [];
+    friends   = localStorage['32C3-halfnarp-friends'] || { 'foo': undefined };
+    myuid     = localStorage['32C3-halfnarp-uid'] || '';
+    mypid     = localStorage['32C3-halfnarp-pid'] || '';
   } catch(err) {
   }
+
+  /* Initially display as list */
+  toggle_grid(true);
 
   /* Fetch list of lectures to display */
   $.getJSON( halfnarpAPI, { format: 'json' })
@@ -203,7 +208,7 @@ function do_the_halfnarp() {
           /* Sort textual info into event div */
           t.find('.title').text(item.title);
           t.find('.speakers').text(item.speakers);
-          t.find('.abstract').text(item.abstract);
+          t.find('.abstract').append(item.abstract);
 
           /* start_time: 2014-12-29T21:15:00+01:00" */
           var start_time = new Date(item.start_time);
@@ -275,7 +280,7 @@ function do_the_halfnarp() {
         $.getJSON( halfnarpPubAPI + friends.pid, { format: 'json' })
           .done(function( data ) {
             friend.prefs = data.talk_ids;
-            localStorage['31C3-halfnarp-friends'] = friends;
+            localStorage['32C3-halfnarp-friends'] = friends;
             update_friends();
           });
       }
