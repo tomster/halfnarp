@@ -10,8 +10,8 @@ function toggle_grid(isList) {
 
 
 function do_the_halfnarp() {
-  // var halfnarpAPI     = 'talks_32c3.json';
-  var halfnarpAPI     = '/-/talkpreferences';
+  var halfnarpAPI     = 'talks_32c3.json';
+  // var halfnarpAPI     = '/-/talkpreferences';
   var halfnarpPubAPI  = halfnarpAPI + '/public/';
   var isTouch = (('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0));
   window.all_events = new Object();
@@ -95,7 +95,7 @@ function do_the_halfnarp() {
       calendar += 'DTSTART:' + start.toISOString().replace(/-|;|:|\./g, '').replace(/...Z$/, 'Z') + '\r\n';
       calendar += 'DURATION:PT' + item.duration + 'S\r\n';
       calendar += 'LOCATION:' + item.room_name + '\r\n';
-      calendar += 'URL:http://events.ccc.de/congress/2014/Fahrplan/events/' + item.event_id + '.html\r\n';
+      calendar += 'URL:http://events.ccc.de/congress/2015/Fahrplan/events/' + item.event_id + '.html\r\n';
       calendar += 'DESCRIPTION:' + item.title + '\r\n';
       calendar += 'SUMMARY:' + item.abstract.replace(/\n|\r/g, '') + '\r\n';
       console.log( 'id:' + id + ' ' + all_events[id] );
@@ -104,7 +104,7 @@ function do_the_halfnarp() {
     });
     calendar += 'END:VCALENDAR\r\n';
     $('.export-url-a').attr( 'href', "data:text/calendar;filename=32C3.ics," + encodeURIComponent(calendar) );
-    $('.export-url').removeClass( 'hidden' );
+    /* $('.export-url').removeClass( 'hidden' ); */
   });
 
   /* Add handler for type ahead search input field */
