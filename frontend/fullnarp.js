@@ -349,8 +349,11 @@ function do_the_fullnarp() {
           /* While dragging make source element small enough to allow
              dropping below its original area */
           t.on( "drag", function( event, ui ) {
-            event.target.style.height = "50px";
-            event.target.style.maxHeight = "50px";
+            if     ( $('body').hasClass('size-large') )  { height = '50px'; }
+            else if( $('body').hasClass('size-medium') ) { height = '30px'; }
+            else                                         { height = '20px'; }
+            event.target.style.height = height;
+            event.target.style.maxHeight = height;
             event.target.style.overflowY = "hidden";
 
             /* When drag starts in list view, switch to calendar view */
