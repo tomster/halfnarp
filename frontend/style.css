@@ -262,9 +262,26 @@ hr.guide {
 
 .ende, .pause {
     background-color: pink;
+    color: white;
+    text-align: center;
     left: 0;
     right: 0;
     z-position: -1;
+}
+
+.size-large .pause {
+    font-size: 9em;
+    padding-bottom: 10px;
+}
+
+.size-medium .pause {
+    font-size: 7em;
+    padding-bottom: 20px;
+}
+
+.size-small .pause {
+    font-size: 5em;
+    padding-bottom: 20px;
 }
 
 /* togglable view selectors */
