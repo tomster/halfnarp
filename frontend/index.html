@@ -11,9 +11,9 @@
   $( document ).ready(function() { do_the_halfnarp(); });
   </script>
 </head>
-<body>
+<body class="size-small in-list halfnarp">
 <div style="display:none">
-  <div class="event" id="template">
+  <div id="template">
     <div class="title"></div>
     <div class="speakers"></div>
     <div class="abstract"></div>
@@ -30,15 +30,33 @@
 <div class="leftbox">
 <input id="filter" type="text" placeholder="Filter events"/>
 <div class="view-choser">
-<!--div class="views list">list</div><div class="views day1">day 1</div><div class="views day2">day 2</div><div class="views day3">day 3</div><div class="views day4">day 4</div-->
-</div>
+<div class="views vlist" title="Display all events sorted by track (Hotkey: L)">list</div>
+<div class="views vdays" title="Display all events in a 4-day-view (Hotkey: 0)">days</div>
+<div class="views vday1" title="Display all events on Day 1 (Hotkey: 1)">day 1</div>
+<div class="views vday2" title="Display all events on Day 2 (Hotkey: 2)">day 2</div>
+<div class="views vday3" title="Display all events on Day 3 (Hotkey: 3)">day 3</div>
+<div class="views vday4" title="Display all events on Day 4 (Hotkey: 4)">day 4</div>
+
+<div class="views vlang" title="Color event by language (Hotkey: I)">lang</div>
+
 <div class="allboxes">
-<div class="smallboxes boxer">size</div><div class="mediumboxes boxer">Size</div><div class="largeboxes boxer">SIZE</div>
+<div class="vsmallboxes boxer">size</div><div class="vmediumboxes boxer">Size</div><div class="vlargeboxes boxer">SIZE</div>
 <a class="export-url-a" download="32C3.ics" type="text/calendar" href="#"><div class="export-url hidden">32C3.ics</div></a>
 </div>
 </div>
 </div>
-<div class="room-label room1 hidden">Saal 1</div><div class="room-label room2 hidden">Saal 2</div><div class="room-label roomg hidden">Saal G</div><div class="room-label room6 hidden">Saal 6</div>
+<div class="day_1 room-label room1">Saal 1</div><div class="day_1 room-label room2">Saal 2</div><div class="day_1 room-label roomg">Saal G</div><div class="day_1 room-label room6">Saal 6</div>
+<div class="day_2 room-label room1 ">Saal 1</div><div class="day_2 room-label room2 ">Saal 2</div><div class="day_2 room-label roomg ">Saal G</div><div class="day_2 room-label room6 ">Saal 6</div>
+<div class="day_3 room-label room1 ">Saal 1</div><div class="day_3 room-label room2 ">Saal 2</div><div class="day_3 room-label roomg ">Saal G</div><div class="day_3 room-label room6 ">Saal 6</div>
+<div class="day_4 room-label room1 ">Saal 1</div><div class="day_4 room-label room2 ">Saal 2</div><div class="day_4 room-label roomg ">Saal G</div><div class="day_4 room-label room6 ">Saal 6</div>
+
+<div class=" time_1500 duration_3600 guide pause "></div>
+<div class=" time_1930 duration_3600 guide pause "></div>
+<div class=" time_2030 duration_inf guide ende room1 day_4 "></div>
+
+<div class="wholeday room1 day_1 guide"></div>
+<div class="wholeday room1 day_3 guide"></div>
+
 <div class="track" id="300"><h2>CCC</h2><div id="qrcode" class="hidden"></div></div>
 <div class="track" id="291"><h2>Art &amp; Culture</h2></div>
 <div class="track" id="301"><h2>Entertainment</h2></div>

@@ -20,7 +20,7 @@ body {
 
 .leftbox {
     float: left;
-    max-width: 50%;
+    max-width: 100%;
 }
 
 .submit {
@@ -57,6 +57,7 @@ body {
 
 #filter {
     font-size: 2em;
+    width: 50%;
     margin: 0 1em .3em 0;
 }
 
@@ -86,6 +87,7 @@ body {
     color: white;
     text-align: center;
     margin-right: 0.2em;
+    margin-top: 1em;
     padding: 0.2em 0 0 0;
     cursor: pointer;
     border-radius: 5px;
@@ -93,15 +95,14 @@ body {
 
 .allboxes {
     clear: left;
-    margin-top: 3em;
 }
 
-.mediumboxes {
+.vmediumboxes {
     width: 3em;
     height: 3em;
 }
 
-.largeboxes {
+.vlargeboxes {
     width: 4em;
     height: 4em;
 }
@@ -133,6 +134,7 @@ body {
     clear: both;
 }
 
+/* Our main event box */
 .event {
     overflow: hidden;
 
@@ -143,96 +145,16 @@ body {
     cursor: pointer;
 }
 
-.event-in-list {
+.event .speakers,
+.event .abstract {
+    font-size: 0.8em;
+}
+
+/* If tagged as in-list, display and stack them to the left */
+.in-list .event {
     display: inline-block;
+    visibility: visible;
     float: left;
-}
-
-.event-in-list.small {
-    width: 14em;
-    height: 14em;
-}
-.event-in-list.medium {
-    width: 17em;
-    height: 17em;
-}
-.event-in-list.large {
-    width: 20em;
-    height: 20em;
-}
-
-.event-in-calendar,
-.room-label {
-    position: absolute;
-    width:    18.75%;
-}
-
-.room-label {
-    text-align: center;
-    font-size: 2em;
-    font-weight: bold;
-    top: 350px;
-}
-.day_1    {  }
-.day_2    {  }
-.day_3    {  }
-.day_4    {  }
-
-.event-in-calendar.room_359, .room1 { left:  5.00%; }
-.event-in-calendar.room_360, .room2 { left: 28.75%; }
-.event-in-calendar.room_361, .roomg { left: 52.50%; }
-.event-in-calendar.room_362, .room6 { left: 76.25%  }
-
-.event-in-calendar.duration_600  { height:  50px; }
-.event-in-calendar.duration_1800 { height:  95px; }
-.event-in-calendar.duration_3600 { height: 195px; }
-.event-in-calendar.duration_5400 { height: 290px; }
-.event-in-calendar.duration_7200 { height: 395px; }
-.event-in-calendar.duration_8100 { height: 445px; }
-
-.guide {
-    position: absolute;
-    z-index: -1;
-    font-weight: bold;
-}
-hr.guide {
-    left: 4%;
-    width: 95%;
-}
-
-.time_1100 { top:  400px;  }
-.time_1130 { top:  500px;  }
-.time_1200 { top:  600px;  }
-.time_1245 { top:  750px;  }
-.time_1300 { top:  800px;  }
-.time_1400 { top: 1000px;  }
-.time_1500 { top: 1200px;  }
-.time_1600 { top: 1400px;  }
-.time_1645 { top: 1550px;  }
-.time_1700 { top: 1600px;  }
-.time_1715 { top: 1650px;  }
-.time_1730 { top: 1700px;  }
-.time_1800 { top: 1800px;  }
-.time_1815 { top: 1850px;  }
-.time_1830 { top: 1900px;  }
-.time_1900 { top: 2000px;  }
-.time_2000 { top: 2200px;  }
-.time_2030 { top: 2300px;  }
-.time_2100 { top: 2400px;  }
-.time_2115 { top: 2450px;  }
-.time_2145 { top: 2550px;  }
-.time_2200 { top: 2600px;  }
-.time_2245 { top: 2750px;  }
-.time_2300 { top: 2800px;  }
-.time_2330 { top: 2900px;  }
-.time_0000 { top: 3000px;  }
-.time_0015 { top: 3050px;  }
-.time_0100 { top: 3200px;  }
-.time_0200 { top: 3400px;  }
-
-.event-in-list:hover {
-    position: relative;
-    top: auto !important;
 }
 
 .event:hover,
@@ -242,27 +164,142 @@ hr.guide {
     background: grey;
 }
 
-.selected {
+.in-list .event:hover {
+    position: relative;
+    top: auto !important;
+}
+
+.event.selected {
     background: red !important;
 }
-.selected.friend {
-    background-image:
-        repeating-linear-gradient(
-          45deg,
-          purple,
-          purple 20px,
-          red 20px,
-          red 40px /* determines size */
-        ) !important;
-        color: white;
+
+/* Events in calendar view are very narrow */
+.in-calendar .event,
+.in-calendar .room-label,
+.in-calendar .grid {
+    position: absolute;
+    width:    18.75%;
 }
-.selected:hover,
-.friend:hover {
-    background: pink !important;
-    color: black;
+
+.in-calendar .room-label {
+    font-size: 2em;
 }
-.friend {
-    background: purple;
+
+.in-calendar.alldays .event,
+.in-calendar.alldays .room-label {
+    width:    5.8%;
+}
+
+.in-calendar.alldays .room-label {
+    font-size: 1em;
+}
+
+.in-calendar.alldays .grid {
+    width: 5%;
+}
+
+/* Events in calendar view are only visible if the have a date */
+.in-calendar.alldays .event.day_1, .in-calendar.onlyday1 .event.day_1,
+.in-calendar.alldays .event.day_2, .in-calendar.onlyday2 .event.day_2,
+.in-calendar.alldays .event.day_3, .in-calendar.onlyday3 .event.day_3,
+.in-calendar.alldays .event.day_4, .in-calendar.onlyday4 .event.day_4 {
+    display: block;
+    visibility: visible;
+}
+
+/* span a grid */
+.grid {
+    position: absolute;
+    text-align: center;
+    z-index: -1;
+    opacity: 0.25;
+}
+
+.grid.possible {
+    background: blue;
+}
+
+.wholeday {
+    position: absolute;
+    top: 350px;
+    width: 25%;
+    background-color: cyan;
+    opacity: 0.1;
+    z-position: -3;
+}
+
+.grid.over {
+    background-color: lime;
+}
+
+.room-label {
+    text-align: center;
+    font-size: 2em;
+    font-weight: bold;
+    top: 350px;
+}
+
+.views.vday4,.views.vlang {
+    margin-right: 3em;
+}
+
+.guide {
+    position: absolute;
+    z-index: -1;
+    font-weight: bold;
+}
+
+hr.guide {
+    left: 4%;
+    width: 95%;
+}
+
+.ende, .pause {
+    background-color: pink;
+    left: 0;
+    right: 0;
+    z-position: -1;
+}
+
+/* togglable view selectors */
+.absolute             .vhalf        { background: red; }
+.still-left           .vleft        { background: red; }
+.languages            .vlang        { background: red; }
+.in-list              .vlist        { background: red; }
+.size-large           .vlargeboxes  { background: red; }
+.size-medium          .vmediumboxes { background: red; }
+.size-small           .vsmallboxes  { background: red; }
+.in-calendar.alldays  .vdays        { background: red; }
+.in-calendar.onlyday1 .vday1        { background: red; }
+.in-calendar.onlyday2 .vday2        { background: red; }
+.in-calendar.onlyday3 .vday3        { background: red; }
+.in-calendar.onlyday4 .vday4        { background: red; }
+
+/* Rule for when stuff is hidden */
+.in-list .guide,
+.in-list .grid,
+.in-list .room-label,
+.in-calendar .track h2,
+.in-calendar .event:not(.day_1):not(.day_2):not(.day_3):not(.day_4),
+.in-list.still-left .day_1,
+.in-list.still-left .day_2,
+.in-list.still-left .day_3,
+.in-list.still-left .day_4,
+.onlyday1 .day_2, .onlyday1 .day_3, .onlyday1 .day_4,
+.onlyday2 .day_1, .onlyday2 .day_3, .onlyday2 .day_4,
+.onlyday3 .day_1, .onlyday3 .day_2, .onlyday3 .day_4,
+.onlyday4 .day_1, .onlyday4 .day_2, .onlyday4 .day_3,
+.onlyday1 .wholeday, .onlyday2 .wholeday, .onlyday3 .wholeday, .onlyday4 .wholeday {
+   visibility: hidden !important;
+   display: none !important;
+}
+
+/* Events in list that have a date set, will be marked */
+.in-list .event.day_1,
+.in-list .event.day_2,
+.in-list .event.day_3,
+.in-list .event.day_4 {
+    background-color: green;
     color: white;
 }
 
@@ -278,6 +315,11 @@ hr.guide {
     margin-bottom: 0.2em;
 }
 
+.abstract {
+    padding: 0 0.2em 0.2em 0.2em;
+    border-radius: 5px;
+}
+
 .event:hover .abstract,
 .event.highlighted .abstract
 .event:hover .speakers,
@@ -285,11 +327,59 @@ hr.guide {
     background: inherit;
 }
 
-.abstract {
-    padding: 0 0.2em 0.2em 0.2em;
-    border-radius: 5px;
+.selected:hover,
+.friend:hover {
+    background: pink !important;
+    color: black;
 }
 
+/* Halfnarp results */
+.event .absval {
+    display: none;
+}
+.absolute .event .absval {
+    visibility: visible !important;
+    display: block !important;
+    text-align: center;
+    font-size: 2em;
+    color: white;
+    background: transparent;
+    top: 0;
+    width: 100%;
+    font-weight: bold;
+}
+
+.languages .lang_de { background: magenta !important; }
+.languages .lang_en { background: blue    !important; }
+
+.in-calendar .class_2000.room6, .in-calendar .class_1000.room6, .in-calendar .class_500.room6,
+.in-calendar .class_2000.roomg, .in-calendar .class_1000.roomg,
+.in-calendar .class_2000.room2 {
+    background-image:
+        repeating-linear-gradient(
+          45deg,
+          #eee,
+          #eee 20px,
+          #ddd 20px,
+          #ddd 40px /* determines size */
+        );
+}
+
+/* Events in calendar where speakers are unavailable, will be marked */
+.in-calendar .unavailable {
+    background-image:
+        repeating-linear-gradient(
+          45deg,
+          black,
+          black 20px,
+          red 20px,
+          red 40px /* determines size */
+        ) !important;
+    color: white;
+}
+
+
+/* FAQ */
 dt {
     font-weight: bold;
 }
@@ -299,37 +389,283 @@ dl {
     margin: auto;
 }
 
+/* to quickly hide elements */
+
 .hidden {
     visibility: hidden !important;
     display: none !important;
 }
 
-.export-url {
-    float: left;
-    padding: 0.2em 0 0 0;
-    border-radius: 5px;
-    text-align: center;
-    background: lightblue;
-    width: 6em;
-    height: 2em;
+*[draggable=true] {
+  cursor: move;
 }
 
-#qrcode {
-    display: inline-block;
-    float: right;
+/* Boring lists */
 
-    margin: 0 0.8em 0.8em 0;
-    width:  14em;
-    height: 14em;
-}
+.absolute .class_2000 { background: #101010 !important; color: white !important; }
+.absolute .class_1000 { background: #404040 !important; color: white !important; }
+.absolute .class_500  { background: #707070 !important; color: white !important; }
+.absolute .class_200  { background: #a0a0a0 !important; }
+.absolute .class_100  { background: #c0c0c0 !important; }
 
-.limit#qrcode canvas {
-    width: 4em;
-    height: 4em;
-}
+/* for large view */
+.size-large .time_1100 { top:  400px; }
+.size-large .time_1115 { top:  450px; }
+.size-large .time_1130 { top:  500px; }
+.size-large .time_1145 { top:  550px; }
+.size-large .time_1200 { top:  600px; }
+.size-large .time_1215 { top:  650px; }
+.size-large .time_1230 { top:  700px; }
+.size-large .time_1245 { top:  750px; }
+.size-large .time_1300 { top:  800px; }
+.size-large .time_1315 { top:  850px; }
+.size-large .time_1330 { top:  900px; }
+.size-large .time_1345 { top:  950px; }
+.size-large .time_1400 { top: 1000px; }
+.size-large .time_1415 { top: 1050px; }
+.size-large .time_1430 { top: 1100px; }
+.size-large .time_1445 { top: 1150px; }
+.size-large .time_1500 { top: 1200px; }
+.size-large .time_1515 { top: 1250px; }
+.size-large .time_1530 { top: 1300px; }
+.size-large .time_1545 { top: 1350px; }
+.size-large .time_1600 { top: 1400px; }
+.size-large .time_1615 { top: 1450px; }
+.size-large .time_1630 { top: 1500px; }
+.size-large .time_1645 { top: 1550px; }
+.size-large .time_1700 { top: 1600px; }
+.size-large .time_1715 { top: 1650px; }
+.size-large .time_1730 { top: 1700px; }
+.size-large .time_1745 { top: 1750px; }
+.size-large .time_1800 { top: 1800px; }
+.size-large .time_1815 { top: 1850px; }
+.size-large .time_1830 { top: 1900px; }
+.size-large .time_1845 { top: 1950px; }
+.size-large .time_1900 { top: 2000px; }
+.size-large .time_1915 { top: 2050px; }
+.size-large .time_1930 { top: 2100px; }
+.size-large .time_1945 { top: 2150px; }
+.size-large .time_2000 { top: 2200px; }
+.size-large .time_2015 { top: 2250px; }
+.size-large .time_2030 { top: 2300px; }
+.size-large .time_2045 { top: 2350px; }
+.size-large .time_2100 { top: 2400px; }
+.size-large .time_2115 { top: 2450px; }
+.size-large .time_2130 { top: 2500px; }
+.size-large .time_2145 { top: 2550px; }
+.size-large .time_2200 { top: 2600px; }
+.size-large .time_2215 { top: 2650px; }
+.size-large .time_2230 { top: 2700px; }
+.size-large .time_2245 { top: 2750px; }
+.size-large .time_2300 { top: 2800px; }
+.size-large .time_2315 { top: 2850px; }
+.size-large .time_2330 { top: 2900px; }
+.size-large .time_2345 { top: 2950px; }
+.size-large .time_0000 { top: 3000px; }
+.size-large .time_0015 { top: 3050px; }
+.size-large .time_0030 { top: 3100px; }
+.size-large .time_0045 { top: 3150px; }
+.size-large .time_0100 { top: 3200px; }
+.size-large .time_0115 { top: 3250px; }
+.size-large .time_0130 { top: 3300px; }
+.size-large .time_0145 { top: 3350px; }
+.size-large .time_0200 { top: 3400px; }
 
-#qrcode:hover canvas,
-.selected#qrcode canvas {
-    width: 224px !important;
-    height: 224px !important;
-}
+/* for medium view */
+.size-medium .time_1100 { top:  400px; }
+.size-medium .time_1115 { top:  430px; }
+.size-medium .time_1130 { top:  460px; }
+.size-medium .time_1145 { top:  490px; }
+.size-medium .time_1200 { top:  520px; }
+.size-medium .time_1215 { top:  550px; }
+.size-medium .time_1230 { top:  580px; }
+.size-medium .time_1245 { top:  610px; }
+.size-medium .time_1300 { top:  640px; }
+.size-medium .time_1315 { top:  670px; }
+.size-medium .time_1330 { top:  700px; }
+.size-medium .time_1345 { top:  730px; }
+.size-medium .time_1400 { top:  760px; }
+.size-medium .time_1415 { top:  790px; }
+.size-medium .time_1430 { top:  820px; }
+.size-medium .time_1445 { top:  850px; }
+.size-medium .time_1500 { top:  880px; }
+.size-medium .time_1515 { top:  910px; }
+.size-medium .time_1530 { top:  940px; }
+.size-medium .time_1545 { top:  970px; }
+.size-medium .time_1600 { top: 1000px; }
+.size-medium .time_1615 { top: 1030px; }
+.size-medium .time_1630 { top: 1060px; }
+.size-medium .time_1645 { top: 1090px; }
+.size-medium .time_1700 { top: 1120px; }
+.size-medium .time_1715 { top: 1150px; }
+.size-medium .time_1730 { top: 1180px; }
+.size-medium .time_1745 { top: 1210px; }
+.size-medium .time_1800 { top: 1240px; }
+.size-medium .time_1815 { top: 1270px; }
+.size-medium .time_1830 { top: 1300px; }
+.size-medium .time_1845 { top: 1330px; }
+.size-medium .time_1900 { top: 1360px; }
+.size-medium .time_1915 { top: 1390px; }
+.size-medium .time_1930 { top: 1420px; }
+.size-medium .time_1945 { top: 1450px; }
+.size-medium .time_2000 { top: 1480px; }
+.size-medium .time_2015 { top: 1510px; }
+.size-medium .time_2030 { top: 1540px; }
+.size-medium .time_2045 { top: 1570px; }
+.size-medium .time_2100 { top: 1600px; }
+.size-medium .time_2115 { top: 1630px; }
+.size-medium .time_2130 { top: 1660px; }
+.size-medium .time_2145 { top: 1690px; }
+.size-medium .time_2200 { top: 1720px; }
+.size-medium .time_2215 { top: 1750px; }
+.size-medium .time_2230 { top: 1780px; }
+.size-medium .time_2245 { top: 1810px; }
+.size-medium .time_2300 { top: 1840px; }
+.size-medium .time_2315 { top: 1870px; }
+.size-medium .time_2330 { top: 1910px; }
+.size-medium .time_2345 { top: 1940px; }
+.size-medium .time_0000 { top: 1970px; }
+.size-medium .time_0015 { top: 2000px; }
+.size-medium .time_0030 { top: 2030px; }
+.size-medium .time_0045 { top: 2060px; }
+.size-medium .time_0100 { top: 2090px; }
+.size-medium .time_0115 { top: 2120px; }
+.size-medium .time_0130 { top: 2150px; }
+.size-medium .time_0145 { top: 2180px; }
+.size-medium .time_0200 { top: 2210px; }
+
+/* For small view */
+.size-small .time_1100 { top:  400px; }
+.size-small .time_1115 { top:  420px; }
+.size-small .time_1130 { top:  440px; }
+.size-small .time_1145 { top:  460px; }
+.size-small .time_1200 { top:  480px; }
+.size-small .time_1215 { top:  500px; }
+.size-small .time_1230 { top:  520px; }
+.size-small .time_1245 { top:  540px; }
+.size-small .time_1300 { top:  560px; }
+.size-small .time_1315 { top:  580px; }
+.size-small .time_1330 { top:  600px; }
+.size-small .time_1345 { top:  620px; }
+.size-small .time_1400 { top:  640px; }
+.size-small .time_1415 { top:  660px; }
+.size-small .time_1430 { top:  680px; }
+.size-small .time_1445 { top:  700px; }
+.size-small .time_1500 { top:  720px; }
+.size-small .time_1515 { top:  740px; }
+.size-small .time_1530 { top:  760px; }
+.size-small .time_1545 { top:  780px; }
+.size-small .time_1600 { top:  800px; }
+.size-small .time_1615 { top:  820px; }
+.size-small .time_1630 { top:  840px; }
+.size-small .time_1645 { top:  860px; }
+.size-small .time_1700 { top:  880px; }
+.size-small .time_1715 { top:  900px; }
+.size-small .time_1730 { top:  920px; }
+.size-small .time_1745 { top:  940px; }
+.size-small .time_1800 { top:  960px; }
+.size-small .time_1815 { top:  980px; }
+.size-small .time_1830 { top: 1000px; }
+.size-small .time_1845 { top: 1020px; }
+.size-small .time_1900 { top: 1040px; }
+.size-small .time_1915 { top: 1060px; }
+.size-small .time_1930 { top: 1080px; }
+.size-small .time_1945 { top: 1100px; }
+.size-small .time_2000 { top: 1120px; }
+.size-small .time_2015 { top: 1140px; }
+.size-small .time_2030 { top: 1160px; }
+.size-small .time_2045 { top: 1180px; }
+.size-small .time_2100 { top: 1200px; }
+.size-small .time_2115 { top: 1220px; }
+.size-small .time_2130 { top: 1240px; }
+.size-small .time_2145 { top: 1260px; }
+.size-small .time_2200 { top: 1280px; }
+.size-small .time_2215 { top: 1300px; }
+.size-small .time_2230 { top: 1320px; }
+.size-small .time_2245 { top: 1340px; }
+.size-small .time_2300 { top: 1360px; }
+.size-small .time_2315 { top: 1380px; }
+.size-small .time_2330 { top: 1400px; }
+.size-small .time_2345 { top: 1420px; }
+.size-small .time_0000 { top: 1440px; }
+.size-small .time_0015 { top: 1460px; }
+.size-small .time_0030 { top: 1480px; }
+.size-small .time_0045 { top: 1500px; }
+.size-small .time_0100 { top: 1520px; }
+.size-small .time_0115 { top: 1540px; }
+.size-small .time_0130 { top: 1560px; }
+.size-small .time_0145 { top: 1580px; }
+.size-small .time_0200 { top: 1600px; }
+
+.size-large .grid           { height: 50px; font-size: 1em; }
+.size-large .duration_900   { height:  45px  !important; }
+.size-large .duration_1800  { height:  95px  !important; }
+.size-large .duration_3600  { height: 195px  !important; }
+.size-large .duration_5400  { height: 295px  !important; }
+.size-large .duration_7200  { height: 395px  !important; }
+.size-large .duration_8100  { height: 445px  !important; }
+.size-large .duration_inf   { height: 1600px !important; }
+.size-large .wholeday       { height: 3550px; }
+.in-calendar.size-large .event { font-size: 0.8em; }
+
+.size-medium .grid          { height:  30px; font-size: 0.5em; }
+.size-medium .duration_900  { height:  27px  !important; }
+.size-medium .duration_1800 { height:  57px  !important; }
+.size-medium .duration_3600 { height: 117px  !important; }
+.size-medium .duration_5400 { height: 177px  !important; }
+.size-medium .duration_7200 { height: 237px  !important; }
+.size-medium .duration_8100 { height: 267px  !important; }
+.size-medium .duration_inf  { height: 960px !important; }
+.size-medium .wholeday      { height: 2150px; }
+.in-calendar.size-medium .event { font-size: 0.6em; }
+
+.size-small .grid           { height:  20px; font-size: 0.3em; }
+.size-small .duration_900   { height:  18px  !important; }
+.size-small .duration_1800  { height:  38px  !important; }
+.size-small .duration_3600  { height:  78px  !important; }
+.size-small .duration_5400  { height: 118px  !important; }
+.size-small .duration_7200  { height: 158px  !important; }
+.size-small .duration_8100  { height: 178px  !important; }
+.size-small .duration_inf   { height: 640px !important; }
+.size-small .wholeday       { height: 1450px; }
+.in-calendar.size-small .event { font-size: 0.4em; }
+
+/* Size boxes according to view preferences */
+.size-small.in-list  .event { width: 10em; }
+.size-medium.in-list .event { width: 17em; }
+.size-large.in-list  .event { width: 20em; }
+
+.halfnarp.size-small.in-list  .event { height: 10em !important; }
+.halfnarp.size-medium.in-list .event { height: 17em !important; }
+.halfnarp.size-large.in-list  .event { height: 20em !important; }
+
+.track_300 { border: 2px solid black;   } /* CCC */
+.track_301 { border: 2px solid green;   } /* Entertainment */
+.track_294 { border: 2px solid magenta; } /* ESP */
+.track_298 { border: 2px solid red;     } /* Security */
+.track_291 { border: 2px solid orange;  } /* A&C */
+.track_297 { border: 2px solid lime;    } /* Science */
+.track_295 { border: 2px solid cyan;    } /* Hardware */
+.track_299 { border: 2px solid yellow;  } /* Failosophy */
+
+.in-calendar .room1 { left:  5.00%; }
+.in-calendar .room2 { left: 28.75%; }
+.in-calendar .roomg { left: 52.50%; }
+.in-calendar .room6 { left: 76.25%  }
+
+.in-calendar.alldays .day_1.room1 { left:  1.17647058823529%; }
+.in-calendar.alldays .day_1.room2 { left:  7.35294117647058%; }
+.in-calendar.alldays .day_1.roomg { left: 13.52941176470587%; }
+.in-calendar.alldays .day_1.room6 { left: 19.70588235294116%; }
+.in-calendar.alldays .day_2.room1 { left: 25.88235294117645%; }
+.in-calendar.alldays .day_2.room2 { left: 32.05882352941174%; }
+.in-calendar.alldays .day_2.roomg { left: 38.23529411764703%; }
+.in-calendar.alldays .day_2.room6 { left: 44.41176470588232%; }
+.in-calendar.alldays .day_3.room1 { left: 50.58823529411761%; }
+.in-calendar.alldays .day_3.room2 { left: 56.76470588235290%; }
+.in-calendar.alldays .day_3.roomg { left: 62.94117647058819%; }
+.in-calendar.alldays .day_3.room6 { left: 69.11764705882348%; }
+.in-calendar.alldays .day_4.room1 { left: 75.29411764705877%; }
+.in-calendar.alldays .day_4.room2 { left: 81.47058823529406%; }
+.in-calendar.alldays .day_4.roomg { left: 87.64705882352935%; }
+.in-calendar.alldays .day_4.room6 { left: 93.82352941176464%; }
