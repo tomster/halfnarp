@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>fullnarp web scheduling helper app</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="jquery-1.11.1.min.js"></script>
+  <script src="jquery.qrcode.min.js"></script>
+  <script src="fullnarp.js"></script>
+  <script>
+  $( document ).ready(function() { do_the_fullnarp(); });
+  </script>
+</head>
+<body class="size-small in-list fullnarp">
+<div style="display:none">
+  <div id="template">
+    <div class="title"></div>
+    <div class="speakers"></div>
+    <div class="abstract"></div>
+  </div>
+</div>
+
+<div class="headline">The 32C3 fullnarp</div>
+<div class="header">
+<div class="leftbox">
+<input id="filter" type="text" placeholder="Filter events"/>
+<div class="view-choser">
+<div class="views vlist" title="Display all events sorted by track (Hotkey: L)">list</div>
+<div class="views vdays" title="Display all events in a 4-day-view (Hotkey: 0)">days</div>
+<div class="views vday1" title="Display all events on Day 1 (Hotkey: 1)">day 1</div>
+<div class="views vday2" title="Display all events on Day 2 (Hotkey: 2)">day 2</div>
+<div class="views vday3" title="Display all events on Day 3 (Hotkey: 3)">day 3</div>
+<div class="views vday4" title="Display all events on Day 4 (Hotkey: 4)">day 4</div>
+
+<div class="views vleft" title="Show only events not yet in calendar (Hotkey: U)">unset</div>
+<div class="views vhalf" title="Display halfnarp votes (Hotkey: H)">half</div>
+<div class="views vcorr" title="Calculate correlations for currently selected talk (Hotkey: C)">corr</div>
+<div class="views vlang" title="Color event by language (Hotkey: I)">lang</div>
+
+<div class="allboxes">
+<div class="vsmallboxes boxer">size</div><div class="vmediumboxes boxer">Size</div><div class="vlargeboxes boxer">SIZE</div>
+</div>
+</div>
+</div>
+</div>
+<div class="day_1 room-label room1">Saal 1</div><div class="day_1 room-label room2">Saal 2</div><div class="day_1 room-label roomg">Saal G</div><div class="day_1 room-label room6">Saal 6</div>
+<div class="day_2 room-label room1 ">Saal 1</div><div class="day_2 room-label room2 ">Saal 2</div><div class="day_2 room-label roomg ">Saal G</div><div class="day_2 room-label room6 ">Saal 6</div>
+<div class="day_3 room-label room1 ">Saal 1</div><div class="day_3 room-label room2 ">Saal 2</div><div class="day_3 room-label roomg ">Saal G</div><div class="day_3 room-label room6 ">Saal 6</div>
+<div class="day_4 room-label room1 ">Saal 1</div><div class="day_4 room-label room2 ">Saal 2</div><div class="day_4 room-label roomg ">Saal G</div><div class="day_4 room-label room6 ">Saal 6</div>
+
+<div class=" time_1500 duration_3600 guide pause "></div>
+<div class=" time_1930 duration_3600 guide pause "></div>
+<div class=" time_2030 duration_inf guide ende room1 day_4 "></div>
+
+<div class="wholeday room1 day_1 guide"></div>
+<div class="wholeday room1 day_3 guide"></div>
+
+<div class="track" id="300"><h2>CCC</h2><div id="qrcode" class="hidden"></div></div>
+<div class="track" id="291"><h2>Art &amp; Culture</h2></div>
+<div class="track" id="301"><h2>Entertainment</h2></div>
+<div class="track" id="294"><h2>Ethics, Society &amp; Politics</h2></div>
+<div class="track" id="295"><h2>Hardware &amp; Making</h2></div>
+<div class="track" id="297"><h2>Science</h2></div>
+<div class="track" id="298"><h2>Security</div>
+<div class="track" id="299"><h2>Failosophy</h2></div>
+
+</body>
+</html>
