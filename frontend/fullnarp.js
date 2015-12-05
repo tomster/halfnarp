@@ -166,6 +166,8 @@ function getFullnarpData(lastupdate) {
             });
             // set lastupdate
             window.lastupdate = response.current_version;
+            current_version_string = ('00000'+response.current_version).slice(-5);
+            $('.version').html('<a href="https://erdgeist.org/halfnarp/versions/fullnarp_'+current_version_string+'.json">Version: '+response.current_version+'</a>')
             // call again in 1 second
             setTimeout('getFullnarpData('+lastupdate+');', 1000);
         },
