@@ -210,10 +210,10 @@ function do_the_halfnarp() {
           }
 
           /* Fix up room for 32c3 */
-          room = (item.room_id || '').replace('room_359','room1').replace('room_360','room2').replace('room_361','roomg').replace('room_362','room6');
+          room = (item.room_id || '').toString().replace('359','room1').replace('360','room2').replace('361','roomg').replace('362','room6');
 
           /* Apply attributes to sort events into calendar */
-          t.addClass('small room_' + item.room_id + ' duration_' + item.duration + ' day_'+day + ' time_' + (hour<10?'0':'') + hour + '' + (mins<10?'0':'') + mins);
+          t.addClass(room + ' duration_' + item.duration + ' day_'+day + ' time_' + (hour<10?'0':'') + hour + '' + (mins<10?'0':'') + mins);
 
           t.click( function(event) {
             /* Transition for touch devices is highlighted => selected => highlighted ... */
