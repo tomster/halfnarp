@@ -234,6 +234,21 @@ body {
     z-position: -3;
 }
 
+.wholeblock {
+    position: absolute;
+    width: 25%;
+    background-color: yellow;
+    opacity: 0.4;
+    z-position: -3;
+}
+.in-calendar.onlyday1 .wholeblock,
+.in-calendar.onlyday2 .wholeblock,
+.in-calendar.onlyday3 .wholeblock,
+.in-calendar.onlyday4 .wholeblock
+{
+    width: 100%;
+}
+
 .grid.over {
     background-color: lime;
 }
@@ -269,22 +284,16 @@ hr.guide {
     z-position: -1;
 }
 
-.size-large .pause,
-.size-large .wholeday {
+.size-large .pause {
     font-size: 9em;
-    padding-bottom: 10px;
 }
 
-.size-medium .pause,
-.size-medium .wholeday {
+.size-medium .pause {
     font-size: 7em;
-    padding-bottom: 20px;
 }
 
-.size-small .pause,
-.size-small .wholeday {
-    font-size: 5em;
-    padding-bottom: 20px;
+.size-small .pause {
+    font-size: 4em;
 }
 
 /* togglable view selectors */
@@ -321,10 +330,10 @@ hr.guide {
 }
 
 /* Events in list that have a date set, will be marked */
-.in-list .event.day_1,
-.in-list .event.day_2,
-.in-list .event.day_3,
-.in-list .event.day_4 {
+.fullnarp.in-list .event.day_1,
+.fullnarp.in-list .event.day_2,
+.fullnarp.in-list .event.day_3,
+.fullnarp.in-list .event.day_4 {
     background-color: green;
     color: white;
 }
@@ -643,6 +652,7 @@ dl {
 .size-large .duration_7200  { height: 395px  !important; }
 .size-large .duration_8100  { height: 445px  !important; }
 .size-large .duration_inf   { height: 1600px !important; }
+.size-large .wholeblock     { height: 700px; }
 .size-large .wholeday       { height: 3550px; }
 .in-calendar.size-large .event { font-size: 0.8em; }
 
@@ -654,6 +664,7 @@ dl {
 .size-medium .duration_7200 { height: 237px  !important; }
 .size-medium .duration_8100 { height: 267px  !important; }
 .size-medium .duration_inf  { height: 960px !important; }
+.size-medium .wholeblock    { height: 420px; }
 .size-medium .wholeday      { height: 2150px; }
 .in-calendar.size-medium .event { font-size: 0.6em; }
 
@@ -665,6 +676,7 @@ dl {
 .size-small .duration_7200  { height: 158px  !important; }
 .size-small .duration_8100  { height: 178px  !important; }
 .size-small .duration_inf   { height: 640px !important; }
+.size-small .wholeblock    { height: 280px; }
 .size-small .wholeday       { height: 1450px; }
 .in-calendar.size-small .event { font-size: 0.4em; }
 
