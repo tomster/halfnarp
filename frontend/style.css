@@ -443,6 +443,15 @@ dl {
     display: none !important;
 }
 
+#qrcode {
+    display: inline-block;
+    float: right;
+
+    margin: 0 0.8em 0.8em 0;
+    width:  14em;
+    height: 14em;
+}
+
 *[draggable=true] {
   cursor: move;
 }
