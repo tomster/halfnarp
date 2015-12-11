@@ -67,6 +67,12 @@ function mark_avail(el) {
   $(el).toggleClass('unavailable', !check_avail(el, $(el).attr('fullnarp-day'), $(el).attr('fullnarp-time')));
 }
 
+function time_to_mins(time) {
+  var hour_mins = /(\d\d)(\d\d)/.exec(time);
+  if( hour_mins[1] < 11 ) { hour_mins[1] = 24 + hour_mins[1]; }
+  return 60 * hour_mins[1] + 1 * hour_mins[2];
+}
+
 function check_avail(el, day, time ) {
   var all_available = true;
 
@@ -123,6 +129,30 @@ function check_avail(el, day, time ) {
   return all_available;
 }
 
+/* Needs to be done for each moved and all previously conflicting events */
+function mark_conflict(el) {
+  var event_start = time_to_mins($(el).attr('fullnarp-time'));
+  var event_duration = $(el).attr('fullnarp-duration') / 60;
+
+  var conflict = false;
+
+  /* We do only need to check events in the same room at the same day for conflicts */
+  $('.event.day_'+$(el).attr('fullnarp-day')+'.room'+$(el).attr('fullnarp-room')).each(function(index,check_el) {
+
+    if( $(el).attr('event_id') == $(check_el).attr('event_id') ) { return true; }
+
+    var check_start = time_to_mins($(check_el).attr('fullnarp-time'));
+    var check_duration = $(check_el).attr('fullnarp-duration') / 60;
+
+    if( check_start < event_start + event_duration &&
+        event_start < check_start + check_duration ) {
+        $(check_el).addClass('conflict');
+        conflict = true;
+    }
+  });
+  $(el).toggleClass('conflict', conflict );
+}
+
 /* provide time OR hour + minute, time overrides */
 function set_all_attributes(event_id, day, room, time, from_server) {
     var el = $('#'+event_id);
@@ -143,6 +173,10 @@ function set_all_attributes(event_id, day, room, time, from_server) {
            })
         }
 
+    /* When moving an element, conflict may have been resolved ... */
+    $('.conflict').each(function(index,check) { mark_conflict(check); });
+    /* ... or introduced */
+    mark_conflict(el);
     mark_avail(el);
 }
 

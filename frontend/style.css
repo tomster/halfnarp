@@ -269,17 +269,20 @@ hr.guide {
     z-position: -1;
 }
 
-.size-large .pause {
+.size-large .pause,
+.size-large .wholeday {
     font-size: 9em;
     padding-bottom: 10px;
 }
 
-.size-medium .pause {
+.size-medium .pause,
+.size-medium .wholeday {
     font-size: 7em;
     padding-bottom: 20px;
 }
 
-.size-small .pause {
+.size-small .pause,
+.size-small .wholeday {
     font-size: 5em;
     padding-bottom: 20px;
 }
@@ -401,6 +404,18 @@ hr.guide {
     color: white;
 }
 
+/* Events in calendar where speakers are unavailable, will be marked */
+.in-calendar .conflict {
+    background-image:
+        repeating-linear-gradient(
+          45deg,
+          black,
+          black 20px,
+          yellow 20px,
+          yellow 40px /* determines size */
+        ) !important;
+    color: red;
+}
 
 /* FAQ */
 dt {
