@@ -1,21 +1,20 @@
-function toggle_grid(isList) {
-    $('.room-label').toggleClass('hidden', isList );
-    $('.track h2').toggleClass('hidden', !isList );
-    $('.event').toggleClass('event-in-list', isList );
-    $('.event').toggleClass('event-in-calendar', !isList );
-    $('.event').toggleClass('hidden', !isList );
-    $('.guide').toggleClass('hidden', isList );
-    $('#qrcode').toggleClass('limit', !isList );
+function toggle_grid(whichDay) {
+  var vclasses= ['in-list', 'in-calendar onlyday1', 'in-calendar onlyday2', 'in-calendar onlyday3',
+                 'in-calendar onlyday4', 'in-calendar alldays'];
+  $('body').removeClass('alldays onlyday1 onlyday2 onlyday3 onlyday4 in-list in-calendar');
+  if( whichDay < 0 || whichDay > 5 ) return;
+  $('body').addClass(vclasses[whichDay]);
+  $('#qrcode').toggleClass('limit', whichDay == 0 );
 }
 
-
 function do_the_halfnarp() {
-  var halfnarpAPI     = 'talks_32c3.json';
-  // var halfnarpAPI     = '/-/talkpreferences';
+  // var halfnarpAPI     = 'talks_32c3.json';
+  var halfnarpAPI     = '/-/talkpreferences';
   var halfnarpPubAPI  = halfnarpAPI + '/public/';
   var isTouch = (('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0));
   window.all_events = new Object();
   var myuid, mypid, newfriend = new Object();
+  var allhours        = ['11','12','13','14','15','16','17','18','19','20','21','22','23','00','01'];
 
   /* Add poor man's type ahead filtering */
   $.extend($.expr[':'], {
@@ -119,22 +118,22 @@ function do_the_halfnarp() {
   });
 
   /* Add click handlers for event div sizers */
-  $('.smallboxes').click( function() {
+  $('.vsmallboxes').click( function() {
     $('#qrcode').css( 'margin-bottom', '0' );
-    $('.event').removeClass('medium large');
-    $('.event').addClass('small');
+    $('body').removeClass('size-medium size-large');
+    $('body').addClass('size-small');
   });
 
-  $('.mediumboxes').click( function() {
+  $('.vmediumboxes').click( function() {
     $('#qrcode').css( 'margin-bottom', '62px' );
-    $('.event').removeClass('small large');
-    $('.event').addClass('medium');
+    $('body').removeClass('size-small size-large');
+    $('body').addClass('size-medium');
   });
 
-  $('.largeboxes').click( function() {
+  $('.vlargeboxes').click( function() {
     $('#qrcode').css( 'margin-bottom', '124px' );
-    $('.event').removeClass('small medium');
-    $('.event').addClass('large');
+    $('body').removeClass('size-small size-medium');
+    $('body').addClass('size-large');
   });
 
   /* Add de-highlighter on touch interface devices */
@@ -145,36 +144,25 @@ function do_the_halfnarp() {
   }
 
   /* Add callbacks for view selector */
-  $('.list').click( function() {
-    toggle_grid(true);
-  });
-  $('.day1').click( function() {
-    toggle_grid(false);
-    $('.day_1').removeClass('hidden');
-  });
-  $('.day2').click( function() {
-    toggle_grid(false);
-    $('.day_2').removeClass('hidden');
-  });
-  $('.day3').click( function() {
-    toggle_grid(false);
-    $('.day_3').removeClass('hidden');
-  });
-  $('.day4').click( function() {
-    toggle_grid(false);
-    $('.day_4').removeClass('hidden');
-  });
+  $('.vlist').click( function() { toggle_grid(0);  });
+  $('.vday1').click( function() { toggle_grid(1); });
+  $('.vday2').click( function() { toggle_grid(2); });
+  $('.vday3').click( function() { toggle_grid(3); });
+  $('.vday4').click( function() { toggle_grid(4); });
+  $('.vdays').click( function() { toggle_grid(5); });
+
+  $('.vlang').click( function() { $('body').toggleClass('languages'); });
 
   /* Create hour guides */
-  for( var i = 11; i<26; ++i ) {
+  $(allhours).each(function(i,hour) {
     var elem = document.createElement('hr');
-    $(elem).addClass('guide time_' + (i>23?'0':'') + i%24 + '00');
+    $(elem).addClass('guide time_' + hour + '00');
     $('body').append(elem);
     elem = document.createElement('div');
-    $(elem).text((i>23?'0':'') + i%24 + '00');
-    $(elem).addClass('guide time_' + (i>23?'0':'') + i%24 + '00');
+    $(elem).text(hour + '00');
+    $(elem).addClass('guide time_' + hour + '00');
     $('body').append(elem);
-  }
+  });
 
   /* If we've been here before, try to get local preferences. They are authoratative */
   var selection = [], friends = { 'foo': undefined };
@@ -186,9 +174,6 @@ function do_the_halfnarp() {
   } catch(err) {
   }
 
-  /* Initially display as list */
-  toggle_grid(true);
-
   /* Fetch list of lectures to display */
   $.getJSON( halfnarpAPI, { format: 'json' })
     .done(function( data ) {
@@ -199,6 +184,8 @@ function do_the_halfnarp() {
           /* Take copy of hidden event template div and select them, if they're in
              list of previous prereferences */
           var t = $( '#template' ).clone(true);
+          var event_id = item.event_id.toString();
+          t.addClass('event');
           t.attr('event_id', item.event_id.toString());
           t.attr('id', 'event_' + item.event_id.toString());
           if( selection && selection.indexOf(item.event_id) != -1 ) {
@@ -221,8 +208,12 @@ function do_the_halfnarp() {
           if( hour < 10 ) {
             day--;
           }
+
+          /* Fix up room for 32c3 */
+          room = (item.room_id || '').toString().replace('359','room1').replace('360','room2').replace('361','roomg').replace('362','room6');
+
           /* Apply attributes to sort events into calendar */
-          t.addClass('small room_' + item.room_id + ' duration_' + item.duration + ' day_'+day + ' time_' + (hour<10?'0':'') + hour + '' + (mins<10?'0':'') + mins);
+          t.addClass(room + ' duration_' + item.duration + ' day_'+day + ' time_' + (hour<10?'0':'') + hour + '' + (mins<10?'0':'') + mins);
 
           t.click( function(event) {
             /* Transition for touch devices is highlighted => selected => highlighted ... */
@@ -241,7 +232,9 @@ function do_the_halfnarp() {
             event.stopPropagation();
           });
           /* Put new event into DOM tree. Track defaults to 'Other' */
-          var d = $( '#' + item.track_id.toString() );
+          var track = item.track_id.toString();
+          var d = $( '#' + track );
+          t.addClass('track_' + track );
           if( !d.length ) {
             d = $( '#Other' );
           }
@@ -252,9 +245,6 @@ function do_the_halfnarp() {
             });
           }
       });
-
-      /* Initially display as list */
-      toggle_grid(true);
 
       /* Check for a new friends public uid in location's #hash */
       var shared = window.location.hash;
@@ -285,5 +275,23 @@ function do_the_halfnarp() {
           });
       }
       */
+    });
+    $(document).keypress(function(e) {
+      if( $(document.activeElement).is('input') || $(document.activeElement).is('textarea') )
+        return;
+      switch( e.keyCode ) {
+        case 48: case 94: /* 0 */
+          toggle_grid(5);
+          break;
+        case 49: case 50: case 51: case 52: /* 1-4 */
+          toggle_grid(e.keyCode-48);
+          break;
+        case 76: case 108: /* l */
+          toggle_grid(0);
+          break;
+        case 68: case 100: /* d */
+          toggle_grid(5);
+          break;
+      }
     });
 }

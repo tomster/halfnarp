@@ -2,16 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>halfnarp web scheduling helper app</title>
+  <title>fullnarp web scheduling helper app</title>
   <link rel="stylesheet" href="style.css">
   <script src="jquery-1.11.1.min.js"></script>
   <script src="jquery.qrcode.min.js"></script>
-  <script src="halfnarp.js"></script>
+  <script src="fullnarp.js"></script>
   <script>
-  $( document ).ready(function() { do_the_halfnarp(); });
+  $( document ).ready(function() { do_the_fullnarp(); });
   </script>
 </head>
-<body class="size-small in-list halfnarp">
+<body class="size-small in-list fullnarp">
 <div style="display:none">
   <div id="template">
     <div class="title"></div>
@@ -19,14 +19,9 @@
     <div class="abstract"></div>
   </div>
 </div>
-
-<div class="headline">The 32C3 halfnarp</div>
+<div class="version">version</div>
+<div class="headline">The 32C3 fullnarp</div>
 <div class="header">
-<div class="rightbox">
-<div title="store your choices locally and – if possible – send them to the server" class="submit">submit</div>
-<div class="info hidden"><span></span></div>
-<div class="explainer"><span><ul><li>Help us to reduce conflicts of scheduling 32C3's Fahrplan.</li><li>Click on the talks you likely would like to watch.</li><li>Press submit.</li><li>Repeat as necessary.</li><li>Read <a href="faq.html">the FAQ</a> and <a href="http://events.ccc.de/2014/11/25/lets-do-the-halfnarp/">our blogpost</a> for details.</li><li>Report problems to <a href="mailto:erdgeist@ccc.de">erdgeist@ccc.de</a>.</ul></span></div>
-</div>
 <div class="leftbox">
 <input id="filter" type="text" placeholder="Filter events"/>
 <div class="view-choser">
@@ -37,11 +32,14 @@
 <div class="views vday3" title="Display all events on Day 3 (Hotkey: 3)">day 3</div>
 <div class="views vday4" title="Display all events on Day 4 (Hotkey: 4)">day 4</div>
 
-<!--div class="views vlang" title="Color event by language (Hotkey: I)">lang</div-->
+<div class="views vleft" title="Show only events not yet in calendar (Hotkey: U)">unset</div>
+<div class="views vhalf" title="Display halfnarp votes (Hotkey: H)">half</div>
+<div class="views vcorr" title="Calculate correlations for currently selected talk (Hotkey: C)">corr</div>
+<div class="views vlang" title="Color event by language (Hotkey: I)">lang</div>
 
 <div class="allboxes">
 <div class="vsmallboxes boxer">size</div><div class="vmediumboxes boxer">Size</div><div class="vlargeboxes boxer">SIZE</div>
-<a class="export-url-a" download="32C3.ics" type="text/calendar" href="#"><div class="export-url hidden">32C3.ics</div></a>
+</div>
 </div>
 </div>
 </div>
@@ -52,6 +50,10 @@
 
 <div class=" time_1500 duration_3600 guide pause ">P A U S E</div>
 <div class=" time_1930 duration_3600 guide pause ">P A U S E</div>
+<div class=" time_1600 wholeblock room1 guide day_2"></div>
+<div class=" time_2030 wholeblock room1 guide day_3"></div>
+<div class=" time_1130 wholeblock room1 guide day_4"></div>
+
 <div class=" time_2030 duration_inf guide ende room1 day_4 "></div>
 
 <div class="wholeday room1 day_1 guide"></div>
