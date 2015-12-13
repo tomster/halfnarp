@@ -342,24 +342,18 @@ hr.guide {
     font-weight: bold;
     font-size: 1.1em;
     padding: 0.2em 0.2em 0 0.2em;
+    background: inherit;
 }
 
 .speakers {
     font-style: italic;
-    padding: 0 0.2em 0.2em 0.4em;
+    padding: 0.2em 0.2em 0.2em 0.4em;
+    background: inherit;
 }
 
 .abstract {
     padding: 0 0.2em 0.2em 0.2em;
     border-radius: 0 0 5px 5px;
-}
-
-.event:hover .abstract,
-.event.highlighted .abstract,
-.event:hover .speakers,
-.event.highlighted .speakers,
-.event:hover .title,
-.event.highlighted .title {
     background: inherit;
 }
 
