@@ -119,19 +119,16 @@ function do_the_halfnarp() {
 
   /* Add click handlers for event div sizers */
   $('.vsmallboxes').click( function() {
-    $('#qrcode').css( 'margin-bottom', '0' );
     $('body').removeClass('size-medium size-large');
     $('body').addClass('size-small');
   });
 
   $('.vmediumboxes').click( function() {
-    $('#qrcode').css( 'margin-bottom', '62px' );
     $('body').removeClass('size-small size-large');
     $('body').addClass('size-medium');
   });
 
   $('.vlargeboxes').click( function() {
-    $('#qrcode').css( 'margin-bottom', '124px' );
     $('body').removeClass('size-small size-medium');
     $('body').addClass('size-large');
   });

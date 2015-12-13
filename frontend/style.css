@@ -694,6 +694,10 @@ dl {
 .size-medium.in-list .event { width: 17em; }
 .size-large.in-list  .event { width: 20em; }
 
+.size-small.in-list  #qrcode { margin-bottom: 0px; }
+.size-medium.in-list #qrcode { margin-bottom: 62px; }
+.size-large.in-list  #qrcode { margin-bottom: 124px; }
+
 .halfnarp.size-small.in-list  .event { height: 10em !important; }
 .halfnarp.size-medium.in-list .event { height: 17em !important; }
 .halfnarp.size-large.in-list  .event { height: 20em !important; }
