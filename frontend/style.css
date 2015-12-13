@@ -346,19 +346,20 @@ hr.guide {
 
 .speakers {
     font-style: italic;
-    padding: 0 0.2em 0 0.4em;
-    margin-bottom: 0.2em;
+    padding: 0 0.2em 0.2em 0.4em;
 }
 
 .abstract {
     padding: 0 0.2em 0.2em 0.2em;
-    border-radius: 5px;
+    border-radius: 0 0 5px 5px;
 }
 
 .event:hover .abstract,
-.event.highlighted .abstract
+.event.highlighted .abstract,
 .event:hover .speakers,
-.event.highlighted .speakers {
+.event.highlighted .speakers,
+.event:hover .title,
+.event.highlighted .title {
     background: inherit;
 }
 
@@ -663,7 +664,7 @@ dl {
 .size-large .duration_inf   { height: 1600px !important; }
 .size-large .wholeblock     { height: 700px; }
 .size-large .wholeday       { height: 3550px; }
-.in-calendar.size-large .event { font-size: 0.8em; }
+.in-calendar.size-large.alldays .event { font-size: 0.8em; }
 
 .size-medium .grid          { height:  30px; font-size: 0.5em; }
 .size-medium .duration_900  { height:  27px  !important; }
@@ -675,7 +676,8 @@ dl {
 .size-medium .duration_inf  { height: 960px !important; }
 .size-medium .wholeblock    { height: 420px; }
 .size-medium .wholeday      { height: 2150px; }
-.in-calendar.size-medium .event { font-size: 0.6em; }
+.in-calendar.size-medium.alldays .event { font-size: 0.6em; }
+.in-calendar.size-medium         .event { font-size: 0.9em; }
 
 .size-small .grid           { height:  20px; font-size: 0.3em; }
 .size-small .duration_900   { height:  18px  !important; }
@@ -685,9 +687,10 @@ dl {
 .size-small .duration_7200  { height: 158px  !important; }
 .size-small .duration_8100  { height: 178px  !important; }
 .size-small .duration_inf   { height: 640px !important; }
-.size-small .wholeblock    { height: 280px; }
+.size-small .wholeblock     { height: 280px; }
 .size-small .wholeday       { height: 1450px; }
-.in-calendar.size-small .event { font-size: 0.4em; }
+.in-calendar.size-small.alldays .event { font-size: 0.4em; }
+.in-calendar.size-small         .event { font-size: 0.8em; }
 
 /* Size boxes according to view preferences */
 .size-small.in-list  .event { width: 10em; }
