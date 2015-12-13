@@ -103,7 +103,7 @@ function do_the_halfnarp() {
     });
     calendar += 'END:VCALENDAR\r\n';
     $('.export-url-a').attr( 'href', "data:text/calendar;filename=32C3.ics," + encodeURIComponent(calendar) );
-    /* $('.export-url').removeClass( 'hidden' ); */
+    $('.export-url').removeClass( 'hidden' );
   });
 
   /* Add handler for type ahead search input field */
