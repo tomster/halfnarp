@@ -699,14 +699,14 @@ dl {
 .halfnarp.size-medium.in-list .event { height: 17em !important; }
 .halfnarp.size-large.in-list  .event { height: 20em !important; }
 
-.track_300 { border: 2px solid black;   } /* CCC */
-.track_301 { border: 2px solid green;   } /* Entertainment */
-.track_294 { border: 2px solid magenta; } /* ESP */
-.track_298 { border: 2px solid red;     } /* Security */
-.track_291 { border: 2px solid orange;  } /* A&C */
-.track_297 { border: 2px solid lime;    } /* Science */
-.track_295 { border: 2px solid cyan;    } /* Hardware */
-.track_299 { border: 2px solid yellow;  } /* Failosophy */
+.track_300 { border: 2px solid #45b964; } /* CCC */
+.track_301 { border: 2px solid #45b964; } /* Entertainment */
+.track_294 { border: 2px solid #b550bd; } /* ESP */
+.track_298 { border: 2px solid #5057af; } /* Security */
+.track_291 { border: 2px solid #b99745; } /* A&C */
+.track_297 { border: 2px solid #45b9b3; } /* Science */
+.track_295 { border: 2px solid #a8563f; } /* Hardware */
+.track_299 { border: 2px solid #c0ba59; } /* Failosophy */
 
 .in-calendar .room1 { left:  5.00%; }
 .in-calendar .room2 { left: 28.75%; }
