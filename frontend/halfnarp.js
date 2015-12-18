@@ -95,8 +95,8 @@ function do_the_halfnarp() {
       calendar += 'DURATION:PT' + item.duration + 'S\r\n';
       calendar += 'LOCATION:' + item.room_name + '\r\n';
       calendar += 'URL:http://events.ccc.de/congress/2015/Fahrplan/events/' + item.event_id + '.html\r\n';
-      calendar += 'DESCRIPTION:' + item.title + '\r\n';
-      calendar += 'SUMMARY:' + item.abstract.replace(/\n|\r/g, '') + '\r\n';
+      calendar += 'SUMMARY:' + item.title + '\r\n';
+      calendar += 'DESCRIPTION:' + item.abstract.replace(/\n|\r/g, '') + '\r\n';
       console.log( 'id:' + id + ' ' + all_events[id] );
       console.log( all_events[id].title );
       calendar += 'END:VEVENT\r\n';
