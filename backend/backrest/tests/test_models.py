@@ -38,6 +38,4 @@ def test_talk_preference_has_hashed_uid(talk_preference):
 
 def test_get_talk_by_hashed_uid(models, talk_preference):
     from sqlalchemy import func
-    assert models.TalkPreference.query.filter(
-        func.encode(func.digest(func.text(models.TalkPreference.uid), 'sha256'), 'hex')
-        == talk_preference.hashed_uid).one() == talk_preference
+    assert models.TalkPreference.query.filter(func.encode(func.digest(func.text(models.TalkPreference.uid), 'sha256'), 'hex') == talk_preference.hashed_uid).one() == talk_preference

@@ -3,6 +3,7 @@ from pyramid.paster import get_app
 import requests
 from lxml import etree
 
+
 def fetch_talks(**kw):
     parser = ArgumentParser(description='Fetch talks from frab')
     parser.add_argument('-c', '--config', type=str, help='app configuration',
@@ -11,8 +12,8 @@ def fetch_talks(**kw):
     settings = get_app(args['config']).registry.settings
     sess = requests.Session()
     new_session_page = sess.get(settings['talks_new_session_url'])
-    tree = etree.HTML( new_session_page.text )
-    auth_token = tree.xpath( "//meta[@name='csrf-token']" )[0].get("content")
+    tree = etree.HTML(new_session_page.text)
+    auth_token = tree.xpath("//meta[@name='csrf-token']")[0].get("content")
     login_data = dict()
     login_data['user[email]'] = settings['talks_user']
     login_data['user[password]'] = settings['talks_password']
