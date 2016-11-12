@@ -8,8 +8,8 @@ function toggle_grid(whichDay) {
 }
 
 function do_the_halfnarp() {
-  // var halfnarpAPI     = 'talks_32c3.json';
-  var halfnarpAPI     = '/-/talkpreferences';
+  var halfnarpAPI     = 'talks_33C3.json';
+  // var halfnarpAPI     = '/-/talkpreferences';
   var halfnarpPubAPI  = halfnarpAPI + '/public/';
   var isTouch = (('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0));
   window.all_events = new Object();
@@ -34,8 +34,8 @@ function do_the_halfnarp() {
         return parseInt($(this).attr('event_id'));
       }).get();
     try {
-      localStorage['32C3-halfnarp'] = ids;
-      myapi = localStorage['32C3-halfnarp-api'];
+      localStorage['33C3-halfnarp'] = ids;
+      myapi = localStorage['33C3-halfnarp-api'];
     } catch(err) {
       alert('Storing your choices locally is forbidden.');
     }
@@ -48,9 +48,9 @@ function do_the_halfnarp() {
         $('.info span').text('submitted');
         $('.info').removeClass('hidden');
         try {
-          localStorage['32C3-halfnarp-api'] = data['update_url'];
-          localStorage['32C3-halfnarp-pid'] = mypid = data['hashed_uid'];
-          localStorage['32C3-halfnarp-uid'] = myuid = data['uid'];
+          localStorage['33C3-halfnarp-api'] = data['update_url'];
+          localStorage['33C3-halfnarp-pid'] = mypid = data['hashed_uid'];
+          localStorage['33C3-halfnarp-uid'] = myuid = data['uid'];
           window.location.hash = mypid;
         } catch(err) {}
       }, 'json' ).fail(function() {
@@ -65,9 +65,9 @@ function do_the_halfnarp() {
         data: request,
         dataType: 'json',
       }).done(function(data) {
-        localStorage['32C3-halfnarp-uid'] = myuid = data['uid'];
-        if( localStorage['32C3-halfnarp-pid'] ) {
-            window.location.hash = localStorage['32C3-halfnarp-pid'];
+        localStorage['33C3-halfnarp-uid'] = myuid = data['uid'];
+        if( localStorage['33C3-halfnarp-pid'] ) {
+            window.location.hash = localStorage['33C3-halfnarp-pid'];
         }
         $('.info span').text('updated');
         $('.info').removeClass('hidden');
@@ -94,7 +94,7 @@ function do_the_halfnarp() {
       calendar += 'DTSTART:' + start.toISOString().replace(/-|;|:|\./g, '').replace(/...Z$/, 'Z') + '\r\n';
       calendar += 'DURATION:PT' + item.duration + 'S\r\n';
       calendar += 'LOCATION:' + item.room_name + '\r\n';
-      calendar += 'URL:http://events.ccc.de/congress/2015/Fahrplan/events/' + item.event_id + '.html\r\n';
+      calendar += 'URL:http://events.ccc.de/congress/2016/Fahrplan/events/' + item.event_id + '.html\r\n';
       calendar += 'SUMMARY:' + item.title + '\r\n';
       calendar += 'DESCRIPTION:' + item.abstract.replace(/\n|\r/g, ' ') + '\r\n';
       console.log( 'id:' + id + ' ' + all_events[id] );
@@ -102,7 +102,7 @@ function do_the_halfnarp() {
       calendar += 'END:VEVENT\r\n';
     });
     calendar += 'END:VCALENDAR\r\n';
-    $('.export-url-a').attr( 'href', "data:text/calendar;filename=32C3.ics," + encodeURIComponent(calendar) );
+    $('.export-url-a').attr( 'href', "data:text/calendar;filename=33C3.ics," + encodeURIComponent(calendar) );
     $('.export-url').removeClass( 'hidden' );
   });
 
@@ -164,10 +164,10 @@ function do_the_halfnarp() {
   /* If we've been here before, try to get local preferences. They are authoratative */
   var selection = [], friends = { 'foo': undefined };
   try {
-    selection = localStorage['32C3-halfnarp'] || [];
-    friends   = localStorage['32C3-halfnarp-friends'] || { 'foo': undefined };
-    myuid     = localStorage['32C3-halfnarp-uid'] || '';
-    mypid     = localStorage['32C3-halfnarp-pid'] || '';
+    selection = localStorage['33C3-halfnarp'] || [];
+    friends   = localStorage['33C3-halfnarp-friends'] || { 'foo': undefined };
+    myuid     = localStorage['33C3-halfnarp-uid'] || '';
+    mypid     = localStorage['33C3-halfnarp-pid'] || '';
   } catch(err) {
   }
 
@@ -185,13 +185,13 @@ function do_the_halfnarp() {
           t.addClass('event');
           t.attr('event_id', item.event_id.toString());
           t.attr('id', 'event_' + item.event_id.toString());
-          if( selection && selection.indexOf(item.event_id) != -1 ) {
+          if( selection && selection.indexOf(item.id) != -1 ) {
             t.addClass( 'selected' );
           }
 
           /* Sort textual info into event div */
           t.find('.title').text(item.title);
-          t.find('.speakers').text(item.speakers);
+          t.find('.speakers').text(item.speaker_names);
           t.find('.abstract').append(item.abstract);
 
           /* start_time: 2014-12-29T21:15:00+01:00" */
@@ -206,7 +206,7 @@ function do_the_halfnarp() {
             day--;
           }
 
-          /* Fix up room for 32c3 */
+          /* Fix up room for 33c3 */
           room = (item.room_id || '').toString().replace('359','room1').replace('360','room2').replace('361','roomg').replace('362','room6');
 
           /* Apply attributes to sort events into calendar */
@@ -229,7 +229,11 @@ function do_the_halfnarp() {
             event.stopPropagation();
           });
           /* Put new event into DOM tree. Track defaults to 'Other' */
-          var track = item.track_id.toString();
+          try {
+            var track = item.track_id.toString();
+          } catch(e) {
+            var track = "Other";
+          }
           var d = $( '#' + track );
           t.addClass('track_' + track );
           if( !d.length ) {
@@ -267,7 +271,7 @@ function do_the_halfnarp() {
         $.getJSON( halfnarpPubAPI + friends.pid, { format: 'json' })
           .done(function( data ) {
             friend.prefs = data.talk_ids;
-            localStorage['32C3-halfnarp-friends'] = friends;
+            localStorage['33C3-halfnarp-friends'] = friends;
             update_friends();
           });
       }

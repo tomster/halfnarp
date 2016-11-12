@@ -329,6 +329,21 @@ hr.guide {
    display: none !important;
 }
 
+.in-calendar.alldays  .event.workshop,
+.in-calendar.onlyday1 .event.workshop,
+.in-calendar.onlyday2 .event.workshop,
+.in-calendar.onlyday3 .event.workshop,
+.in-calendar.onlyday4 .event.workshop,
+.in-calendar.alldays  .workshop.room-label,
+.in-calendar.onlyday1 .workshop.room-label,
+.in-calendar.onlyday2 .workshop.room-label,
+.in-calendar.onlyday3 .workshop.room-label,
+.in-calendar.onlyday4 .workshop.room-label
+ {
+  visibility: hidden;
+  display: none;
+}
+
 /* Events in list that have a date set, will be marked */
 .fullnarp.in-list .event.day_1,
 .fullnarp.in-list .event.day_2,
