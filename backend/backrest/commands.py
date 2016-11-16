@@ -29,7 +29,7 @@ def fetch_talks(**kw):
             talks_full += chunk
     talks_full = json.loads(talks_full)
     talks_filtered = [{ key: x[key] for key in [ 'event_id', 'track_id', 'room_id', 'duration', 'start_time', 'title', 'abstract', 'language', 'speaker_names', 'language' ] } for x in talks_full ]
-    with open(settings['talks_local', 'wb'] as fd:
+    with open(settings['talks_local', 'wb']) as fd:
         json.dump(talks_filtered, fd)
 
 def export_talk_preferences(**kw):
