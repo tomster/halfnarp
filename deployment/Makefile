@@ -11,6 +11,7 @@ bin/python bin/pip:
 	virtualenv --clear .
 
 clean:
-        git clean -fXd
+	git clean -fXd
+	rm -rf include lib bin
 
 .PHONY: clean
