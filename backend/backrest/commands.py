@@ -20,10 +20,15 @@ def fetch_talks(**kw):
     login_data['authenticity_token'] = auth_token
     sess.post(settings['talks_login_url'], login_data, verify=False)
     talks_json = sess.get(settings['talks_url'], verify=False, stream=True)
-    with open(settings['talks_local'], 'wb') as fd:
+    talks_full = ''
+    with open(settings['talks_full'], 'wb') as fd:
         for chunk in talks_json.iter_content(1024):
             fd.write(chunk)
-
+            talks_full += chunk
+    talks_full = json.loads(talks_full)
+    talks_filtered = [{ key: x[key] for key in [ 'event_id', 'track_id', 'room_id', 'duration', 'start_time', 'title', 'abstract', 'language', 'speaker_names', 'language' ] } for x in talks_full ]
+    with open(settings['talks_local', 'wb'] as fd:
+        json.dump(talks_filtered, fd)
 
 def export_talk_preferences(**kw):
     parser = ArgumentParser(description='Export talk preferences to CSV')
