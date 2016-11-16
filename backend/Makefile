@@ -15,7 +15,7 @@ sdist: bin/python setup.py
 
 initdb: name = 'halfnarp_backend'
 initdb: bin/python initdb.sql
-	@psql -c "" $(name) 2> /dev/null || createdb $(name) -E utf8 -T template0 && psql $(name) -c "CREATE EXTENSION pgcrypto;"
+	@psql -c "" $(name) 2> /dev/null || createdb $(name) -E utf8 -T template0 && psql $(name) -c "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
 
 clean:
 	git clean -fXd
