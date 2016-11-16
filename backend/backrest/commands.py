@@ -1,6 +1,7 @@
 from argparse import ArgumentParser
 from pyramid.paster import get_app
 import requests
+import json
 from lxml import etree
 
 def fetch_talks(**kw):
