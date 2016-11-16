@@ -8,8 +8,8 @@ function toggle_grid(whichDay) {
 }
 
 function do_the_halfnarp() {
-  var halfnarpAPI     = 'talks_33C3.json';
-  // var halfnarpAPI     = '/-/talkpreferences';
+//  var halfnarpAPI     = 'talks_33C3.json';
+  var halfnarpAPI     = '/-/talkpreferences';
   var halfnarpPubAPI  = halfnarpAPI + '/public/';
   var isTouch = (('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0));
   window.all_events = new Object();
