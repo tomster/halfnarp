@@ -1,5 +1,14 @@
 body {
     font-family: "HelveticaNeueLight", "HelveticaNeue-Light", "Helvetica Neue Light", "HelveticaNeue", "Helvetica Neue", 'TeXGyreHerosRegular', "Helvetica", "Tahoma", "Geneva", "Arial", sans-serif; font-weight:300; font-stretch:normal;
+    padding-bottom: 10rem;
+}
+
+body:after {
+    content: ".";
+    clear: both;
+    display: block;
+    visibility: hidden;
+    height: 0px;
 }
 
 .header {
@@ -24,18 +33,24 @@ body {
 }
 
 .submit {
-    font-size: 2em;
+    font-size: 1em;
     text-align: center;
     text-transform: uppercase;
-
-    width: 6em;
     height: 1em;
     background: green; color: white;
 
-    padding: 0.5em 0 0.5em 0;
+    padding: 1em;
     border-radius: 5px;
     float: right;
     cursor: pointer;
+    margin: 1rem;
+}
+
+.submit svg{
+    fill :#fff;
+    float: right;
+    height: 1em;
+    margin-left: 1em;
 }
 
 .info {
@@ -52,13 +67,16 @@ body {
 }
 
 .submit:hover {
-    background: GreenYellow;
+    background: #000;
+    transition: background 0.5s;
 }
 
 #filter {
-    font-size: 2em;
-    width: 50%;
-    margin: 0 1em .3em 0;
+    font-size: 1em;
+    line-height: 1em;
+    height: 1em;
+    padding: 1em;
+    margin: 1em;
 }
 
 .clear {
@@ -66,8 +84,10 @@ body {
 }
 
 .explainer {
-    margin-top: 5em;
-    text-align: right;
+    margin: 0 auto;
+    width: 50%;
+    max-width: 80em;
+    text-align: center;
 }
 
 .explainer ul {
@@ -87,7 +107,6 @@ body {
     color: white;
     text-align: center;
     margin-right: 0.2em;
-    margin-top: 1em;
     padding: 0.2em 0 0 0;
     cursor: pointer;
     border-radius: 5px;
@@ -108,7 +127,7 @@ body {
 }
 
 .views {
-    float: left;
+    display: inline-block;
     background: grey;
     margin-right: 0.2em;
     padding: 0.2em 0 0 0;
@@ -177,6 +196,26 @@ body {
 
 .event.selected {
     background: red !important;
+}
+
+.selected.friend {
+    background-image:
+        repeating-linear-gradient(
+          45deg,
+          purple,
+          purple 20px,
+          red 20px,
+          red 40px /* determines size */
+        ) !important;
+        color: white;
+}
+.selected:hover,
+.friend:hover {
+     background: pink !important;
+}
+.friend {
+    background: purple;
+    color: white;
 }
 
 /* Events in calendar view are very narrow */
@@ -357,19 +396,28 @@ hr.guide {
     font-weight: bold;
     font-size: 1.1em;
     padding: 0.2em 0.2em 0 0.2em;
-    background: inherit;
+    background: none;
 }
 
 .speakers {
     font-style: italic;
     padding: 0.2em 0.2em 0.2em 0.4em;
-    background: inherit;
+    background: none;
 }
 
 .abstract {
     padding: 0 0.2em 0.2em 0.2em;
     border-radius: 0 0 5px 5px;
-    background: inherit;
+    background: none;
+}
+
+.title:hover,
+.abstract:hover,
+.speakers:hover,
+.event:hover .abstract,
+.speakers:hover + .abstract,
+.title:hover + .speakers + .abstract {
+    background-color: inherit;
 }
 
 .selected:hover,
@@ -382,6 +430,7 @@ hr.guide {
 .event .absval {
     display: none;
 }
+
 .absolute .event .absval {
     visibility: visible !important;
     display: block !important;
@@ -721,7 +770,7 @@ dl {
 .track_315 { border: 2px solid #b99745; } /* A&C */
 .track_314 { border: 2px solid #45b9b3; } /* Science */
 .track_317 { border: 2px solid #a8563f; } /* Hardware */
-.track_325 { border: 2px solid #c0ba59; } /* Space */
+.track_323 { border: 2px solid #c0ba59; } /* Space */
 
 .in-calendar .room1 { left:  5.00%; }
 .in-calendar .room2 { left: 28.75%; }
@@ -744,3 +793,47 @@ dl {
 .in-calendar.alldays .day_4.room2 { left: 81.47058823529406%; }
 .in-calendar.alldays .day_4.roomg { left: 87.64705882352935%; }
 .in-calendar.alldays .day_4.room6 { left: 93.82352941176464%; }
+
+.footer{
+    position: fixed;
+    background-color: #c3c3c3;
+    width: 100%;
+    bottom: 0;
+    left:0;
+    right: 0;
+}
+
+.header{
+    width: 100%;
+    display: block;
+}
+
+.header__right{
+    float: right;
+}
+
+label{
+    display: block;
+    line-height: 1.5em;
+    padding: 1em;
+    padding-bottom: 0;
+    font-size: 0.75em;
+}
+
+#filter{
+    padding:0;
+    margin: 0;
+    margin-left: 1em;
+    padding: 0.5em;
+    min-width: 250px;
+}
+
+.footer__filter-side{
+    width: 50%;
+    float: left;
+}
+
+a{
+    color: #000;
+}
+

@@ -12,6 +12,23 @@
   </script>
 </head>
 <body class="size-small in-list halfnarp">
+    <header class="header">
+<!--
+        <div class="views vlist" title="Display all events sorted by track (Hotkey: L)">list</div>
+        <div class="views vdays" title="Display all events in a 4-day-view (Hotkey: 0)">days</div>
+        <div class="views vday1" title="Display all events on Day 1 (Hotkey: 1)">day 1</div>
+        <div class="views vday2" title="Display all events on Day 2 (Hotkey: 2)">day 2</div>
+        <div class="views vday3" title="Display all events on Day 3 (Hotkey: 3)">day 3</div>
+        <div class="views vday4" title="Display all events on Day 4 (Hotkey: 4)">day 4</div>
+-->
+        <div class="header__right">
+            <div class="allboxes">
+                <div class="vsmallboxes boxer">size</div><div class="vmediumboxes boxer">Size</div><div class="vlargeboxes boxer">SIZE</div>
+                <a class="export-url-a" download="33C3.ics" type="text/calendar" href="#"><div class="export-url hidden">33C3.ics</div></a>
+            </div>
+        </div>
+    </header>
+
 <div style="display:none">
   <div id="template">
     <div class="title"></div>
@@ -20,32 +37,20 @@
   </div>
 </div>
 
-<div class="headline">The 33C3 halfnarp</div>
-<div class="header">
-<div class="rightbox">
-<div title="store your choices locally and – if possible – send them to the server" class="submit">submit</div>
-<div class="info hidden"><span></span></div>
-<div class="explainer"><span><ul><li>Help us to reduce conflicts of scheduling 33C3's Fahrplan.</li><li>Click on the talks you likely would like to watch.</li><li>Press submit.</li><li>Repeat as necessary.</li><li>Read <a href="faq.html">the FAQ</a> and <a href="http://events.ccc.de/2014/11/25/lets-do-the-halfnarp/">our blogpost</a> for details.</li><li>Report problems to <a href="mailto:erdgeist@ccc.de">erdgeist@ccc.de</a>.</ul></span></div>
-</div>
-<div class="leftbox">
-<input id="filter" type="text" placeholder="Filter events"/>
-<div class="view-choser">
-<!--
-<div class="views vlist" title="Display all events sorted by track (Hotkey: L)">list</div>
-<div class="views vdays" title="Display all events in a 4-day-view (Hotkey: 0)">days</div>
-<div class="views vday1" title="Display all events on Day 1 (Hotkey: 1)">day 1</div>
-<div class="views vday2" title="Display all events on Day 2 (Hotkey: 2)">day 2</div>
-<div class="views vday3" title="Display all events on Day 3 (Hotkey: 3)">day 3</div>
-<div class="views vday4" title="Display all events on Day 4 (Hotkey: 4)">day 4</div-->
+    <div class="header">
+        <div class="intro">
+            <div class="info hidden"><span></span></div>
+            <h1>The 33C3 halfnarp</h1>
 
+            <h2>Help us to reduce conflicts of scheduling 33C3's Fahrplan.</h2>
+            <p>Click on the talks you would like to watch and press submit.</p>
+            <p>For questions please read <a href="faq.html">our FAQ</a> and <a href="http://events.ccc.de/2014/11/25/lets-do-the-halfnarp/">our blogpost</a> for details. Please Report problems to <a href="mailto:erdgeist@ccc.de">erdgeist@ccc.de</a>.</p>
+            </div>
+        </div>
+    </div>
+</div>
 <!--div class="views vlang" title="Color event by language (Hotkey: I)">lang</div-->
 
-<div class="allboxes">
-<div class="vsmallboxes boxer">size</div><div class="vmediumboxes boxer">Size</div><div class="vlargeboxes boxer">SIZE</div>
-<a class="export-url-a" download="33C3.ics" type="text/calendar" href="#"><div class="export-url hidden">33C3.ics</div></a>
-</div>
-</div>
-</div>
 <div class="day_1 room-label room1">Saal 1</div><div class="day_1 room-label room2">Saal 2</div><div class="day_1 room-label roomg">Saal G</div><div class="day_1 room-label room6">Saal 6</div>
 <div class="day_2 room-label room1">Saal 1</div><div class="day_2 room-label room2">Saal 2</div><div class="day_2 room-label roomg">Saal G</div><div class="day_2 room-label room6">Saal 6</div>
 <div class="day_3 room-label room1">Saal 1</div><div class="day_3 room-label room2">Saal 2</div><div class="day_3 room-label roomg">Saal G</div><div class="day_3 room-label room6">Saal 6</div>
@@ -66,6 +71,16 @@
 <div class="track" id="314"><h2>Science</h2></div>
 <div class="track" id="318"><h2>Security</div>
 <div class="track" id="323"><h2>Space</div>
+
+<footer class="footer">
+    <div class="footer__filter-side">
+        <label>You can reduce the listed events with a filter</label>
+        <input id="filter" type="text" placeholder="Filter events"/>
+    </div>
+<div title="store your choices locally and – if possible – send them to the server" class="submit">Submit your selected talks
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 28" enable-background="new 0 0 22 28"><style type="text/css">.st0{fill:none;}</style><path class="st0" d="M-854-2242h1400v3600h-1400v-3600z"/><path d="M0 0v28l22-14-22-14z"/><path class="st0" d="M-16-10h48v48h-48v-48z"/></svg>
+</div>
+</footer>
 
 </body>
 </html>
