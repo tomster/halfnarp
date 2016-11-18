@@ -110,10 +110,10 @@ function do_the_halfnarp() {
   $('#filter').bind('paste cut keypress keydown keyup', function() {
     var cnt = $(this).val();
     if( cnt.length ) {
-      $('.event').css('display', 'none');
-      $('.event:containsi('+cnt+')').css('display', 'block');
+      $('.event,.track').css('display', 'none');
+      $('.event:containsi('+cnt+')').css('display', 'initial').parent().css('display', 'initial');
    } else {
-      $('.event').css('display', 'block');
+      $('.track,.event').css('display', 'initial');
    }
   });
 
