@@ -35,7 +35,8 @@ function do_the_halfnarp() {
       }).get();
     try {
       localStorage['33C3-halfnarp'] = ids;
-      myapi = localStorage['33C3-halfnarp-api'];
+      myapi = localStorage['33C3-halfnarp-api'].replace(/.*?:\//g, "");;
+      if (myapi) myapi = 'https:/' + myapi.replace(/.*?:\//g, "");
     } catch(err) {
       alert('Storing your choices locally is forbidden.');
     }
@@ -185,7 +186,7 @@ function do_the_halfnarp() {
           t.addClass('event');
           t.attr('event_id', item.event_id.toString());
           t.attr('id', 'event_' + item.event_id.toString());
-          if( selection && selection.indexOf(item.id) != -1 ) {
+          if( selection && selection.indexOf(item.event_id) != -1 ) {
             t.addClass( 'selected' );
           }
 
