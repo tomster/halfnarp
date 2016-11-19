@@ -54,15 +54,15 @@ body:after {
 }
 
 .info {
-    font-size: 2em;
+    font-size: 1em;
     text-align: center;
 
     height: 1em;
     background: lightblue;
 
-    margin-right: 0.2em;
+    margin: 1rem 0.5rem 1rem;
     border-radius: 5px;
-    padding: 0.5em;
+    padding: 1em;
     float: right;
 }
 
