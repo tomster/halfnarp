@@ -715,6 +715,7 @@ dl {
 .size-large .grid           { height: 50px; font-size: 1em; }
 .size-large .duration_900   { height:  45px  !important; }
 .size-large .duration_1800  { height:  95px  !important; }
+.size-large .duration_2700  { height: 145px  !important; }
 .size-large .duration_3600  { height: 195px  !important; }
 .size-large .duration_5400  { height: 295px  !important; }
 .size-large .duration_7200  { height: 395px  !important; }
@@ -727,6 +728,7 @@ dl {
 .size-medium .grid          { height:  30px; font-size: 0.5em; }
 .size-medium .duration_900  { height:  27px  !important; }
 .size-medium .duration_1800 { height:  57px  !important; }
+.size-medium .duration_2700 { height:  87px  !important; }
 .size-medium .duration_3600 { height: 117px  !important; }
 .size-medium .duration_5400 { height: 177px  !important; }
 .size-medium .duration_7200 { height: 237px  !important; }
@@ -740,6 +742,7 @@ dl {
 .size-small .grid           { height:  20px; font-size: 0.3em; }
 .size-small .duration_900   { height:  18px  !important; }
 .size-small .duration_1800  { height:  38px  !important; }
+.size-small .duration_2700  { height:  58px  !important; }
 .size-small .duration_3600  { height:  78px  !important; }
 .size-small .duration_5400  { height: 118px  !important; }
 .size-small .duration_7200  { height: 158px  !important; }
