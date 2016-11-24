@@ -65,9 +65,13 @@ function time_to_mins(time) {
 
 function check_avail(el, day, time ) {
   var all_available = true;
+  var speakers = window.event_speakers[$(el).attr('event_id')];
+
+  if (!speakers)
+      return false;
 
   /* Check availability of all speakers */
-  $.each(el.speakers, function(i,speaker) {
+  $.each(speakers, function(i,speaker) {
 
     /* Now if at least one day is set, each missing
        day means unavailable, */
@@ -212,6 +216,7 @@ function do_the_fullnarp() {
   var alldays         = ['1','2','3','4'];
   var votes           = {};
   var voted           = 0;
+  window.event_speakers = {};
 
   /* Add poor man's type ahead filtering */
   $.extend($.expr[':'], {
@@ -319,7 +324,11 @@ function do_the_fullnarp() {
           votes[eventid] = 1 + (votes[eventid] || 0 );
         } );
       });
-      if( ++voted == 2 ) { distribute_votes(votes); }
+      if( ++voted == 2 ) {
+        distribute_votes(votes);
+        window.lastupdate = 0;
+        getFullnarpData(0);
+      }
     });
 
   /* Fetch list of lectures to display */
@@ -342,7 +351,7 @@ function do_the_fullnarp() {
           t.find('.abstract').append(item.abstract);
 
           /* Store speakers and their availabilities */
-          t.speakers = item.speakers;
+          window.event_speakers[event_id] = item.speakers;
 
           t.attr('draggable', 'true');
           if( selection && selection.indexOf(item.event_id) != -1 ) {
@@ -448,7 +457,11 @@ function do_the_fullnarp() {
           d.append(t);
       });
 
-      if( ++voted == 2 ) { distribute_votes(votes); }
+      if( ++voted == 2 ) {
+        distribute_votes(votes);
+        window.lastupdate = 0;
+        getFullnarpData(0);
+      }
     });
 
   $(document).keypress(function(e) {
@@ -496,7 +509,4 @@ function do_the_fullnarp() {
         break;
     }
   });
-
-  window.lastupdate = 0;
-  getFullnarpData(0);
 }
