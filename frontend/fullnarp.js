@@ -95,7 +95,7 @@ function check_avail(el, day, time ) {
       var availtime_end   = new Date(a.end_date);
 
       /* Check start time, we calculate in minutes since 00:00 */
-      var event_start = event_times[1]; 
+      var event_start = Number(event_times[1]);
       var avail_start = availtime_start.getHours();
       var avail_end   = availtime_end.getHours();
 
@@ -103,7 +103,7 @@ function check_avail(el, day, time ) {
       if( avail_end   < 9 ) { avail_end   = 24 + avail_end; }
       if( event_start < 9 ) { event_start = 24 + event_start; }
 
-      var event_start = 60 * event_start + 1 * event_times[2];
+      var event_start = 60 * event_start + 1 * Number(event_times[2]);
       var avail_start = 60 * avail_start + 1 * availtime_start.getMinutes();
       var avail_end   = 60 * avail_end   + 1 * availtime_end.getMinutes();
 
