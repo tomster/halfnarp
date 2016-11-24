@@ -21,13 +21,7 @@ function distribute_votes(votes) {
     if (abs < 10)   { klasse = 10;  }
     $(element).addClass('class_'+klasse);
 
-    var abselem = $(element).find('.absval');
-    if (abselem.length) {
-      abselem.text(''+abs);
-      return;
-    }
-
-    abselem = document.createElement('div');
+    var abselem = document.createElement('div');
     $(abselem).text(''+abs);
     $(abselem).addClass('absval');
     $(abselem).insertBefore(element.firstChild);
@@ -499,9 +493,6 @@ function do_the_fullnarp() {
         break;
       case 67: case 99: /* c */
         display_correlation();
-        break;
-      case 82: case 114: /* r */
-        distribute_votes(votes);
         break;
     }
   });
