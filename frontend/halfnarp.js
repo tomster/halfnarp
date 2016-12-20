@@ -208,7 +208,7 @@ function do_the_halfnarp() {
           }
 
           /* Fix up room for 33c3 */
-          room = (item.room_id || '').toString().replace('359','room1').replace('360','room2').replace('361','roomg').replace('362','room6');
+          room = (item.room_id || '').toString().replace('379','room1').replace('380','room2').replace('381','roomg').replace('382','room6');
 
           /* Apply attributes to sort events into calendar */
           t.addClass(room + ' duration_' + item.duration + ' day_'+day + ' time_' + (hour<10?'0':'') + hour + '' + (mins<10?'0':'') + mins);
