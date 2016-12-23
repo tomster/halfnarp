@@ -155,11 +155,11 @@ function do_the_halfnarp() {
   $(allhours).each(function(i,hour) {
     var elem = document.createElement('hr');
     $(elem).addClass('guide time_' + hour + '00');
-    $('body').append(elem);
+    $('.pepo-halfnarp-wrapper').append(elem);
     elem = document.createElement('div');
     $(elem).text(hour + '00');
     $(elem).addClass('guide time_' + hour + '00');
-    $('body').append(elem);
+    $('.pepo-halfnarp-wrapper').append(elem);
   });
 
   /* If we've been here before, try to get local preferences. They are authoratative */

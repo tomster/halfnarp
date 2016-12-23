@@ -840,3 +840,9 @@ a{
     color: #000;
 }
 
+.in-calendar .pepo-halfnarp-wrapper{
+  position: relative;
+  margin-top:-300px;
+  margin-bottom:-300px;
+  min-height: 100vh;
+}
