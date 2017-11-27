@@ -167,7 +167,8 @@ body {
 .highlighted {
     overflow: visible;
     z-index: 1;
-    background: grey;
+    background: darkgrey;
+    color: white;
 }
 
 .in-list .event:hover {
