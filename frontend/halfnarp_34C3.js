@@ -7,12 +7,49 @@ function toggle_grid(whichDay) {
   $('#qrcode').toggleClass('limit', whichDay == 0 );
 }
 
+function toggle_corr_mode() {
+  if ($('body').hasClass('correlate')) {
+    $('body').removeClass('correlate');
+ } else {
+    $('body').removeClass('all-tracks languages classifiers');
+    $('body').addClass('correlate');
+    $('.event').attr('corr','');
+  }
+}
+
+function toggle_classifier(classifier, is_track, is_range) {
+  if ($('body').hasClass('classifiers') && $('body').attr('classifier') == classifier) {
+    $('body').removeClass('classifiers');
+    return;
+  }
+  var default_intensity = 0, prefix = '';
+  if (is_range) {
+    default_intensity = 5;
+    prefix = '+';
+  }
+  is_range = is_range ? '+' : '';
+  for(ev in window.top.all_events) {
+    ev = all_events[ev];
+    if (ev.event_classifiers) {
+      var intensity = default_intensity;
+      // if track selector and empty, set to 80%
+      if (ev.event_classifiers[classifier])
+          intensity = Math.round(ev.event_classifiers[classifier] / 10);
+      $('#event_'+ev.event_id).attr('intensity', prefix + intensity);
+    }
+  }
+  $('body').addClass('classifiers');
+  $('body').removeClass('all-tracks languages correlate');
+  $('body').attr('classifier', classifier);
+}
+
 function do_the_halfnarp() {
-//  var halfnarpAPI     = 'talks_33C3.json';
+//  var halfnarpAPI      = 'talks_34C3.json';
   var halfnarpAPI     = '/-/talkpreferences';
+  var halfnarpCorrs   = 'corr_array_34c3.json';
   var halfnarpPubAPI  = halfnarpAPI + '/public/';
   var isTouch = (('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0));
-  window.all_events = new Object();
+  window.top.all_events = new Object();
   var myuid, mypid, newfriend = new Object();
   var allhours        = ['11','12','13','14','15','16','17','18','19','20','21','22','23','00','01'];
 
@@ -34,9 +71,12 @@ function do_the_halfnarp() {
         return parseInt($(this).attr('event_id'));
       }).get();
     try {
-      localStorage['33C3-halfnarp'] = ids;
-      myapi = localStorage['33C3-halfnarp-api'].replace(/.*?:\//g, "");;
-      if (myapi) myapi = 'https:/' + myapi.replace(/.*?:\//g, "");
+      localStorage['34C3-halfnarp'] = ids;
+      myapi = localStorage.getItem('34C3-halfnarp-api');
+      if (myapi) {
+        myapi = myapi.replace(/.*?:\//g, "");
+        myapi = 'https:/' + myapi.replace(/.*?:\//g, "");
+      }
     } catch(err) {
       alert('Storing your choices locally is forbidden.');
     }
@@ -46,16 +86,16 @@ function do_the_halfnarp() {
     if( !myapi || !myapi.length ) {
       /* If we do not have resource URL, post data and get resource */
       $.post( halfnarpAPI, request, function( data ) {
-        $('.info span').text('submitted');
+        $('.info').text('submitted');
         $('.info').removeClass('hidden');
         try {
-          localStorage['33C3-halfnarp-api'] = data['update_url'];
-          localStorage['33C3-halfnarp-pid'] = mypid = data['hashed_uid'];
-          localStorage['33C3-halfnarp-uid'] = myuid = data['uid'];
+          localStorage['34C3-halfnarp-api'] = data['update_url'];
+          localStorage['34C3-halfnarp-pid'] = mypid = data['hashed_uid'];
+          localStorage['34C3-halfnarp-uid'] = myuid = data['uid'];
           window.location.hash = mypid;
         } catch(err) {}
       }, 'json' ).fail(function() {
-        $('.info span').text('failed :(');
+        $('.info').text('failed :(');
         $('.info').removeClass('hidden');
       });
     } else {
@@ -66,14 +106,14 @@ function do_the_halfnarp() {
         data: request,
         dataType: 'json',
       }).done(function(data) {
-        localStorage['33C3-halfnarp-uid'] = myuid = data['uid'];
-        if( localStorage['33C3-halfnarp-pid'] ) {
-            window.location.hash = localStorage['33C3-halfnarp-pid'];
+        localStorage['34C3-halfnarp-uid'] = myuid = data['uid'];
+        if( localStorage['34C3-halfnarp-pid'] ) {
+            window.location.hash = localStorage['34C3-halfnarp-pid'];
         }
-        $('.info span').text('updated');
+        $('.info').text('updated');
         $('.info').removeClass('hidden');
       }).fail(function(msg) {
-        $('.info span').text('failed');
+        $('.info').text('failed :(');
         $('.info').removeClass('hidden');
       });
     }
@@ -103,7 +143,7 @@ function do_the_halfnarp() {
       calendar += 'END:VEVENT\r\n';
     });
     calendar += 'END:VCALENDAR\r\n';
-    $('.export-url-a').attr( 'href', "data:text/calendar;filename=33C3.ics," + encodeURIComponent(calendar) );
+    $('.export-url-a').attr( 'href', "data:text/calendar;filename=34C3.ics," + encodeURIComponent(calendar) );
     $('.export-url').removeClass( 'hidden' );
   });
 
@@ -142,33 +182,37 @@ function do_the_halfnarp() {
   }
 
   /* Add callbacks for view selector */
-  $('.vlist').click( function() { toggle_grid(0);  });
+  $('.vlist').click( function() { toggle_grid(0); });
   $('.vday1').click( function() { toggle_grid(1); });
   $('.vday2').click( function() { toggle_grid(2); });
   $('.vday3').click( function() { toggle_grid(3); });
   $('.vday4').click( function() { toggle_grid(4); });
   $('.vdays').click( function() { toggle_grid(5); });
 
-  $('.vlang').click( function() { $('body').toggleClass('languages'); });
+  $('.vlang').click( function()  { $('body').removeClass('all-tracks correlate classifiers'); $('body').toggleClass('languages'); });
+  $('.vtrack').click( function() { $('body').removeClass('languages correlate classifiers'); $('body').toggleClass('all-tracks'); });
+
+  $('.vcorr').click( function() { toggle_corr_mode(); } );
+  $('.vclass').click( function() { toggle_classifier( $(this).attr('classifier'), $(this).hasClass('track'), $(this).hasClass('two_poles')); });
 
   /* Create hour guides */
   $(allhours).each(function(i,hour) {
     var elem = document.createElement('hr');
     $(elem).addClass('guide time_' + hour + '00');
-    $('.pepo-halfnarp-wrapper').append(elem);
+    $('body').append(elem);
     elem = document.createElement('div');
     $(elem).text(hour + '00');
     $(elem).addClass('guide time_' + hour + '00');
-    $('.pepo-halfnarp-wrapper').append(elem);
+    $('body').append(elem);
   });
 
   /* If we've been here before, try to get local preferences. They are authoratative */
   var selection = [], friends = { 'foo': undefined };
   try {
-    selection = localStorage['33C3-halfnarp'] || [];
-    friends   = localStorage['33C3-halfnarp-friends'] || { 'foo': undefined };
-    myuid     = localStorage['33C3-halfnarp-uid'] || '';
-    mypid     = localStorage['33C3-halfnarp-pid'] || '';
+    selection = localStorage['34C3-halfnarp'] || [];
+    friends   = localStorage['34C3-halfnarp-friends'] || { 'foo': undefined };
+    myuid     = localStorage['34C3-halfnarp-uid'] || '';
+    mypid     = localStorage['34C3-halfnarp-pid'] || '';
   } catch(err) {
   }
 
@@ -183,7 +227,7 @@ function do_the_halfnarp() {
              list of previous prereferences */
           var t = $( '#template' ).clone(true);
           var event_id = item.event_id.toString();
-          t.addClass('event');
+          t.addClass('event ' + ' lang_' + (item.language || 'en'));
           t.attr('event_id', item.event_id.toString());
           t.attr('id', 'event_' + item.event_id.toString());
           if( selection && selection.indexOf(item.event_id) != -1 ) {
@@ -207,13 +251,18 @@ function do_the_halfnarp() {
             day--;
           }
 
-          /* Fix up room for 33c3 */
-          room = (item.room_id || '').toString().replace('379','room1').replace('380','room2').replace('381','roomg').replace('382','room6');
+          /* Fix up room for 34c3 */
+          room = (item.room_id || '').toString().replace('414','room1').replace('415','room2').replace('416','roomg').replace('417','room6');
 
           /* Apply attributes to sort events into calendar */
           t.addClass(room + ' duration_' + item.duration + ' day_'+day + ' time_' + (hour<10?'0':'') + hour + '' + (mins<10?'0':'') + mins);
 
           t.click( function(event) {
+            if ($('body').hasClass('correlate')) {
+              mark_corr(parseInt($(this).attr('event_id')));
+              event.stopPropagation();
+              return;
+            }
             /* Transition for touch devices is highlighted => selected => highlighted ... */
             if( isTouch ) {
               if ( $( this ).hasClass('highlighted') ) {
@@ -248,6 +297,9 @@ function do_the_halfnarp() {
           }
       });
 
+      $.getJSON( halfnarpCorrs, { format: 'json' }).done(function(data) { window.top.all_votes = data; });
+      toggle_grid(5);
+
       /* Check for a new friends public uid in location's #hash */
       var shared = window.location.hash;
       shared = shared ? shared.substr(1) : '';
@@ -272,7 +324,7 @@ function do_the_halfnarp() {
         $.getJSON( halfnarpPubAPI + friends.pid, { format: 'json' })
           .done(function( data ) {
             friend.prefs = data.talk_ids;
-            localStorage['33C3-halfnarp-friends'] = friends;
+            localStorage['34C3-halfnarp-friends'] = friends;
             update_friends();
           });
       }
@@ -294,6 +346,50 @@ function do_the_halfnarp() {
         case 68: case 100: /* d */
           toggle_grid(5);
           break;
-      }
+        case 73: case 105: /* i */
+          $('body').removeClass('all-tracks');
+          $('body').toggleClass('languages');
+          break;
+        case 84: case 116: /* t */
+          $('body').removeClass('languages');
+          $('body').toggleClass('all-tracks');
+          break;
+        case 67: case 99: /* c */
+          toggle_corr_mode();
+          break;
+        }
     });
+}
+
+function mark_corr(eid) {
+  /* If JSON with votes is not there, bail */
+  if (!all_votes) return;
+
+  /* Reset correlation markers */
+  $('.event').attr('corr','');
+
+  /* Get index of reference event id */
+  var eoff = all_votes.event_ids.indexOf(eid);
+  if (eoff==-1) return;
+
+  $('.event').each(function (i, dest) {
+    var destid = parseInt($(dest).attr('event_id'));
+    /* mark reference event at another place */
+    if (destid == eid) {
+      $(dest).attr('corr', 'x');
+      return;
+    }
+
+    var destoff = all_votes.event_ids.indexOf(destid);
+    if (destoff==-1) {
+      $(dest).attr('corr','0');
+      return;
+    }
+
+    /* Only the smaller event-id's string has the info */
+    if (eoff < destoff)
+      $(dest).attr('corr',all_votes.event_corrs[eoff].charAt(destoff-eoff-1));
+    else
+      $(dest).attr('corr',all_votes.event_corrs[destoff].charAt(eoff-destoff-1));
+  });
 }
