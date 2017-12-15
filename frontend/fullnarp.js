@@ -28,6 +28,16 @@ function distribute_votes(votes) {
   });
 }
 
+function distribute_lang(langs) {
+  $('.event').each( function( index, element ) {
+    var eid = $(element).attr('event_id');
+    var lang = langs[eid] || 'en';
+    $(element).addClass('lang_'+lang);
+    mark_avail(element);
+  });
+  getFullnarpData(window.lastupdate);
+}
+
 function display_correlation() {
   var selected = $('.selected');
   if( selected.length == 1 ) {
@@ -59,59 +69,58 @@ function mark_avail(el) {
 
 function time_to_mins(time) {
   var hour_mins = /(\d\d)(\d\d)/.exec(time);
-  if( hour_mins[1] < 9 ) { hour_mins[1] = 24 + hour_mins[1]; }
+  if( hour_mins[1] < 11 ) { hour_mins[1] = 24 + hour_mins[1]; }
   return 60 * hour_mins[1] + 1 * hour_mins[2];
 }
 
 function check_avail(el, day, time ) {
   var all_available = true;
-  var speakers = window.event_speakers[$(el).attr('event_id')];
-
-  if (!speakers)
-      return false;
 
   /* Check availability of all speakers */
-  $.each(speakers, function(i,speaker) {
+  $.each(window.avails[$(el).attr('event_id')], function(i,speaker) {
+    /* Speaker should be an array of strings now */
+
+    /* If no availability is set, assume available */
+    if( speaker.length == 0 ) {
+        return true;
+    }
 
     /* Now if at least one day is set, each missing
        day means unavailable, */
-    var have_avails = false, unavail = true;
-    $.each(speaker.availabilities,function(j,a) {
+    var unavail = true;
+    $.each(speaker,function(j,availstring) {
 
-      switch( a.day_id ) {
-        case 339: if( day != '1' ) { return true; } break;
-        case 340: if( day != '2' ) { return true; } break;
-        case 341: if( day != '3' ) { return true; } break;
-        case 342: if( day != '4' ) { return true; } break;
+      /* Format is 2x.12. xx:xx - yy:yy */
+      var match = /(\d\d)\.12\. (\d\d):(\d\d) - (\d\d):(\d\d)/.exec(availstring);
+      if( !match ) { return true; }
+
+      switch( match[1] ) {
+        case '27': if( day != '1' ) { return true; } break;
+        case '28': if( day != '2' ) { return true; } break;
+        case '29': if( day != '3' ) { return true; } break;
+        case '30': if( day != '4' ) { return true; } break;
         default: return true;
       }
-      have_avails = true;
 
-      /* We found availability for the day */
+      /* We found availstring for the day */
       var event_times    = /(\d\d)(\d\d)/.exec(time);
       var event_duration = $(el).attr('fullnarp-duration') / 60;
 
-      var availtime_start = new Date(a.start_date);
-      var availtime_end   = new Date(a.end_date);
-
       /* Check start time, we calculate in minutes since 00:00 */
-      var event_start = Number(event_times[1]);
-      var avail_start = availtime_start.getHours();
-      var avail_end   = availtime_end.getHours();
+      var avail_start = match[2]; if( avail_start < 11 ) { avail_start = 24 + avail_start; }
+      var avail_end   = match[4]; if( avail_end   < 11 ) { avail_end   = 24 + avail_end; }
+      var avail_start = 60 * avail_start + 1 * match[3];
+      var avail_end   = 60 * avail_end   + 1 * match[5];
 
-      if( avail_start < 9 ) { avail_start = 24 + avail_start; }
-      if( avail_end   < 9 ) { avail_end   = 24 + avail_end; }
-      if( event_start < 9 ) { event_start = 24 + event_start; }
+      var event_start = event_times[1]; if( event_start < 11 ) { event_start = 24 + event_start; }
+      var event_start = 60 * event_start + 1 * event_times[2];
 
-      var event_start = 60 * event_start + 1 * Number(event_times[2]);
-      var avail_start = 60 * avail_start + 1 * availtime_start.getMinutes();
-      var avail_end   = 60 * avail_end   + 1 * availtime_end.getMinutes();
-
-      if( event_start >= avail_start && event_start + event_duration <= avail_end )
+      if( event_start >= avail_start && event_start + event_duration <= avail_end ) {
         unavail = false;
+      }
     });
     /* If at least one speaker is unavail, check fails */
-    if( have_avails && unavail ) {
+    if( unavail ) {
       all_available = false;
       return false;
     }
@@ -152,7 +161,7 @@ function set_all_attributes(event_id, day, room, time, from_server) {
     });
     el.addClass( time + ' ' + day + ' ' + room );
     var li = { 'room': room, 'day': day, 'time': time };
-    localStorage[ '33C3-fullnarp-'+event_id ] = JSON.stringify(li);
+    localStorage[ '32C3-fullnarp-'+event_id ] = JSON.stringify(li);
     el.attr('fullnarp-day',  li['day'].replace('day_',''));
     el.attr('fullnarp-time', li['time'].replace('time_',''));
     el.attr('fullnarp-room', li['room'].replace('room',''));
@@ -205,8 +214,9 @@ function getFullnarpData(lastupdate) {
 };
 
 function do_the_fullnarp() {
-  var halfnarpAPI     = 'talks_33C3.json';
-  var fullnarpAPI     = 'votes_33c3.json';
+  var halfnarpAPI     = 'talks_32c3.json';
+  var fullnarpAPI     = 'votes_32c3.json';
+  var availAPI        = 'avails_32c3.json';
   // var halfnarpAPI  = '/-/talkpreferences';
   var halfnarpPubAPI  = halfnarpAPI + '/public/';
   var myuid, mypid    = new Object();
@@ -216,7 +226,9 @@ function do_the_fullnarp() {
   var alldays         = ['1','2','3','4'];
   var votes           = {};
   var voted           = 0;
-  window.event_speakers = {};
+  var langs           = {};
+  var langed          = 0;
+  window.avails       = {};
 
   /* Add poor man's type ahead filtering */
   $.extend($.expr[':'], {
@@ -307,9 +319,9 @@ function do_the_fullnarp() {
   /* If we've been here before, try to get local preferences. They are authoratative */
   var selection = [], friends = { 'foo': undefined };
   try {
-    selection = localStorage['33C3-halfnarp'] || [];
-    myuid     = localStorage['33C3-halfnarp-uid'] || '';
-    mypid     = localStorage['33C3-halfnarp-pid'] || '';
+    selection = localStorage['32C3-halfnarp'] || [];
+    myuid     = localStorage['32C3-halfnarp-uid'] || '';
+    mypid     = localStorage['32C3-halfnarp-pid'] || '';
   } catch(err) {
   }
 
@@ -324,11 +336,18 @@ function do_the_fullnarp() {
           votes[eventid] = 1 + (votes[eventid] || 0 );
         } );
       });
-      if( ++voted == 2 ) {
-        distribute_votes(votes);
-        window.lastupdate = 0;
-        getFullnarpData(0);
-      }
+      if( ++voted == 2 ) { distribute_votes(votes); }
+    });
+
+  /* Fetch languages and availabilities */
+  $.getJSON( availAPI, { format: 'json' })
+    .done(function( data ) {
+      $.each( data, function( i, item ) {
+        langs[i] = item['lang'];
+        delete item['lang'];
+        window.avails[i] = item;
+      });
+    if( ++langed == 2 ) { distribute_lang(langs); }
     });
 
   /* Fetch list of lectures to display */
@@ -342,16 +361,12 @@ function do_the_fullnarp() {
           t.addClass('event');
           t.attr('event_id', event_id );
           t.attr('id', 'event_' + event_id )
-          t.attr( 'fullnarp-duration', item.duration);
-          t.addClass('lang_' + (item.language || 'en'));
+          t.attr('fullnarp-duration', item.duration);
 
           /* Sort textual info into event div */
           t.find('.title').text(item.title);
-          t.find('.speakers').text(item.speaker_names);
+          t.find('.speakers').text(item.speakers);
           t.find('.abstract').append(item.abstract);
-
-          /* Store speakers and their availabilities */
-          window.event_speakers[event_id] = item.speakers;
 
           t.attr('draggable', 'true');
           if( selection && selection.indexOf(item.event_id) != -1 ) {
@@ -410,7 +425,7 @@ function do_the_fullnarp() {
             $('.possible').removeClass('possible');
           } );
 
-          var li = JSON.parse( localStorage[ '33C3-fullnarp-event_'+event_id ] || '{}' );
+          var li = JSON.parse( localStorage[ '32C3-fullnarp-event_'+event_id ] || '{}' );
           if( li['room'] ) {
             t.addClass(li['room'] + ' duration_' + item.duration + ' ' + li['day'] + ' ' + li['time'] );
             t.attr('fullnarp-day',  li['day'].replace('day_',''));
@@ -429,16 +444,15 @@ function do_the_fullnarp() {
                   day--;
               }
 
-              /* Fix up room for 33c3 */
-              room = (item.room_id || '').toString().replace('379','room1').replace('380','room2').replace('381','roomg').replace('382','room6');
+              /* Fix up room for 32c3 */
+              room = (item.room_id || '').toString().replace('359','room1').replace('360','room2').replace('361','roomg').replace('362','room6');
 
               /* Apply attributes to sort events into calendar */
-              t.addClass( room + ' duration_' + item.duration + ' day_'+day + ' time_' + (hour<10?'0':'') + hour + '' + (mins<10?'0':'') + mins );
+              t.addClass( room + ' duration_' + item.duration + ' day_'+day + ' time_' + (hour<10?'0':'') + hour + '' + (mins<10?'0':'') + mins);
               t.attr('fullnarp-day', day);
               t.attr('fullnarp-time', (hour<10?'0':'') + hour + (mins<10?'0':'') + mins );
               t.attr('fullnarp-room', room.replace('room',''));
           }
-          mark_avail(t);
 
           t.click( function(event) {
             $('body').removeClass('in-drag');
@@ -457,11 +471,8 @@ function do_the_fullnarp() {
           d.append(t);
       });
 
-      if( ++voted == 2 ) {
-        distribute_votes(votes);
-        window.lastupdate = 0;
-        getFullnarpData(0);
-      }
+      if( ++voted == 2 ) { distribute_votes(votes); }
+      if( ++langed == 2 ) { distribute_lang(langs); }
     });
 
   $(document).keypress(function(e) {
@@ -472,8 +483,8 @@ function do_the_fullnarp() {
       case 115: case 83: /* s */
         var selected = $('.selected');
         if( selected.length != 2 ) return;
-        var li1 = JSON.parse( localStorage[ '33C3-fullnarp-'+selected[0].id ] || '{}' );
-        var li2 = JSON.parse( localStorage[ '33C3-fullnarp-'+selected[1].id ] || '{}' );
+        var li1 = JSON.parse( localStorage[ '32C3-fullnarp-'+selected[0].id ] || '{}' );
+        var li2 = JSON.parse( localStorage[ '32C3-fullnarp-'+selected[1].id ] || '{}' );
         if( li1['room'] && li2['room'] ) {
           set_all_attributes( $(selected[1]).attr('id'), li1['day'], li1['room'], li1['time'], false );
           set_all_attributes( $(selected[0]).attr('id'), li2['day'], li2['room'], li2['time'], false );
@@ -509,4 +520,6 @@ function do_the_fullnarp() {
         break;
     }
   });
+
+  window.lastupdate = 0;
 }

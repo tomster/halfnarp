@@ -3,28 +3,28 @@
 <head>
   <meta charset="utf-8">
   <title>halfnarp web scheduling helper app</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style_34C3.css">
   <script src="jquery-1.11.1.min.js"></script>
   <script src="jquery.qrcode.min.js"></script>
-  <script src="halfnarp.js"></script>
+  <script src="halfnarp_34C3.js"></script>
   <script>
   $( document ).ready(function() { do_the_halfnarp(); });
   </script>
 </head>
 <body class="size-small in-list halfnarp">
     <header class="header">
-<!--
         <div class="views vlist" title="Display all events sorted by track (Hotkey: L)">list</div>
         <div class="views vdays" title="Display all events in a 4-day-view (Hotkey: 0)">days</div>
         <div class="views vday1" title="Display all events on Day 1 (Hotkey: 1)">day 1</div>
         <div class="views vday2" title="Display all events on Day 2 (Hotkey: 2)">day 2</div>
         <div class="views vday3" title="Display all events on Day 3 (Hotkey: 3)">day 3</div>
         <div class="views vday4" title="Display all events on Day 4 (Hotkey: 4)">day 4</div>
--->
+        <div class="views vcorr" title="Enter correlation view (Hotkey: C)">half</div>
+        <div class="views vtrack" title="Color event by track (Hotkey: T)">track</div>
+        <div class="views vlang" title="Color event by language (Hotkey: I)">lang</div>
         <div class="header__right">
             <div class="allboxes">
                 <div class="vsmallboxes boxer">size</div><div class="vmediumboxes boxer">Size</div><div class="vlargeboxes boxer">SIZE</div>
-                <a class="export-url-a" download="33C3.ics" type="text/calendar" href="#"><div class="export-url hidden">33C3.ics</div></a>
             </div>
         </div>
     </header>
@@ -37,54 +37,62 @@
   </div>
 </div>
 
-    <div class="header">
-        <div class="intro">
-            <h1>The 33C3 halfnarp</h1>
-
-            <h2>Help us to reduce conflicts of scheduling 33C3's Fahrplan.</h2>
-            <p>Click on the talks you would like to watch and press submit.</p>
-            <p>For questions please read <a href="faq.html">our FAQ</a> and <a href="http://events.ccc.de/2014/11/25/lets-do-the-halfnarp/">our blogpost</a> for details. Please Report problems to <a href="mailto:erdgeist@ccc.de">erdgeist@ccc.de</a>.</p>
-            </div>
-        </div>
+    <div class="intro">
+        <h1>The 34C3 halfnarp</h1>
+        <p>Help us to reduce conflicts of scheduling 34C3's Fahrplan: Click on the talks you would like to watch and press submit.</p>
+        <p>For questions please read <a href="faq.html">our FAQ</a> and <a href="http://events.ccc.de/2014/11/25/lets-do-the-halfnarp/">our blogpost</a> for details. Please Report problems to <a href="mailto:erdgeist@ccc.de">erdgeist@ccc.de</a>.</p>
+        <p class="corr-hint">Select an event below to display halfnarp correlations, the darker the stronger.</p>
     </div>
+<div class="all-tracks track-list">
+  <strong>classifiers:</strong>
+  <div class="legend track_336">CCC</div>
+  <div class="vclass legend track_335" classifier="Entertainment">Entertainment</div>
+  <div class="vclass legend track_328" classifier="Ethics, Politics + Society">Ethics, Society &amp; Politics</div>
+  <div class="vclass legend track_331" classifier="Security">Security</div>
+  <div class="vclass legend track_329" classifier="Art + Culture">Art &amp; Culture</div>
+  <div class="vclass legend track_333" classifier="Science">Science</div>
+  <div class="vclass legend track_330" classifier="Hardware">Hardware</div>
+  <div class="vclass legend track_332" classifier="Resilience">Resilience</div>
+  <div class="vclass" classifier="Climate Change">Climate Change</div>
+  <div class="vclass two_poles" classifier="Novelty">Summary - Novelty</div>
+  <div class="vclass two_poles" classifier="Defense - Offense">Defense - Offense</div>
+  <div class="vclass two_poles" classifier="Theory - Practice">Theory - Practice</div>
+  <div class="vclass two_poles" classifier="Prior Knowledge">Novice - Expert</div>
 </div>
-<!--div class="views vlang" title="Color event by language (Hotkey: I)">lang</div-->
-
 <div style="clear:both"></div>
 
-<div class="pepo-halfnarp-wrapper">
-  <div class="day_1 room-label room1">Saal 1</div><div class="day_1 room-label room2">Saal 2</div><div class="day_1 room-label roomg">Saal G</div><div class="day_1 room-label room6">Saal 6</div>
-  <div class="day_2 room-label room1">Saal 1</div><div class="day_2 room-label room2">Saal 2</div><div class="day_2 room-label roomg">Saal G</div><div class="day_2 room-label room6">Saal 6</div>
-  <div class="day_3 room-label room1">Saal 1</div><div class="day_3 room-label room2">Saal 2</div><div class="day_3 room-label roomg">Saal G</div><div class="day_3 room-label room6">Saal 6</div>
-  <div class="day_4 room-label room1">Saal 1</div><div class="day_4 room-label room2">Saal 2</div><div class="day_4 room-label roomg">Saal G</div><div class="day_4 room-label room6">Saal 6</div>
+  <div class="day_1 room-label room1">Saal A</div><div class="day_1 room-label room2">Saal B</div><div class="day_1 room-label roomg">Saal C</div><div class="day_1 room-label room6">Saal D</div>
+  <div class="day_2 room-label room1">Saal A</div><div class="day_2 room-label room2">Saal B</div><div class="day_2 room-label roomg">Saal C</div><div class="day_2 room-label room6">Saal D</div>
+  <div class="day_3 room-label room1">Saal A</div><div class="day_3 room-label room2">Saal B</div><div class="day_3 room-label roomg">Saal C</div><div class="day_3 room-label room6">Saal D</div>
+  <div class="day_4 room-label room1">Saal A</div><div class="day_4 room-label room2">Saal B</div><div class="day_4 room-label roomg">Saal C</div><div class="day_4 room-label room6">Saal D</div>
 
-  <div class=" time_1500 duration_3600 guide pause ">P A U S E</div>
-  <div class=" time_1930 duration_3600 guide pause ">P A U S E</div>
-  <div class=" time_2030 duration_inf guide ende room1 day_4 "></div>
+  <div class=" time_1730 duration_3600 guide pause ">P A U S E</div>
 
-  <div class="wholeday room1 day_1 guide"></div>
-  <div class="wholeday room1 day_3 guide"></div>
+  <div class="wholeday room1 day_1 guide uneven">Day 1</div>
+  <div class="wholeday room1 day_2 guide">Day 2</div>
+  <div class="wholeday room1 day_3 guide uneven">Day 3</div>
+  <div class="wholeday room1 day_4 guide">Day 4</div>
 
-  <div class="track" id="315"><h2>Art &amp; Culture</h2><div id="qrcode" class="hidden"></div></div>
-  <div class="track" id="319"><h2>CCC</h2></div>
-  <div class="track" id="320"><h2>Entertainment</h2></div>
-  <div class="track" id="316"><h2>Ethics, Society &amp; Politics</h2></div>
-  <div class="track" id="317"><h2>Hardware &amp; Making</h2></div>
-  <div class="track" id="314"><h2>Science</h2></div>
-  <div class="track" id="318"><h2>Security</div>
-  <div class="track" id="323"><h2>Space</div>
+  <div class="track" id="329"><h2>Art &amp; Culture</h2><div id="qrcode" class="hidden"></div></div>
+  <div class="track" id="336"><h2>CCC</h2></div>
+  <div class="track" id="335"><h2>Entertainment</h2></div>
+  <div class="track" id="328"><h2>Ethics, Society &amp; Politics</h2></div>
+  <div class="track" id="330"><h2>Hardware &amp; Making</h2></div>
+  <div class="track" id="332"><h2>Resilience</div>
+  <div class="track" id="333"><h2>Science</h2></div>
+  <div class="track" id="331"><h2>Security</div>
 
 <footer class="footer">
     <div class="footer__filter-side">
-        <label>You can reduce the listed events with a filter</label>
+        <!--label>You can reduce the listed events with a filter</label-->
         <input id="filter" type="text" placeholder="Filter events"/>
     </div>
-<div title="store your choices locally and – if possible – send them to the server" class="submit">Submit your selected talks
+<div title="store your choices locally and – if possible – send them to the server" class="submit">Submit selection
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 28" enable-background="new 0 0 22 28"><style type="text/css">.st0{fill:none;}</style><path class="st0" d="M-854-2242h1400v3600h-1400v-3600z"/><path d="M0 0v28l22-14-22-14z"/><path class="st0" d="M-16-10h48v48h-48v-48z"/></svg>
 </div>
-    <div class="info hidden"><span></span></div>
+    <div class="info hidden"></div>
+    <a class="export-url-a" download="34C3.ics" type="text/calendar" href="#"><div class="export-url hidden">34C3.ics</div></a>
 </footer>
-</div>
 
 </body>
 </html>
