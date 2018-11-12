@@ -23,7 +23,7 @@ def update_backend(clean=False, build=True, config_path='production.ini', **kwar
         fab.put('dist/*.tar.gz', '/tmp/backend.tgz')
         fab.put('requirements.txt', '/home/halfnarp/backend/requirements.txt')
     with fab.cd('/home/halfnarp/backend/'):
-        fab.sudo('bin/pip install --upgrade --allow-external argparse -r requirements.txt', user='halfnarp')
+        fab.sudo('bin/pip install --upgrade  -r requirements.txt', user='halfnarp')
         fab.sudo('bin/pip install --upgrade --force-reinstall --no-deps /tmp/backend.tgz', user='halfnarp')
 
     fab.sudo('service halfnarp_backend restart', warn_only=True)
