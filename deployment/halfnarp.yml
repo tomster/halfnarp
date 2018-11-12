@@ -1,5 +1,5 @@
 ---
-- hosts: plain-dtfh
+- hosts: plain-rt
 
   handlers:
    - name: restart postgresql
