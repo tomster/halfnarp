@@ -130,7 +130,7 @@
       file: path=/var/run/{{backend_name}} state=directory owner={{backend_user}} mode=755
 
     - name: configure nginx
-      template: src=nginx.conf dest=/usr/local/etc/nginx/nginx.conf owner={{backend_user}} mode=555
+      template: src=nginx.conf dest=/usr/local/etc/nginx/conf.d/halfnarp.conf owner={{backend_user}} mode=555
       tags: nginx_config
 
     - name: ensure the www data directory exists
